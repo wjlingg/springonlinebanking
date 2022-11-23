@@ -15,6 +15,22 @@ public class TransactionType {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String type;
+	private String transactionType; // withdraw, deposit, transfer
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(String transactionType) {
+		this.transactionType = transactionType;
+	}
 	
 }

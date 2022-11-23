@@ -30,7 +30,7 @@ import com.uob.springonlinebanking.utils.AccountInput;
 import com.uob.springonlinebanking.utils.CreateAccountInput;
 import com.uob.springonlinebanking.utils.InputValidator;
 
-@RestController
+@RestController // = @Controller + @ResponseBody -> response body + controller
 @RequestMapping("api/v1")
 public class AccountRestController {
 
