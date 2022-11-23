@@ -1,0 +1,10 @@
+@charset "ISO-8859-1";
+
+th, td, thead {
+	text-align: center;
+}
+
+.center {
+	width: 80%;
+	margin: auto;
+}
