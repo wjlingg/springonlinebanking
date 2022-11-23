@@ -24,53 +24,44 @@ public class Account {
 	    parameters = {
 	            @Parameter(name = "sequence_name", value = "account_sequence"),
 	            @Parameter(name = "initial_value", value = "1000000000")
-//    	            @Parameter(name = "increment_size", value = "1")
 	    })
 	@GeneratedValue(generator = "account-sequence-generator")
-	private long accountId;
+	private Long accountId;
 
-    private double currentBalance;
-
-    private String ownerName;
+    private double balance;
+    
+    private String accountType;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "account_list")
     private Users user;
-
-	public Account(long accountId, double currentBalance, String ownerName, Users user) {
-		super();
-		this.accountId = accountId;
-		this.currentBalance = currentBalance;
-		this.ownerName = ownerName;
-		this.user = user;
-	}
 
 	public Account() {
 		super();
 	}
 
-	public long getAccountId() {
+	public Long getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(long accountId) {
+	public void setAccountId(Long accountId) {
 		this.accountId = accountId;
 	}
 
-	public double getCurrentBalance() {
-		return currentBalance;
+	public double getBalance() {
+		return balance;
 	}
 
-	public void setCurrentBalance(double currentBalance) {
-		this.currentBalance = currentBalance;
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 
-	public String getOwnerName() {
-		return ownerName;
+	public String getAccountType() {
+		return accountType;
 	}
 
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 	public Users getUser() {
@@ -79,5 +70,11 @@ public class Account {
 
 	public void setUser(Users user) {
 		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [accountId=" + accountId + ", balance=" + balance + ", accountType=" + accountType + ", user="
+				+ user + "]";
 	}
 }	

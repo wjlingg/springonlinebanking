@@ -15,45 +15,99 @@ public class Users {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
-	private String username;
-	private String password;
-	private Boolean enabled;
+	private Long userId;
+	private String userNric;
+	private String userName;
+	private String contactNo;
+	private String address;
+	private String email;
+	private String nomineeName;
+	private String nomineeNric;
 	
 	@OneToMany
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "account_list")
 	private List<Account> accounts = new ArrayList<>();
 
-	public Long getId() {
-		return id;
+	public Users() {
+		super();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public Users(Long userId, String userNric, String userName, String contactNo, String address, String email,
+			String nomineeName, String nomineeNric, List<Account> accounts) {
+		super();
+		this.userId = userId;
+		this.userNric = userNric;
+		this.userName = userName;
+		this.contactNo = contactNo;
+		this.address = address;
+		this.email = email;
+		this.nomineeName = nomineeName;
+		this.nomineeNric = nomineeNric;
+		this.accounts = accounts;
 	}
 
-	public String getUsername() {
-		return username;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUserNric() {
+		return userNric;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserNric(String userNric) {
+		this.userNric = userNric;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getContactNo() {
+		return contactNo;
+	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNomineeName() {
+		return nomineeName;
+	}
+
+	public void setNomineeName(String nomineeName) {
+		this.nomineeName = nomineeName;
+	}
+
+	public String getNomineeNric() {
+		return nomineeNric;
+	}
+
+	public void setNomineeNric(String nomineeNric) {
+		this.nomineeNric = nomineeNric;
 	}
 
 	public List<Account> getAccounts() {
@@ -62,11 +116,5 @@ public class Users {
 
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", enabled=" + enabled
-				+ ", accounts=" + accounts + "]";
 	}
 }
