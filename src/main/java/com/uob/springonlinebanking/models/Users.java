@@ -9,8 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "users")
 public class Users {
 	
 	@Id
@@ -30,6 +32,12 @@ public class Users {
 
 	public Users() {
 		super();
+	}
+
+	public Users(String userNric, String userName) {
+		super();
+		this.userNric = userNric;
+		this.userName = userName;
 	}
 
 	public Users(Long userId, String userNric, String userName, String contactNo, String address, String email,
