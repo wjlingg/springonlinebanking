@@ -1,15 +1,14 @@
 package com.uob.springonlinebanking.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -34,17 +33,25 @@ public class Accounts {
     private double balance;
 
     @ManyToOne
-    @JoinColumn(name = "account_list")
+    @JoinColumn(name = "user_account")
     private Users user;
-
+    
+    @OneToMany
+	@JoinColumn(name = "account_transaction")
+	private List<Transactions> accountTransactionList = new ArrayList<>();    
+    
 	public Accounts() {
 		super();
 	}
 
-	public Accounts(String accountType, double balance, Users user) {
+	public Accounts(long accountId, String accountType, double balance, Users user,
+			List<Transactions> accountTransactionList) {
+		super();
+		this.accountId = accountId;
 		this.accountType = accountType;
 		this.balance = balance;
 		this.user = user;
+		this.accountTransactionList = accountTransactionList;
 	}
 
 	public long getAccountId() {
@@ -55,7 +62,6 @@ public class Accounts {
 		this.accountId = accountId;
 	}
 
-
 	public String getAccountType() {
 		return accountType;
 	}
@@ -63,7 +69,7 @@ public class Accounts {
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-	
+
 	public double getBalance() {
 		return balance;
 	}
@@ -80,9 +86,17 @@ public class Accounts {
 		this.user = user;
 	}
 
+	public List<Transactions> getAccountTransactionList() {
+		return accountTransactionList;
+	}
+
+	public void setAccountTransactionList(List<Transactions> accountTransactionList) {
+		this.accountTransactionList = accountTransactionList;
+	}
+
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", accountType=" + accountType + ", balance=" + balance + ", user="
-				+ user + "]";
+		return "Accounts [accountId=" + accountId + ", accountType=" + accountType + ", balance=" + balance + ", user="
+				+ user + ", accountTransactionList=" + accountTransactionList + "]";
 	}
 }	

@@ -1,7 +1,5 @@
 package com.uob.springonlinebanking.utils;
 
-import java.util.Objects;
-
 import javax.validation.constraints.NotBlank;
 
 public class CreateAccountInput {

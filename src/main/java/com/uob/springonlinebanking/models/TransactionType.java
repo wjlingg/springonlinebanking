@@ -1,36 +1,67 @@
 package com.uob.springonlinebanking.models;
 
-import javax.persistence.Column;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class TransactionType {
 
 	@Id
-	@Column(name="type_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long transactionTypeId;
 	
-	private String transactionType; // withdraw, deposit, transfer
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(String transactionType) {
-		this.transactionType = transactionType;
-	}
+	private String transactionName; // withdraw, deposit, transfer
 	
+	@OneToMany
+    @JoinColumn(name = "transaction_TransactionType")
+	private List<Transactions> transactTransactionTypeList = new ArrayList<>();    
+	
+	public TransactionType() {
+		super();
+	}
+
+	public TransactionType(Long transactionTypeId, String transactionName,
+			List<Transactions> transactTransactionTypeList) {
+		super();
+		this.transactionTypeId = transactionTypeId;
+		this.transactionName = transactionName;
+		this.transactTransactionTypeList = transactTransactionTypeList;
+	}
+
+	public Long getTransactionTypeId() {
+		return transactionTypeId;
+	}
+
+	public void setTransactionTypeId(Long transactionTypeId) {
+		this.transactionTypeId = transactionTypeId;
+	}
+
+	public String getTransactionName() {
+		return transactionName;
+	}
+
+	public void setTransactionName(String transactionName) {
+		this.transactionName = transactionName;
+	}
+
+	public List<Transactions> getTransactTransactionTypeList() {
+		return transactTransactionTypeList;
+	}
+
+	public void setTransactTransactionTypeList(List<Transactions> transactTransactionTypeList) {
+		this.transactTransactionTypeList = transactTransactionTypeList;
+	}
+
+	@Override
+	public String toString() {
+		return "TransactionType [transactionTypeId=" + transactionTypeId + ", transactionName=" + transactionName
+				+ ", transactTransactionTypeList=" + transactTransactionTypeList + "]";
+	}
 }

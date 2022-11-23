@@ -20,38 +20,34 @@ public class Users {
 	private Long userId;
 	private String userNric;
 	private String userName;
+	private String password;
 	private String contactNo;
 	private String address;
 	private String email;
 	private String nomineeName;
 	private String nomineeNric;
 	
-	@OneToMany
-	@JoinColumn(name = "account_list")
-	private List<Account> accounts = new ArrayList<>();
+	@OneToMany // one user can have many accounts
+	@JoinColumn(name = "user_account")
+	private List<Accounts> accountList = new ArrayList<>();
 
 	public Users() {
 		super();
 	}
 
-	public Users(String userNric, String userName) {
-		super();
-		this.userNric = userNric;
-		this.userName = userName;
-	}
-
-	public Users(Long userId, String userNric, String userName, String contactNo, String address, String email,
-			String nomineeName, String nomineeNric, List<Account> accounts) {
+	public Users(Long userId, String userNric, String userName, String password, String contactNo, String address,
+			String email, String nomineeName, String nomineeNric, List<Accounts> accountList) {
 		super();
 		this.userId = userId;
 		this.userNric = userNric;
 		this.userName = userName;
+		this.password = password;
 		this.contactNo = contactNo;
 		this.address = address;
 		this.email = email;
 		this.nomineeName = nomineeName;
 		this.nomineeNric = nomineeNric;
-		this.accounts = accounts;
+		this.accountList = accountList;
 	}
 
 	public Long getUserId() {
@@ -76,6 +72,15 @@ public class Users {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getContactNo() {
@@ -118,11 +123,18 @@ public class Users {
 		this.nomineeNric = nomineeNric;
 	}
 
-	public List<Account> getAccounts() {
-		return accounts;
+	public List<Accounts> getAccountList() {
+		return accountList;
 	}
 
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
+	public void setAccountList(List<Accounts> accountList) {
+		this.accountList = accountList;
+	}
+
+	@Override
+	public String toString() {
+		return "Users [userId=" + userId + ", userNric=" + userNric + ", userName=" + userName + ", password="
+				+ password + ", contactNo=" + contactNo + ", address=" + address + ", email=" + email + ", nomineeName="
+				+ nomineeName + ", nomineeNric=" + nomineeNric + ", accountList=" + accountList + "]";
 	}
 }

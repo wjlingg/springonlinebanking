@@ -20,6 +20,4 @@ public class AccountController {
 		model.addAttribute("count", count);
 		return "index";
 	}
-	
-	
 }
