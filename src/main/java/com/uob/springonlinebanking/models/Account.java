@@ -29,7 +29,7 @@ public class Account {
 	            @Parameter(name = "increment_size", value = "1")
 	    })
 	@GeneratedValue(generator = "account-sequence-generator")
-	private long accountId;
+	private Long accountId;
     
     private String accountType;
     
