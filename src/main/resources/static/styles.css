@@ -1,10 +1,14 @@
-@charset "ISO-8859-1";
-
-th, td, thead {
-	text-align: center;
+body {
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
 }
 
-.center {
-	width: 80%;
-	margin: auto;
+#navbar, #footer {
+	min-height: 20px;
+}
+
+#content {
+	flex: 1;
 }
