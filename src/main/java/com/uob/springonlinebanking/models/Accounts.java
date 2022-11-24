@@ -35,6 +35,13 @@ public class Accounts {
 		super();
 	}
 
+	public Accounts(String accountType, double balance, Users user) {
+		super();
+		this.accountType = accountType;
+		this.balance = balance;
+		this.user = user;
+	}
+	
 	public Accounts(long accountId, String accountType, double balance, Users user,
 			List<Transactions> accountTransactionList) {
 		super();
