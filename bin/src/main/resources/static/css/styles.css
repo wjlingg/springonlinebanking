@@ -1,0 +1,14 @@
+body {
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+#navbar, #footer {
+	min-height: 20px;
+}
+
+#content {
+	flex: 1;
+}

@@ -29,19 +29,27 @@ public class AccountController {
 	// ============================================= Register
 	
 	@GetMapping("/register")
-	public String showRegistrationForm(Model model) {
-		model.addAttribute("users", new Users());
-		
+	public String showRegistrationForm() {
+				
 		return "addUser"; // render addUser.html
 	}
 	
 	@PostMapping("/process_register")
-	public String processRegister(@RequestParam("accountType") String accountType, Users user, Model model) {
+	public String processRegister(@RequestParam("accountType") String accountType, Users user) {
 		
 		userRepo.save(user); // save to user repository
 		Users userLocal = userRepo.findUserIdByNric(user.getUserNric()); // get the user that has been just saved
 		Accounts account = new Accounts(accountType, 0.0, userLocal); // create account with the saved user
 		accountRepo.save(account); // save to account repository
+		
+		return "redirect:/welcomeuser"; 
+	}
+	
+	// link to login page
+	
+	@GetMapping("/welcomeuser")
+	public String welcomeUser(Users user, Model model) {
+		
 		
 		model.addAttribute("username", user.getUserName()); // this is for welcomeUser.html
 		

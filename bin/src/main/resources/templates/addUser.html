@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/components :: header"></div>
+<title>Sign up - United Overseas Bank</title>
+</head>
+<body>
+	<div th:replace="fragments/components :: navbar"></div>
+	<div class="container my-3" id="content">
+		<h3>Sign up for a new user account</h3>
+		<form th:action="@{/process_register}" method="post">
+			<div class="h-100 p-3 d-flex flex-column justify-content-center">
+				<div
+					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+					style="max-width: 500px">
+					<h4>User's Details</h4>
+					<div class="form-group">
+						<label for="inputUserNric">NRIC</label> <input type="text"
+							class="form-control" id="inputUserNric" name="userNric" required>
+					</div>
+					<div class="form-group">
+						<label for="inputUsername">Username</label> <input type="text"
+							class="form-control" id="inputUsername" name="userName" required>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword">Password</label> <input type="password"
+							class="form-control" id="inputPassword" name="password" required>
+					</div>
+					<div class="form-group">
+						<label for="inputContactNo">Contact No</label> <input type="text"
+							class="form-control" id="inputContactNo" name="contactNo" required>
+					</div>
+					<div class="form-group">
+						<label for="inputAddress">Address</label> <input type="text"
+							class="form-control" id="inputAddress" name="address" required>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail">Email</label> <input type="email"
+							class="form-control" id="inputEmail" name="email" required>
+					</div>
+				</div>
+				<div
+					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+					style="max-width: 500px">
+					<h4>Nominee's Details</h4>
+					<div class="form-group">
+						<label for="inputNomineeName">Nominee Name</label> <input
+							type="text" class="form-control" id="inputNomineeName"
+							name="nomineeName" required>
+					</div>
+					<div class="form-group">
+						<label for="inputNomineeNric">Nominee NRIC</label> <input
+							type="text" class="form-control" id="inputNomineeNric"
+							name="nomineeNric" required>
+					</div>
+				</div>
+				<div
+					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+					style="max-width: 500px">
+					<h4>Select Account to create</h4>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="accountType"
+							id="inputAccountType1" value="Savings" checked> <label
+							class="form-check-label" for="inputAccountType1">Savings</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="accountType"
+							id="inputAccountType2" value="Fixed Deposit" disabled> <label
+							class="form-check-label" for="inputAccountType2">Fixed
+							Deposit</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="accountType"
+							id="inputAccountType3" value="Recurring Deposit" disabled>
+						<label class="form-check-label" for="inputAccountType3">Recurring
+							Deposit</label>
+					</div>
+				</div>
+			</div>
+			<div class="btn-group" role="group">
+				<a href="/" class="btn btn-danger">Cancel</a>
+				<button type="submit" class="btn btn-primary">Sign up</button>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/components :: footer"></div>
+</body>
+</html>

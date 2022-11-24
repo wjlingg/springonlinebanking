@@ -3,16 +3,36 @@
 <head>
 <div th:replace="fragments/components :: header"></div>
 <title>Welcome User Page</title>
+<style>
+	.container {
+	text-align: center;
+	margin: auto;
+	display: flex;
+	display:grid;
+	}
+	.button{
+	padding-left:325px;
+	}
+</style>
 </head>
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 
 	<div class="container text-center">
-		<h3>You have signed up successfully!</h3>
+		<h3>Your sign-up is successful.</h3>
 		<h4>
-			Welcome, <span th:text="${username}"></span>
+			Welcome, <span th:text="${username}"> </span>
 		</h4>
+		
+		<div class="button">
+		<button type="button" class="btn btn-secondary btn-lg btn-block" style="margin:30px; width:50%;">Create another account</button>
+		
+		<button type="button" class="btn btn-primary btn-lg btn-block" style="margin:30px; width:50%;">Make a transaction</button>
+		
+		<button type="button" class="btn btn-secondary btn-lg btn-block" style="margin:30px; width:50%;">View transactions history</button>
+		</div>			
 	</div>
+	
 	<div th:replace="fragments/components :: footer"></div>
 
 </body>

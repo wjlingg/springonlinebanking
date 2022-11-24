@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Component Page</title>
+</head>
+<body>
+	<div th:fragment="header" th:remove="tag">
+		<meta charset="ISO-8859-1">
+		<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+		<link rel="stylesheet" href="/css/styles.css">
+		<link rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+			integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+			crossorigin="anonymous">
+		<link href="/mobile0c9a66/iwov-resources/grid/bootstrap.css"
+			type="text/css" rel="stylesheet">
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+			integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+			crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+			crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css"
+			href="/webjars/bootstrap/css/bootstrap.min.css" />
+		<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+		<script type="text/javascript"
+			src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+	</div>
+
+	<div th:fragment="navbar" th:remove="tag">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
+			<a class="navbar-brand"
+				href="https://www.uobgroup.com/uobgroup/about/index.page"><img
+				src="https://www.uobgroup.com/assets/iwov-resources/assets/BrandAssets/UOB_Logo.svg"
+				width="60" height="60" alt="UOB Logo" loading="lazy"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="/"><i
+							class="fa-solid fa-house"></i> Home <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#"><i
+							class="fa-solid fa-user"></i> Customers</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"><i class="fa-solid fa-piggy-bank"></i>
+							Accounts </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#">Savings</a> <a
+								class="dropdown-item" href="#">Current</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Recurring</a> <a
+								class="dropdown-item" href="#">Fixed</a>
+						</div></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"><i class="fa-regular fa-file"></i>
+							Records </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/adddefaultrecord">Add Default
+								Records</a> <a class="dropdown-item" href="/showaddedrecord">Add
+								Custom Records</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="/storedeletedrecord">Show
+								Deleted Records</a>
+						</div></li>
+				</ul>
+				<a class="btn btn-primary"
+					style="border-radius: 25px; margin-right: 10px;"
+					th:href="@{/register}" id="registersbtn" title="Register">Register</a>
+				<a id="loginbtn" class="btn btn-primary"
+					style="display: inline; background-color: rgb(4, 170, 109); color: white; border-radius: 25px;"
+					th:href="@{/loginform}">Log in</a>
+			</div>
+		</nav>
+	</div>
+
+	<div th:fragment="footer" th:remove="tag">
+		<section class="">
+			<!-- Footer -->
+			<footer class="text-white text-center" style="background-color: rgb(1, 94, 185);">
+				<!-- Grid container -->
+				<div class="container p-3">
+					<!--Grid row-->
+					<div class="row">
+						<!--Grid column-->
+						<div class="col-6">
+							<h5 class="text-uppercase">Other Links</h5>
+
+							<ul class="list-unstyled mb-0">
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/uobgroup/about/index.page">About
+										UOB</a></li>
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/investor-relations/index.html">Investor
+										Relations</a></li>
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/uobgroup/about/index.page">Sustainability</a></li>
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/careers/index.page">Careers</a></li>
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/uobgroup/contact-us/index.page#ShareYourExperience">Share
+										Your Experiences</a></li>
+								<li><a class="text-white"
+									href="https://forms.uob.com.sg/contact/contact-us.html?adobe_mc=MCMID%3D22073394514203506710458758640805035165%7CMCORGID%3D116168F454E6DA2A0A4C98A6%2540AdobeOrg%7CTS%3D1668765608">Feedback</a></li>
+							</ul>
+						</div>
+						<!--Grid column-->
+
+						<!--Grid column-->
+						<div class="col-6">
+							<h5 class="text-uppercase mb-0">Quick Links</h5>
+
+							<ul class="list-unstyled">
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/uobgroup/about/index.page?adobe_mc=MCMID%3D22073394514203506710458758640805035165%7CMCORGID%3D116168F454E6DA2A0A4C98A6%2540AdobeOrg%7CTS%3D1668765336">About
+										Us</a></li>
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/uobgroup/contact-us/index.page?i_cid=personal-footer&amp;adobe_mc=MCMID%3D22073394514203506710458758640805035165%7CMCORGID%3D116168F454E6DA2A0A4C98A6%2540AdobeOrg%7CTS%3D1668765336">Contact
+										Us</a></li>
+								<li><a class="text-white"
+									href="https://www.uob.com.sg/personal/support/index.page?i_cid=personal-footer">Customer
+										Service</a></li>
+								<li><a class="text-white"
+									href="https://www.uobgroup.com/uobgroup/privacy/index.page">Privacy
+										&amp; Security</a></li>
+								<li><a class="text-white"
+									href="https://www.uob.com.sg/personal/sitemap.page">Sitemap</a></li>
+							</ul>
+						</div>
+						<!--Grid column-->
+					</div>
+					<!--Grid row-->
+				</div>
+				<!-- Grid container -->
+
+				<div class="container">
+					<!-- Section: Social media -->
+					<section class="mb-3">
+						<!-- Facebook -->
+						<a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/UOB.sg/"
+							role="button"><i class="fab fa-facebook-f"></i></a>
+
+						<!-- Twitter -->
+						<a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/uobgroup"
+							role="button"><i class="fab fa-instagram"></i></a>
+
+						<!-- Linkedin -->
+						<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/company/uob"
+							role="button"><i class="fab fa-linkedin-in"></i></a>
+							
+						<!-- YouTube -->
+						<a class="btn btn-outline-light btn-floating m-1" href="https://www.youtube.com/uob?sub_confirmation=1"
+							role="button"><i class="fab fa-youtube"></i></a>
+					</section>
+					<!-- Section: Social media -->
+				</div>
+
+				<!-- Copyright -->
+				<div class="text-center p-3"
+					style="background-color: rgb(0, 69, 133);">Copyright
+					&copy; 2022 United Overseas Bank Limited Co. Reg. No. 193500026Z.
+					All Rights Reserved.</div>
+				<!-- Copyright -->
+			</footer>
+			<!-- Footer -->
+		</section>
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+			integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+			crossorigin="anonymous"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+			integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+			crossorigin="anonymous"></script>
+	</div>
+</body>
+</html>
