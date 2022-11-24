@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:insert="fragments/components.html :: header"></div>
+<div th:replace="fragments/components :: header"></div>
 <title>Sign up - United Overseas Bank</title>
 </head>
 <body>
-	<div th:insert="fragments/components.html :: navbar"></div>
+	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
 		<h3>Sign up for a new user account</h3>
 		<form th:action="@{/process_register}" method="post">
@@ -78,6 +78,6 @@
 			<button type="submit" class="btn btn-primary">Sign up</button>
 		</form>
 	</div>
-	<div th:insert="fragments/components.html :: footer"></div>
+	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:insert="fragments/components.html :: header" th:remove="tag"></div>
+<div th:replace="fragments/components :: header" th:remove="tag"></div>
 <title>United Overseas Bank</title>
 </head>
 <body>
-	<div th:insert="fragments/components.html :: navbar" th:remove="tag"></div>
+	<div th:replace="fragments/components :: navbar" th:remove="tag"></div>
 	<div class="container my-3" id="content">
 		<h1>Welcome to UOB</h1>
 		<div class="h-100 p-3 d-flex flex-column justify-content-center">
@@ -30,6 +30,6 @@
 			</div>
 		</div>
 	</div>
-	<div th:insert="fragments/components.html :: footer" th:remove="tag"></div>
+	<div th:replace="fragments/components :: footer" th:remove="tag"></div>
 </body>
 </html>

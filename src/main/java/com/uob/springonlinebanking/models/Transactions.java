@@ -30,6 +30,10 @@ public class Transactions {
     @JoinColumn(name = "transaction_TransactionType")
     private TransactionType transactionType;
 
+	public Transactions() {
+		super();
+	}
+
 	public Transactions(long transactionId, String status, double transactionAmount, Date dateTime, Accounts account,
 			TransactionType transactionType) {
 		super();
