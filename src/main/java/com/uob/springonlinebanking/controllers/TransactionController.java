@@ -1,4 +1,4 @@
-package com.uob.springonlinebankingcontrollers;
+package com.uob.springonlinebanking.controllers;
 
 public class TransactionController {
 

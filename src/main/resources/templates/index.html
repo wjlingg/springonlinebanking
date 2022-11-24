@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:insert="fragments/components.html :: links"></div>
+<div th:insert="fragments/components.html :: links" th:remove="tag"></div>
 <title>United Overseas Bank</title>
 </head>
 <body>
-	<div th:insert="fragments/components.html :: navbar"></div>
-	<div class="container" id="content">
+	<div th:insert="fragments/components.html :: navbar" th:remove="tag"></div>
+	<div class="container my-3" id="content">
 		<h1>Welcome to UOB</h1>
 		<div class="h-100 p-3 d-flex flex-column justify-content-center">
 			<div
@@ -16,7 +16,7 @@
 				<form method="post">
 					<div class="form-group">
 						<label for="inputUsername">Username</label> 
-						<input type="text" class="form-control" id="inputUsername" name="username">
+						<input type="text" class="form-control" id="inputUsername" name="userName">
 					</div>
 					<div class="form-group">
 						<label for="inputPassword">Password</label> 
@@ -25,11 +25,11 @@
 					<button type="submit" class="btn btn-primary">Login</button>
 				</form>
 				<div class="mx-auto fst-italic text-muted text-center" style="max-width: 350px">
-					<p>Don't have access? <a href="#">Click here to register</a></p>
+					<p>Don't have access? <a th:href="@{/register}">Click here to register</a></p>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div th:insert="fragments/components.html :: footer"></div>
+	<div th:insert="fragments/components.html :: footer" th:remove="tag"></div>
 </body>
 </html>
