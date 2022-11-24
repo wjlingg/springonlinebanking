@@ -2,25 +2,85 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <div th:insert="fragments/components.html :: links"></div>
-<title>Register - United Overseas Bank</title>
+<title>Sign up - United Overseas Bank</title>
 </head>
 <body>
 	<div th:insert="fragments/components.html :: navbar"></div>
-	<div class="container">
-		<h1>Login</h1>
-		<form>
-			<div class="form-group row">
-				<label for="inputUsername" class="col-sm-2 col-form-label">Email</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" id="inputUsername" >
+	<div class="container my-3" id="content">
+		<h3>Sign up for a new user account</h3>
+		<form th:action="@{/process_register}" method="post">
+			<div
+				class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+				style="background-color: white; max-width: 500px">
+				<h4>User's Details</h4>
+				<div class="form-group">
+					<label for="inputUserId">User Id (I think not required, if
+						auto generated)</label> <input type="text" class="form-control"
+						id="inputUserId" name="userId">
+				</div>
+				<div class="form-group">
+					<label for="inputUserNric">NRIC</label> <input type="text"
+						class="form-control" id="inputUserNric" name="userNric">
+				</div>
+				<div class="form-group">
+					<label for="inputUsername">Username</label> <input type="text"
+						class="form-control" id="inputUsername" name="userName">
+				</div>
+				<div class="form-group">
+					<label for="inputPassword">Password</label> <input type="password"
+						class="form-control" id="inputPassword" name="password">
+				</div>
+				<div class="form-group">
+					<label for="inputContactNo">Contact No</label> <input type="text"
+						class="form-control" id="inputContactNo" name="contactNo">
+				</div>
+				<div class="form-group">
+					<label for="inputAddress">Address</label> <input type="text"
+						class="form-control" id="inputAddress" name="address">
+				</div>
+				<div class="form-group">
+					<label for="inputEmail">Email</label> <input type="email"
+						class="form-control" id="inputEmail" name="email">
 				</div>
 			</div>
-			<div class="form-group row">
-				<label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-				<div class="col-sm-10">
-					<input type="password" class="form-control" id="inputPassword">
+			<div
+				class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+				style="background-color: white; max-width: 500px">
+				<h4>Nominee's Details</h4>
+				<div class="form-group">
+					<label for="inputNomineeName">Nominee Name</label> <input
+						type="text" class="form-control" id="inputNomineeName"
+						name="nomineeName">
+				</div>
+				<div class="form-group">
+					<label for="inputNomineeNric">Nominee NRIC</label> <input
+						type="text" class="form-control" id="inputNomineeNric"
+						name="nomineeNric">
 				</div>
 			</div>
+			<div
+				class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+				style="background-color: white; max-width: 500px">
+				<h4>Select Account to create</h4>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accountType"
+						id="inputAccountType1" value="Savings"> <label
+						class="form-check-label" for="inputAccountType1">Savings</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accountType"
+						id="inputAccountType2" value="Fixed Deposit" disabled> <label
+						class="form-check-label" for="inputAccountType2">Fixed
+						Deposit</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="accountType"
+						id="inputAccountType3" value="Recurring Deposit" disabled>
+					<label class="form-check-label" for="inputAccountType3">Recurring
+						Deposit</label>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Sign up</button>
 		</form>
 	</div>
 	<div th:insert="fragments/components.html :: footer"></div>

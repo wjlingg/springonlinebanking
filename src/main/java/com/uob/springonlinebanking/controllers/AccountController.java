@@ -1,4 +1,4 @@
-package com.uob.springonlinebankingcontrollers;
+package com.uob.springonlinebanking.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
