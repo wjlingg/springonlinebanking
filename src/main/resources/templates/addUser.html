@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:insert="fragments/components.html :: links"></div>
+<div th:insert="fragments/components.html :: header"></div>
 <title>Sign up - United Overseas Bank</title>
 </head>
 <body>
@@ -13,11 +13,6 @@
 				class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
 				style="background-color: white; max-width: 500px">
 				<h4>User's Details</h4>
-				<div class="form-group">
-					<label for="inputUserId">User Id (I think not required, if
-						auto generated)</label> <input type="text" class="form-control"
-						id="inputUserId" name="userId">
-				</div>
 				<div class="form-group">
 					<label for="inputUserNric">NRIC</label> <input type="text"
 						class="form-control" id="inputUserNric" name="userNric">

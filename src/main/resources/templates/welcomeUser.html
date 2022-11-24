@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:insert="fragments/components.html :: header"></div>
+<title>Welcome User Page</title>
+</head>
+<body>
+	<div th:insert="fragments/components.html :: navbar"></div>
+
+	<div class="container text-center">
+		<h3>You have signed up successfully!</h3>
+		<h4>
+			Welcome, <span th:text="${name}"></span>
+		</h4>
+	</div>
+	<div th:insert="fragments/components.html :: footer"></div>
+
+</body>
+</html>
