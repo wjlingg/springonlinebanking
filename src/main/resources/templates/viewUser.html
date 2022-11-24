@@ -15,6 +15,7 @@
 				<th>User Name</th>
 				<th>User NRIC</th>
 				<th>User Email</th>
+				<th>User Address</th>
 				<th>User Contact No.</th>
 				<th>Nominee Name</th>
 				<th colspan="2">Options</th>
@@ -27,7 +28,9 @@
 				<td th:text="${user.userName}"></td>
 				<td th:text="${user.userNric}"></td>
 				<td th:text="${user.email}"></td>
+				<td th:text="${user.address}"></td>
 				<td th:text="${user.contactNo}"></td>
+				<td th:text="${user.nomineeName"></td>
 				<td><a th:href="@{/edit/{userId}(userId=${user.userId})}"></a></td>
 				<td><a th:href="@{/remove/{userId}(userId=${user.userId})}"></a></td>
 
