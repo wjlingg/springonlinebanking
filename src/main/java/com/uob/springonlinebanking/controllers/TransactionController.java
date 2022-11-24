@@ -18,17 +18,17 @@ public class TransactionController {
 
 	// ============================================= View Transactions
 
-	@GetMapping("/viewtransaction")
-	public String showTransaction(@RequestParam("accountId") Long accountId, Model model) {
-		model.addAttribute("transaction", transactionRepo.getTransactionByAccountId(accountId)); // select * from customer
-		long count = transactionRepo.count(); // select count(*) from customer
-		model.addAttribute("count", count);
-		return "viewTransaction";
-	}
+//	@GetMapping("/viewtransaction")
+//	public String showTransaction(@RequestParam("accountId") Long accountId, Model model) {
+//		model.addAttribute("transaction", transactionRepo.getTransactionByAccountId(accountId)); // select * from customer
+//		long count = transactionRepo.count(); // select count(*) from customer
+//		model.addAttribute("count", count);
+//		return "viewTransaction";
+//	}
 	
 	// ============================================= Add Transactions
 	@GetMapping("/addtransaction")
-	public String showRegistrationForm(Model model) {
+	public String showAddTransactionForm(Model model) {
 		model.addAttribute("transactions", new Transactions());
 		
 		return "addTransaction"; // render addTransaction.html
@@ -38,7 +38,7 @@ public class TransactionController {
 	public String addTransaction(Transactions transaction) {
 		
 		transactionRepo.save(transaction); // save to transaction repository
-		return "redirect:/process_register"; // redirect to where??
+		return "redirect:/welcomeuser";
 	}
 
 }

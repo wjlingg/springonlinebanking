@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="fragments/components.html :: header"></div>
+<div th:replace="fragments/components :: header"></div>
 <meta charset="ISO-8859-1">
 <title>Add Transaction - United Overseas Bank</title>
 </head>
 <body>
-	<div th:replace="fragments/components.html :: navbar"></div>
+	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<form method="post">
+		<form th:action="@{/process_transaction}" method="post">
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<h3 class="align-self-center my-3">Add new transaction</h3>
 				<div
@@ -39,6 +39,6 @@
 			</div>
 		</form>
 	</div>
-	<div th:replace="fragments/components.html :: footer"></div>
+	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>

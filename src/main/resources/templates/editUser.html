@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="fragments/components.html :: header"></div>
+<div th:replace="fragments/components :: header"></div>
 <title>Edit User - United Overseas Bank</title>
 </head>
 <body>
-	<div th:replace="fragments/components.html :: navbar"></div>
+	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
 		<h3>Edit your account details</h3>
 		<form th:action="@{/process_edit}" th:method="put" th:object="${user}">
@@ -61,6 +61,6 @@
 			</div>
 		</form>
 	</div>
-	<div th:replace="fragments/components.html :: footer"></div>
+	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>

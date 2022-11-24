@@ -9,6 +9,6 @@ import com.uob.springonlinebanking.models.Transactions;
 
 public interface TransactionRepository extends CrudRepository<Transactions, Long> {
 	
-	@Query("SELECT t FROM Transactions t WHERE t.account_transaction=?1")
-	public List<Transactions> getTransactionByAccountId(Long accountId);
+//	@Query("SELECT t FROM Transactions t WHERE t.account_transaction=?1")
+//	public List<Transactions> getTransactionByAccountId(Long accountId);
 }
