@@ -7,9 +7,10 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<h3>Sign up for a new user account</h3>
 		<form th:action="@{/process_register}" method="post">
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
+				<h3 class="align-self-center my-3">Sign up for a new user
+					account</h3>
 				<div
 					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
 					style="max-width: 500px">
@@ -28,7 +29,8 @@
 					</div>
 					<div class="form-group">
 						<label for="inputContactNo">Contact No</label> <input type="text"
-							class="form-control" id="inputContactNo" name="contactNo" required>
+							class="form-control" id="inputContactNo" name="contactNo"
+							required>
 					</div>
 					<div class="form-group">
 						<label for="inputAddress">Address</label> <input type="text"
@@ -76,10 +78,10 @@
 							Deposit</label>
 					</div>
 				</div>
-			</div>
-			<div class="btn-group" role="group">
-				<a href="/" class="btn btn-danger">Cancel</a>
-				<button type="submit" class="btn btn-primary">Sign up</button>
+				<div class="btn-group align-self-center" role="group">
+					<a href="/" class="btn btn-danger">Cancel</a>
+					<button type="submit" class="btn btn-primary">Sign up</button>
+				</div>
 			</div>
 		</form>
 	</div>
