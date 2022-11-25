@@ -43,12 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http.authorizeRequests().antMatchers("/register", "/process_register").permitAll()
-		http.authorizeRequests()
+		http.authorizeRequests().antMatchers("/", "/register", "/process_register").permitAll()
 			.anyRequest().authenticated()
 			.and()
-//			.formLogin().permitAll().defaultSuccessUrl("/welcomeuser", true)
-			.formLogin().loginPage("/").permitAll().defaultSuccessUrl("/welcomeUser.html", true)
+			.formLogin().loginPage("/").permitAll().defaultSuccessUrl("/welcomeuser", true)
 			.and()
 			.logout().permitAll();
 	}
