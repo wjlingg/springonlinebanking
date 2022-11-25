@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <div th:replace="fragments/components :: header"></div>
-<title>United Overseas Bank</title>
+<title>Login - United Overseas Bank</title>
 </head>
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
@@ -11,7 +11,10 @@
 			<h1 class="align-self-center my-3">Welcome to UOB</h1>
 			<div
 				class="w-100 p-3 shadow-lg rounded-lg border border-dark align-self-center"
-				style="background-color: white; max-width: 500px">
+				style="background-color: white; max-width: 450px">
+				<div th:if="${param.error}" class ="alert alert-danger" role="alert">
+					Invalid username or password. Please try again.
+				</div>
 				<h3>Login</h3>
 				<form th:action="@{/}" method="POST">
 					<div class="form-group">
