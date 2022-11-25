@@ -8,15 +8,25 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
+
 		<form th:action="@{/process_transaction}" method="post">
+
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<h3 class="align-self-center my-3">Add new transaction</h3>
+				<div  style="width: 30%; margin: auto">
+					<p class="alert alert-danger" role="alert" th:if="${msg}=='balancelow'">
+						Not able to withdraw <span th:text="${withdrawalAmt}"></span>.
+						Current Balance: <span th:text="${currBal}"></span>. Balance after
+						withdrawal: <span th:text="${balAfterWithdrawal}"></span>.
+					</p>
+				</div>
 				<div
 					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
 					style="max-width: 500px">
 					<div class="form-group">
-						<label for="inputAmount">Account Number</label> <input type="number"
-							class="form-control" id="inputAccNO" name="accId" required>
+						<label for="inputAmount">Account Number</label> <input
+							type="number" class="form-control" id="inputAccNO" name="accId"
+							required>
 					</div>
 					<div class="form-group">
 						<label for="inputAmount">Amount</label> <input type="number"
@@ -24,16 +34,14 @@
 					</div>
 					<label>Type of transaction</label>
 					<div class="form-check">
-						<input class="form-check-input" type="radio"
-							name="tType" id="inputTransactionType1" value="deposit"
-							checked> <label class="form-check-label"
-							for="inputTransactionType1">Deposit</label>
+						<input class="form-check-input" type="radio" name="tType"
+							id="inputTransactionType1" value="deposit" checked> <label
+							class="form-check-label" for="inputTransactionType1">Deposit</label>
 					</div>
 					<div class="form-check">
-						<input class="form-check-input" type="radio"
-							name="tType" id="inputTransactionType2" value="withdraw"
-							disabled> <label class="form-check-label"
-							for="inputTransactionType2">Withdraw</label>
+						<input class="form-check-input" type="radio" name="tType"
+							id="inputTransactionType2" value="withdraw"> <label
+							class="form-check-label" for="inputTransactionType2">Withdraw</label>
 					</div>
 				</div>
 				<div class="btn-group align-self-center" role="group">
