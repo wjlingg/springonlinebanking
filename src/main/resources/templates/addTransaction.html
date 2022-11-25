@@ -13,11 +13,16 @@
 
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<h3 class="align-self-center my-3">Add new transaction</h3>
-				<div  style="width: 30%; margin: auto">
-					<p class="alert alert-danger" role="alert" th:if="${msg}=='balancelow'">
-						Not able to withdraw <span th:text="${withdrawalAmt}"></span>.
-						Current Balance: <span th:text="${currBal}"></span>. Balance after
-						withdrawal: <span th:text="${balAfterWithdrawal}"></span>.
+				<div style="width: 30%; margin: auto">
+					<p class="alert alert-danger" role="alert"
+						th:if="${msg}=='balancelow'">
+						Not able to withdraw $<span
+							th:text="${#numbers.formatDecimal(withdrawalAmt, 3,'COMMA', 2,'POINT')}"></span><br>
+						Current Balance: $<span
+							th:text="${#numbers.formatDecimal(currBal, 3,'COMMA', 2,'POINT')}"></span><br>Balance
+						after withdrawal: $<span
+							th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span><br>Minimum
+						balance required: $500.00
 					</p>
 				</div>
 				<div
@@ -30,7 +35,8 @@
 					</div>
 					<div class="form-group">
 						<label for="inputAmount">Amount</label> <input type="number"
-							class="form-control" id="inputAmount" name="transAmount" required>
+							step="0.01" class="form-control" id="inputAmount"
+							name="transAmount" required>
 					</div>
 					<label>Type of transaction</label>
 					<div class="form-check">
