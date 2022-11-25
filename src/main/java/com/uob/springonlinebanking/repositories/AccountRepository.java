@@ -6,6 +6,5 @@ import com.uob.springonlinebanking.models.Accounts;
 
 public interface AccountRepository extends CrudRepository<Accounts, Long> {
 
-	Accounts findByAccountId(Long accId);
-	
+	public Accounts findByAccountId(Long accId);
 }

@@ -15,19 +15,23 @@
 					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
 					style="max-width: 500px">
 					<div class="form-group">
+						<label for="inputAmount">Account Number</label> <input type="number"
+							class="form-control" id="inputAccNO" name="accId" required>
+					</div>
+					<div class="form-group">
 						<label for="inputAmount">Amount</label> <input type="number"
-							class="form-control" id="inputAmount" name="amount" required>
+							class="form-control" id="inputAmount" name="transAmount" required>
 					</div>
 					<label>Type of transaction</label>
 					<div class="form-check">
 						<input class="form-check-input" type="radio"
-							name="transactionType" id="inputTransactionType1" value="1"
+							name="tType" id="inputTransactionType1" value="deposit"
 							checked> <label class="form-check-label"
 							for="inputTransactionType1">Deposit</label>
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio"
-							name="transactionType" id="inputTransactionType2" value="2"
+							name="tType" id="inputTransactionType2" value="withdraw"
 							disabled> <label class="form-check-label"
 							for="inputTransactionType2">Withdraw</label>
 					</div>

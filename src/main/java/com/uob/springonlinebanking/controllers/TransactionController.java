@@ -3,29 +3,48 @@ package com.uob.springonlinebanking.controllers;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.uob.springonlinebanking.models.Accounts;
 import com.uob.springonlinebanking.models.Transactions;
+import com.uob.springonlinebanking.models.Users;
 import com.uob.springonlinebanking.repositories.AccountRepository;
 import com.uob.springonlinebanking.repositories.TransactionRepository;
 
-@RestController
+@Controller
 public class TransactionController {
 	
 	@Autowired
 	TransactionRepository transactionRepo;
 	@Autowired
 	AccountRepository accountRepo;
-
-	@RequestMapping("/transact")
+	
+	// ============================================= View Transactions
+	
+//	@GetMapping("/viewtransaction")
+//	public String showTransaction(@RequestParam("accountId") Long accountId, Model model) {
+//		model.addAttribute("transaction", transactionRepo.getTransactionByAccountId(accountId)); // select * from customer
+//		long count = transactionRepo.count(); // select count(*) from customer
+//		model.addAttribute("count", count);
+//		return "viewTransaction";
+//	}
+	
+	// ============================================= Add Transactions
+	@GetMapping("/addtransaction")
+	public String showAddTransactionForm(Model model) {
+		model.addAttribute("transactions", new Transactions());
+		
+		return "addTransaction"; // render addTransaction.html
+	}
+	
+	@PostMapping("/process_transaction")
 	public String doTransact(@RequestParam("accId") Long accId, @RequestParam("tType") String tType,
-							 @RequestParam("transAmount") Double transAmt) {
+							 @RequestParam("transAmount") Double transAmt, Model model) {
 		
 		Accounts acct = accountRepo.findByAccountId(accId);
 		
@@ -45,31 +64,9 @@ public class TransactionController {
 		}
 		
 		accountRepo.save(acct);
-
-		return "Success";
-	}
-	
-//	@GetMapping("/viewtransaction")
-//	public String showTransaction(@RequestParam("accountId") Long accountId, Model model) {
-//		model.addAttribute("transaction", transactionRepo.getTransactionByAccountId(accountId)); // select * from customer
-//		long count = transactionRepo.count(); // select count(*) from customer
-//		model.addAttribute("count", count);
-//		return "viewTransaction";
-//	}
-	
-	// ============================================= Add Transactions
-	@GetMapping("/addtransaction")
-	public String showAddTransactionForm(Model model) {
-		model.addAttribute("transactions", new Transactions());
 		
-		return "addTransaction"; // render addTransaction.html
-	}
-	
-	@PostMapping("/process_transaction")
-	public String addTransaction(Transactions transaction) {
-		
-		transactionRepo.save(transaction); // save to transaction repository
-		return "redirect:/welcomeuser";
-	}
+		model.addAttribute("username", acct.getUser().getUserName());
 
+		return "welcomeUser";
+	}
 }

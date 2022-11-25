@@ -4,15 +4,16 @@
 <div th:replace="fragments/components :: header"></div>
 <title>Welcome User Page</title>
 <style>
-	.container {
+.container {
 	text-align: center;
 	margin: auto;
 	display: flex;
-	display:grid;
-	}
-	.button{
-	padding-left:325px;
-	}
+	display: grid;
+}
+
+.button {
+	padding-left: 325px;
+}
 </style>
 </head>
 <body>
@@ -22,14 +23,19 @@
 		<h4>
 			Welcome, <span th:text="${username}"> </span>
 		</h4>
-		
+
 		<div class="button">
-		<button type="button" class="btn btn-secondary btn-lg btn-block" style="margin:30px; width:50%;">Create another account</button>
-		
-		<button type="button" class="btn btn-primary btn-lg btn-block" style="margin:30px; width:50%;">Make a transaction</button>
-		
-		<button type="button" class="btn btn-secondary btn-lg btn-block" style="margin:30px; width:50%;">View transactions history</button>
-		</div>			
+			<button type="button" class="btn btn-secondary btn-lg btn-block"
+				style="margin: 30px; width: 50%;">Create another account</button>
+
+			<a class="btn btn-primary btn-lg btn-block"
+				th:href="@{/addtransaction}" style="margin: 30px; width: 50%;"
+				role="button">Make a transaction</a>
+				
+			<a class="btn btn-secondary btn-lg btn-block"
+				th:href="@{/viewtransaction}" style="margin: 30px; width: 50%;"
+				role="button">View transactions history</a>
+		</div>
 	</div>
 	<div th:replace="fragments/components :: footer"></div>
 </body>
