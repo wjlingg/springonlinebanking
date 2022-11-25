@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/components :: header"></div>
+<title>User List Page</title>
+</head>
+<body>
+	<div th:replace="fragments/components :: navbar"></div>
+	<h2>List of Users</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>User ID</th>
+				<th>User Name</th>
+				<th>User NRIC</th>
+				<th>User Email</th>
+				<th>User Address</th>
+				<th>User Contact No.</th>
+				<th>Nominee Name</th>
+				<th colspan="2">Options</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr th:each="user : ${userList}">
+				<td th:text="${user.userId}"></td>
+				<td th:text="${user.userName}"></td>
+				<td th:text="${user.userNric}"></td>
+				<td th:text="${user.email}"></td>
+				<td th:text="${user.address}"></td>
+				<td th:text="${user.contactNo}"></td>
+				<td th:text="${user.nomineeName}"></td>
+				<td><a th:href="@{/edit/{userId}(userId=${user.userId})}"></a></td>
+				<td><a th:href="@{/remove/{userId}(userId=${user.userId})}"></a></td>
+
+			</tr>
+
+		</tbody>
+	</table>
+	<div th:replace="fragments/components :: footer"></div>
+</body>
+</html>
