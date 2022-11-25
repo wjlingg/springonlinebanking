@@ -1,5 +1,6 @@
 package com.uob.springonlinebanking.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -19,6 +20,8 @@ public class UserController {
 	
 	@Autowired
 	UserRepository userRepo;
+	
+	// ============================================= Edit user record by id
 
 	@GetMapping("/editrecord/{id}") // render the editUser.html based on record id
 	public String editRecord(@PathVariable("id") Long id, Model model) {
@@ -31,5 +34,13 @@ public class UserController {
 	public String saveData(@Valid Users user) {
 		userRepo.save(user);
 		return "redirect:/"; // after update redirect to show record which is in the index.html
+	}
+	
+	// ============================================= View all user records
+	@GetMapping("/viewuser")
+	public String showUserList(Users user, Model model) {
+		List<Users> userList = (List<Users>) userRepo.findAll();
+		model.addAttribute("userList",userList);
+		return "viewUser";
 	}
 }
