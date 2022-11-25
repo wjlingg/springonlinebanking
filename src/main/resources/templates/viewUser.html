@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="fragments/components.html :: header"></div>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<div th:replace="fragments/components :: header"></div>
+<title>User List Page</title>
 </head>
 <body>
-<div th:replace="components :: NavBar"></div>
+	<div th:replace="fragments/components :: navbar"></div>
 	<h2>List of Users</h2>
 	<table>
 		<thead>
@@ -30,7 +29,7 @@
 				<td th:text="${user.email}"></td>
 				<td th:text="${user.address}"></td>
 				<td th:text="${user.contactNo}"></td>
-				<td th:text="${user.nomineeName"></td>
+				<td th:text="${user.nomineeName}"></td>
 				<td><a th:href="@{/edit/{userId}(userId=${user.userId})}"></a></td>
 				<td><a th:href="@{/remove/{userId}(userId=${user.userId})}"></a></td>
 
@@ -38,6 +37,6 @@
 
 		</tbody>
 	</table>
-<div th:replace="components :: footer"></div>
+	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>
