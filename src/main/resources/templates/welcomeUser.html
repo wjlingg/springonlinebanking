@@ -21,7 +21,7 @@
 	<div class="container text-center">
 		<h3>Your sign-up is successful.</h3>
 		<h4>
-			Welcome, <span th:text="${username}"> </span>
+			Welcome, <span th:text="${#authentication.name}"> </span>
 		</h4>
 
 		<div class="button">

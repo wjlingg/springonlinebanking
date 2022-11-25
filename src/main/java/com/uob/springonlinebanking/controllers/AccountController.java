@@ -47,21 +47,13 @@ public class AccountController {
 		Users userLocal = userRepo.findUserIdByNric(user.getUserNric()); // get the user that has been just saved
 		Accounts account = new Accounts(accountType, 0.0, userLocal); // create account with the saved user
 		accountRepo.save(account); // save to account repository
-//		model.addAttribute("username", user.getUserName()); // this is for welcomeUser.html
-		redirectAttributes.addFlashAttribute("username", user.getUserName()); // redirect registered username
-		return "redirect:/welcomeuser"; 
-//		return "welcomeUser";
+
+		return "redirect:/";
 	}
 	
-	// link to login page
 	
 	@GetMapping("/welcomeuser")
-	public String welcomeUser(HttpServletRequest request, Users user, Model model) {
-		
-		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-        String username =  (String) flashMap.get("username");
-//		model.addAttribute("username", user.getUserName()); // this is for welcomeUser.html
-		model.addAttribute("username", username);
+	public String welcomeUser(Users user, Model model) {
 		return "welcomeUser"; // render welcomeUser.html
 	}
 }
