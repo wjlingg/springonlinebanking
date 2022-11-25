@@ -1,6 +1,6 @@
 package com.uob.springonlinebanking.models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,31 +11,31 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Transactions {
-	
-    @Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long transactionId;
-    
-    private String status;
-    
-    private double transactionAmount;
-    
-    private Date dateTime;
-    
-    @ManyToOne
-    @JoinColumn(name = "account_transaction")
-    private Accounts account;
-    
-    @ManyToOne
-    @JoinColumn(name = "transaction_TransactionType")
-    private TransactionType transactionType;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long transactionId;
+
+	private String status;
+
+	private double transactionAmount;
+
+	private LocalDateTime dateTime;
+
+	@ManyToOne
+	@JoinColumn(name = "account_transaction")
+	private Accounts account;
+
+	@ManyToOne
+	@JoinColumn(name = "transaction_TransactionType")
+	private TransactionType transactionType;
 
 	public Transactions() {
 		super();
 	}
 
-	public Transactions(long transactionId, String status, double transactionAmount, Date dateTime, Accounts account,
-			TransactionType transactionType) {
+	public Transactions(long transactionId, String status, double transactionAmount, LocalDateTime dateTime,
+			Accounts account, TransactionType transactionType) {
 		super();
 		this.transactionId = transactionId;
 		this.status = status;
@@ -69,11 +69,11 @@ public class Transactions {
 		this.transactionAmount = transactionAmount;
 	}
 
-	public Date getDateTime() {
+	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(Date dateTime) {
+	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
 
@@ -93,10 +93,12 @@ public class Transactions {
 		this.transactionType = transactionType;
 	}
 
+	// change to account = account
 	@Override
 	public String toString() {
 		return "Transactions [transactionId=" + transactionId + ", status=" + status + ", transactionAmount="
 				+ transactionAmount + ", dateTime=" + dateTime + ", account=" + account + ", transactionType="
 				+ transactionType + "]";
 	}
+
 }

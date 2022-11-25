@@ -1,23 +1,54 @@
 package com.uob.springonlinebanking.controllers;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.uob.springonlinebanking.models.Accounts;
 import com.uob.springonlinebanking.models.Transactions;
+import com.uob.springonlinebanking.repositories.AccountRepository;
 import com.uob.springonlinebanking.repositories.TransactionRepository;
 
-@Controller
+@RestController
 public class TransactionController {
 	
 	@Autowired
 	TransactionRepository transactionRepo;
+	@Autowired
+	AccountRepository accountRepo;
 
-	// ============================================= View Transactions
+	@RequestMapping("/transact")
+	public String doTransact(@RequestParam("accId") Long accId, @RequestParam("tType") String tType,
+							 @RequestParam("transAmount") Double transAmt) {
+		
+		Accounts acct = accountRepo.findByAccountId(accId);
+		
+		Transactions transaction = new Transactions();
+		transaction.setTransactionAmount(transAmt);
+		transaction.setStatus("success");
+		transaction.setAccount(acct);
+		transaction.setDateTime(LocalDateTime.now());
+		transactionRepo.save(transaction);
+		
+		Double currBal = acct.getBalance();
+		
+		if (tType.equals("deposit")) {
+			acct.setBalance(currBal + transAmt);
+		} else {
+			acct.setBalance(currBal - transAmt);
+		}
+		
+		accountRepo.save(acct);
 
+		return "Success";
+	}
+	
 //	@GetMapping("/viewtransaction")
 //	public String showTransaction(@RequestParam("accountId") Long accountId, Model model) {
 //		model.addAttribute("transaction", transactionRepo.getTransactionByAccountId(accountId)); // select * from customer
