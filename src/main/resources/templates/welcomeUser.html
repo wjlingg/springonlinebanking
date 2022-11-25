@@ -2,39 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <div th:replace="fragments/components :: header"></div>
-<title>Welcome User Page</title>
-<style>
-.container {
-	text-align: center;
-	margin: auto;
-	display: flex;
-	display: grid;
-}
-
-.button {
-	padding-left: 325px;
-}
-</style>
+<title>Home - United Overseas Bank</title>
 </head>
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
-	<div class="container text-center">
-		<h3>Your sign-up is successful.</h3>
-		<h4>
-			Welcome, <span sec:authentication="name"> </span>
-			Your user ID is: <span sec:authentication="principal.userId"> </span> 
-		</h4>
-
-		<div class="button">
-			<button type="button" class="btn btn-secondary btn-lg btn-block"
-				style="margin: 30px; width: 50%;">Create another account</button>
-
-			<a class="btn btn-primary btn-lg btn-block"
-				th:href="@{/addtransaction}" style="margin: 30px; width: 50%;"
-				role="button">Make a transaction</a> <a
-				class="btn btn-secondary btn-lg btn-block"
-				th:href="@{/viewtransaction}" style="margin: 30px; width: 50%;"
-				role="button">View transactions history</a>
+	<div class="container my-3" id="content">
+		<div class="h-100 p-3 d-flex flex-column justify-content-center">
+			<h3 class="align-self-center">Your sign-up is successful.</h3>
+			<h4 class="align-self-center">
+				Welcome, <span sec:authentication="name"> </span> Your user ID is: <span
+					sec:authentication="principal.userId"> </span>
+			</h4>
+			<div class="align-self-center my-5">
+				<button type="button" class="btn btn-secondary btn-lg btn-block">Create another account</button>
+				<a class="btn btn-primary btn-lg btn-block"
+					th:href="@{/addtransaction}" role="button">Make a transaction</a> 
+				<a class="btn btn-secondary btn-lg btn-block"
+					th:href="@{/viewtransaction}" role="button">View transactions history</a>
+			</div>
 		</div>
 	</div>
 	<div th:replace="fragments/components :: footer"></div>

@@ -73,16 +73,15 @@
 								Records</a> <a class="dropdown-item" href="/showaddedrecord">Add
 								Custom Records</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/viewuser">Show
-								Records</a>
+							<a class="dropdown-item" href="/viewuser">Show Records</a>
 						</div></li>
 				</ul>
-				<a class="btn btn-primary"
-					style="border-radius: 25px; margin-right: 10px;"
-					th:href="@{/register}" id="registersbtn" title="Register">Register</a>
-				<a id="loginbtn" class="btn btn-primary"
-					style="display: inline; background-color: rgb(4, 170, 109); color: white; border-radius: 25px;"
-					th:href="@{/loginform}">Log in</a>
+				<div sec:authorize="isAuthenticated()">
+					<form th:action="@{/logout}" method="post">
+						<button class="btn btn-danger me-3" th:action="@{/logout}"
+							id="logout-btn">Logout</button>
+					</form>
+				</div>
 			</div>
 		</nav>
 	</div>
@@ -90,7 +89,8 @@
 	<div th:fragment="footer" th:remove="tag">
 		<section class="">
 			<!-- Footer -->
-			<footer class="text-white text-center" style="background-color: rgb(1, 94, 185);">
+			<footer class="text-white text-center"
+				style="background-color: rgb(1, 94, 185);">
 				<!-- Grid container -->
 				<div class="container p-3">
 					<!--Grid row-->
@@ -150,19 +150,23 @@
 					<!-- Section: Social media -->
 					<section class="mb-3">
 						<!-- Facebook -->
-						<a class="btn btn-outline-light btn-floating m-1" href="https://www.facebook.com/UOB.sg/"
-							role="button"><i class="fab fa-facebook-f"></i></a>
+						<a class="btn btn-outline-light btn-floating m-1"
+							href="https://www.facebook.com/UOB.sg/" role="button"><i
+							class="fab fa-facebook-f"></i></a>
 
 						<!-- Twitter -->
-						<a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/uobgroup"
-							role="button"><i class="fab fa-instagram"></i></a>
+						<a class="btn btn-outline-light btn-floating m-1"
+							href="https://www.instagram.com/uobgroup" role="button"><i
+							class="fab fa-instagram"></i></a>
 
 						<!-- Linkedin -->
-						<a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/company/uob"
-							role="button"><i class="fab fa-linkedin-in"></i></a>
-							
+						<a class="btn btn-outline-light btn-floating m-1"
+							href="https://www.linkedin.com/company/uob" role="button"><i
+							class="fab fa-linkedin-in"></i></a>
+
 						<!-- YouTube -->
-						<a class="btn btn-outline-light btn-floating m-1" href="https://www.youtube.com/uob?sub_confirmation=1"
+						<a class="btn btn-outline-light btn-floating m-1"
+							href="https://www.youtube.com/uob?sub_confirmation=1"
 							role="button"><i class="fab fa-youtube"></i></a>
 					</section>
 					<!-- Section: Social media -->
@@ -170,9 +174,9 @@
 
 				<!-- Copyright -->
 				<div class="text-center p-3"
-					style="background-color: rgb(0, 69, 133);">Copyright
-					&copy; 2022 United Overseas Bank Limited Co. Reg. No. 193500026Z.
-					All Rights Reserved.</div>
+					style="background-color: rgb(0, 69, 133);">Copyright &copy;
+					2022 United Overseas Bank Limited Co. Reg. No. 193500026Z. All
+					Rights Reserved.</div>
 				<!-- Copyright -->
 			</footer>
 			<!-- Footer -->
