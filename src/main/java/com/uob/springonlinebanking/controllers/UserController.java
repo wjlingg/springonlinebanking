@@ -33,7 +33,15 @@ public class UserController {
 	@PutMapping("/process_edit") // Update user record
 	public String saveData(@Valid Users user) {
 		userRepo.save(user);
-		return "redirect:/"; // after update redirect to show record which is in the index.html
+		return "redirect:/viewUser"; // after update redirect to show record which is in the index.html
+	}
+	
+	// ============================================= Delete user record by id
+	@GetMapping("/deleterecord/{id}") // delete record by id
+	public String deleteRecord(@PathVariable("id") Long id){
+
+		userRepo.deleteById(id);
+		return "redirect:/viewuser"; // once record is deleted redirect to index.html to show the final records
 	}
 	
 	// ============================================= View all user records
