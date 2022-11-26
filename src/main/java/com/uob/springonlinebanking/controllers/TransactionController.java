@@ -69,7 +69,6 @@ public class TransactionController {
 
 	    model.addAttribute("optionList", optionList);
 		Integer count = optionList.size();
-		System.out.println(count);
 		model.addAttribute("count", count);
 		
 		return "addTransaction"; // render addTransaction.html

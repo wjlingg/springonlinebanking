@@ -66,41 +66,41 @@ public class AccountController {
 
 	// ============================================= Create another account
 
-	@GetMapping("/createaccount") // used in addAccount.html
+	@GetMapping("/createaccount") // used in welcomeUser.html
 	public String createAccount(@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
-		model.addAttribute("user", user);
-//		model.addAttribute("userAccountList", user.getAccountList());
-//		List<Long> optionList = new ArrayList<Long>();
+		
+		model.addAttribute("user", user); // populate addAccount.html with current user details
 		List<Accounts> accountList = user.getAccountList();
-//		for (Accounts account : accountList) {
-//			optionList.add(account.getAccountId());
-//		}
 
 		model.addAttribute("accountList", accountList);
 		Integer count = accountList.size();
-		System.out.println("Number of accounts: " + count);
 		model.addAttribute("count", count);
 
 		return "addAccount";
 	}
 
-	@PutMapping("/process_account_creation")
-	public String processAccount(@Valid Users user, @AuthenticationPrincipal MyUserDetails userDetails) {
+	@PutMapping("/process_account_creation") // used in addAccount.html
+	public String processAccount(@RequestParam("accountType") String accountType, 
+								@Valid Users user, @AuthenticationPrincipal MyUserDetails userDetails) {
 		if (!StringUtils.isEmpty(user.getPassword())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		Long userId = userDetails.getUserId();
-		System.out.println("userId: " + userId);
 		Users userExisting = userRepo.getUserByUserId(userId);
 
 		List<Accounts> existingAccountList = userExisting.getAccountList();
-		List<Accounts> newAccountList = user.getAccountList();
+		Accounts newAccount = new Accounts(accountType, 0.0, userExisting); // create account with the saved user
+		accountRepo.save(newAccount); // save to account repository
+
+		List<Accounts> newAccountList = accountRepo.getAllAccountByUserId(userId);
 		for (Accounts account : existingAccountList) {
 			newAccountList.add(account);
 		}
+		
 		user.setAccountList(newAccountList);
+		userDetails.setUsers(user);
 		userRepo.save(user);
 		userRepo.delete(userExisting);
 

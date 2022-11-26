@@ -18,6 +18,14 @@ public class MyUserDetails implements UserDetails {
 		return this.users.getUserId();
 	}
 
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
