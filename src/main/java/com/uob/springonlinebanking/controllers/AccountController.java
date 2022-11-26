@@ -70,7 +70,7 @@ public class AccountController {
 			Model model) {
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
-//		model.addAttribute("user", user);	
+		model.addAttribute("user", user);	
 //		model.addAttribute("userAccountList", user.getAccountList());
 //		List<Long> optionList = new ArrayList<Long>();
 		List<Accounts> accountList = user.getAccountList();
