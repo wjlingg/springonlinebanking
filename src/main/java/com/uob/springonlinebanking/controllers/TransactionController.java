@@ -1,11 +1,14 @@
 package com.uob.springonlinebanking.controllers;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +19,11 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.uob.springonlinebanking.models.Accounts;
 import com.uob.springonlinebanking.models.Transactions;
+import com.uob.springonlinebanking.models.Users;
 import com.uob.springonlinebanking.repositories.AccountRepository;
 import com.uob.springonlinebanking.repositories.TransactionRepository;
+import com.uob.springonlinebanking.repositories.UserRepository;
+import com.uob.springonlinebanking.security.MyUserDetails;
 
 @Controller
 public class TransactionController {
@@ -26,6 +32,8 @@ public class TransactionController {
 	TransactionRepository transactionRepo;
 	@Autowired
 	AccountRepository accountRepo;
+	@Autowired
+	UserRepository userRepo;
 
 	// ============================================= View Transactions
 
@@ -39,17 +47,32 @@ public class TransactionController {
 
 	// ============================================= Add Transactions
 	@GetMapping("/addtransaction")
-	public String showAddTransactionForm(HttpServletRequest request, Model model) {
+	public String showAddTransactionForm(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
+			Model model) {
 		model.addAttribute("transactions", new Transactions());
-		
+
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 		if (flashMap != null) {
-			model.addAttribute("balAfterWithdrawal", (Double)flashMap.get("balAfterWithdrawal"));
-			model.addAttribute("withdrawalAmt", (Double)flashMap.get("withdrawalAmt"));
-			model.addAttribute("currBal", (Double)flashMap.get("currBal"));
-			model.addAttribute("msg", (String)flashMap.get("msg"));
+			model.addAttribute("balAfterWithdrawal", (Double) flashMap.get("balAfterWithdrawal"));
+			model.addAttribute("withdrawalAmt", (Double) flashMap.get("withdrawalAmt"));
+			model.addAttribute("currBal", (Double) flashMap.get("currBal"));
+			model.addAttribute("msg", (String) flashMap.get("msg"));
 		}
 
+		Long userId = userDetails.getUserId();
+		Users user = userRepo.getUserByUserId(userId);
+
+		List<Long> optionList = new ArrayList<Long>();
+		List<Accounts> accountList = user.getAccountList();
+		for (Accounts account : accountList) {
+			optionList.add(account.getAccountId());
+		}
+
+	    model.addAttribute("optionList", optionList);
+		Integer count = optionList.size();
+		System.out.println(count);
+		model.addAttribute("count", count);
+		
 		return "addTransaction"; // render addTransaction.html
 	}
 

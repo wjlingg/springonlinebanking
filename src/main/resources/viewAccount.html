@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/components :: header"></div>
+<title>View account - United Overseas Bank</title>
+</head>
+<body>
+	<div th:replace="fragments/components :: navbar"></div>
+	<div class="container my-3" id="content">
+		<h3 class="align-self-center my-3">
+			<span sec:authentication="name"> </span>'s account details:
+		</h3>
+	</div>
+
+	<div th:replace="fragments/components :: footer"></div>
+</body>
+</html>
