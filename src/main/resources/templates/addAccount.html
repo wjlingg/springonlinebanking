@@ -7,10 +7,12 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<h3 class="align-self-center my-3">Add a new account for <span sec:authentication="name"></span></h3>
 		<form th:action="@{/process_account_creation}" th:method="post"
 			th:object="${user}">
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
+				<h3 class="align-self-center my-3">
+					Add a new account for <span sec:authentication="name"></span>
+				</h3>
 				<div
 					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
 					style="max-width: 500px">
