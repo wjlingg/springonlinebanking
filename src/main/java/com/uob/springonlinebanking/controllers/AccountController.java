@@ -81,28 +81,14 @@ public class AccountController {
 		return "addAccount";
 	}
 
-	@PutMapping("/process_account_creation") // used in addAccount.html
-	public String processAccount(@RequestParam("accountType") String accountType, 
-								@Valid Users user, @AuthenticationPrincipal MyUserDetails userDetails) {
-		if (!StringUtils.isEmpty(user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-		}
+	@PostMapping("/process_account_creation") // used in addAccount.html
+	public String processAccount(@RequestParam("accountType") String accountType,
+								@AuthenticationPrincipal MyUserDetails userDetails) {
 		Long userId = userDetails.getUserId();
 		Users userExisting = userRepo.getUserByUserId(userId);
 
-		List<Accounts> existingAccountList = userExisting.getAccountList();
 		Accounts newAccount = new Accounts(accountType, 0.0, userExisting); // create account with the saved user
 		accountRepo.save(newAccount); // save to account repository
-
-		List<Accounts> newAccountList = accountRepo.getAllAccountByUserId(userId);
-		for (Accounts account : existingAccountList) {
-			newAccountList.add(account);
-		}
-		
-		user.setAccountList(newAccountList);
-		userDetails.setUsers(user);
-		userRepo.save(user);
-		userRepo.delete(userExisting);
 
 		return "redirect:/welcomeuser";
 	}
