@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -40,13 +38,13 @@ public class AccountController {
 
 	// ============================================= Register
 
-	@GetMapping("/register")
+	@GetMapping("/register") // used in index.html
 	public String showRegistrationForm() {
 
 		return "addUser"; // render addUser.html
 	}
 
-	@PostMapping("/process_register")
+	@PostMapping("/process_register") // used in addUser.html
 	public String processRegister(@RequestParam("accountType") String accountType, Users user) {
 		if (!StringUtils.isEmpty(user.getPassword())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -94,7 +92,7 @@ public class AccountController {
 	}
 
 	// ============================================= View account details
-	@GetMapping("/viewaccount")
+	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html
 	public String showAccount(HttpServletRequest request, Model model) {
 
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);

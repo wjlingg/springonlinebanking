@@ -84,10 +84,9 @@ public class TransactionController {
 
 		Transactions transaction = new Transactions();
 		transaction.setTransactionAmount(txnAmt);
-		transaction.setStatus("success");
+		transaction.setTxnType(tType);
 		transaction.setAccount(acct);
 		transaction.setDateTime(LocalDateTime.now());
-		transactionRepo.save(transaction);
 
 		Double currBal = acct.getBalance();
 
@@ -98,17 +97,23 @@ public class TransactionController {
 			redirectAttributes.addFlashAttribute("msg", "deposit");
 			acct.setBalance(currBal + txnAmt);
 		} else if (tType.equals("withdraw")) {
-			redirectAttributes.addFlashAttribute("balAfterWithdrawal", currBal - txnAmt);
-			if (currBal - txnAmt < 500) {
+			Double balAfterWithdrawal = currBal - txnAmt;
+			redirectAttributes.addFlashAttribute("balAfterWithdrawal", balAfterWithdrawal);
+			if (balAfterWithdrawal < 500) {
 				redirectAttributes.addFlashAttribute("currBal", currBal);
 				redirectAttributes.addFlashAttribute("msg", "balancelow");
+				transaction.setStatus("failure");
+				transaction.setMsg("Balance below $500 after withdrawal");
+				transactionRepo.save(transaction);
 				return "redirect:/addtransaction";
 			}
 			redirectAttributes.addFlashAttribute("msg", "withdraw");
-			acct.setBalance(currBal - txnAmt);
+			acct.setBalance(balAfterWithdrawal);
 		}
 
 		redirectAttributes.addFlashAttribute("accountNo", acct.getAccountId());
+		transaction.setStatus("success");
+		transactionRepo.save(transaction);
 		accountRepo.save(acct);
 		
 		return "redirect:/viewaccount";

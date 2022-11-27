@@ -16,7 +16,7 @@ public class Transactions {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long transactionId;
 
-	private String status;
+	private String status; // success, failure
 
 	private double transactionAmount;
 
@@ -25,24 +25,25 @@ public class Transactions {
 	@ManyToOne
 	@JoinColumn(name = "account_transaction")
 	private Accounts account;
-
-	@ManyToOne
-	@JoinColumn(name = "transaction_TransactionType")
-	private TransactionType transactionType;
+	
+	private String txnType; // deposit, withdraw
+	
+	private String msg; // additional message for failure
 
 	public Transactions() {
 		super();
 	}
 
-	public Transactions(long transactionId, String status, double transactionAmount, LocalDateTime dateTime,
-			Accounts account, TransactionType transactionType) {
+	public Transactions(long transactionId, String status, double transactionAmount, 
+						LocalDateTime dateTime, Accounts account, String txnType, String msg) {
 		super();
 		this.transactionId = transactionId;
 		this.status = status;
 		this.transactionAmount = transactionAmount;
 		this.dateTime = dateTime;
 		this.account = account;
-		this.transactionType = transactionType;
+		this.txnType = txnType;
+		this.msg = msg;
 	}
 
 	public long getTransactionId() {
@@ -85,20 +86,26 @@ public class Transactions {
 		this.account = account;
 	}
 
-	public TransactionType getTransactionType() {
-		return transactionType;
+	public String getTxnType() {
+		return txnType;
 	}
 
-	public void setTransactionType(TransactionType transactionType) {
-		this.transactionType = transactionType;
+	public void setTxnType(String txnType) {
+		this.txnType = txnType;
 	}
 
-	// change to account = account
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
 	@Override
 	public String toString() {
 		return "Transactions [transactionId=" + transactionId + ", status=" + status + ", transactionAmount="
-				+ transactionAmount + ", dateTime=" + dateTime + ", account=" + account + ", transactionType="
-				+ transactionType + "]";
+				+ transactionAmount + ", dateTime=" + dateTime + ", account=" + account + ", txnType="
+				+ txnType + ", msg=" + msg + "]";
 	}
-
 }
