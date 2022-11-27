@@ -1,13 +1,17 @@
 package com.uob.springonlinebanking.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,6 +34,12 @@ public class Users {
 	@OneToMany // one user can have many accounts
 	@JoinColumn(name = "user_account")
 	private List<Accounts> accountList = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", 
+			    joinColumns = @JoinColumn(name = "user_id_users", referencedColumnName = "userId"), 
+			    inverseJoinColumns = @JoinColumn(name = "role_id_users", referencedColumnName = "roleId"))
+    private Collection<Roles> rolesCollection;
 
 	public Users() {
 		super();
@@ -131,6 +141,14 @@ public class Users {
 		this.accountList = accountList;
 	}
 
+	public Collection<Roles> getRolesCollection() {
+		return rolesCollection;
+	}
+
+	public void setRolesCollection(Collection<Roles> rolesCollection) {
+		this.rolesCollection = rolesCollection;
+	}
+	
 	@Override
 	public String toString() {
 		return "Users [userId=" + userId + ", userNric=" + userNric + ", userName=" + userName + ", password="
