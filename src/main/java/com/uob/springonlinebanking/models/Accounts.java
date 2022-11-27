@@ -1,5 +1,6 @@
 package com.uob.springonlinebanking.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,17 +30,23 @@ public class Accounts {
     
     @OneToMany
 	@JoinColumn(name = "account_transaction")
-	private List<Transactions> accountTransactionList = new ArrayList<>();    
+	private List<Transactions> accountTransactionList = new ArrayList<>();  
+    
+    private double interestRate; // declare date and ir
+    
+    private LocalDate date1;
     
 	public Accounts() {
 		super();
 	}
 
-	public Accounts(String accountType, double balance, Users user) {
+	public Accounts(String accountType, double balance, Users user, double interestRate, LocalDate date1) {	
 		super();
 		this.accountType = accountType;
 		this.balance = balance;
 		this.user = user;
+		this.interestRate = interestRate;
+		this.date1 = date1;
 	}
 	
 	public Accounts(long accountId, String accountType, double balance, Users user,
@@ -92,9 +99,35 @@ public class Accounts {
 		this.accountTransactionList = accountTransactionList;
 	}
 
+	public double getInterestRate() {
+		return interestRate;
+	}
+
+	public void setInterestRate(double interestRate) {
+		this.interestRate = interestRate;
+	}
+
+	public LocalDate getDate1() {
+		return date1;
+	}
+
+	public void setDate1(LocalDate date1) {
+		this.date1 = date1;
+	}
+
 	@Override
 	public String toString() {
 		return "Accounts [accountId=" + accountId + ", accountType=" + accountType + ", balance=" + balance + ", user="
-				+ user + ", accountTransactionList=" + accountTransactionList + "]";
+				+ user + ", accountTransactionList=" + accountTransactionList + ", interestRate=" + interestRate // + "]";
+				+ ", date1=" + date1 + "]";
 	}
-}	
+
+	
+	/*
+	 * @Override public String toString() { return "Accounts [accountId=" +
+	 * accountId + ", accountType=" + accountType + ", balance=" + balance +
+	 * ", user=" + user + ", accountTransactionList=" + accountTransactionList +
+	 * "]"; }
+	 */
+	 
+}

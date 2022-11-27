@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/components :: header"></div>
+<title>View account - United Overseas Bank</title>
+</head>
+<body>
+	<div th:replace="fragments/components :: navbar"></div>
+	<div class="container my-3" id="content">
+		<h3 class="align-self-center my-3">
+			<span sec:authentication="name"> </span>'s account details:
+		</h3>
+		
+		<form th:action="@{/}" th:object="${accounts}">
+			<div class="h-100 p-3 d-flex flex-column justify-content-center">
+				<div
+					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+					style="max-width: 500px">
+					<h4>Your account details</h4>
+					<div class="form-group">
+						<label for="accountId">Account Id</label> <input type="number"
+							class="form-control" id="accountId" th:field="*{accountId}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="accountType">Account Type</label> <input type="text"
+							class="form-control" id="accountType" th:field="*{accountType}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="date1">Account Start Date</label> <input type="text"
+							class="form-control" id="date1" th:field="*{date1}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="interestRate">Annual Interest Rate</label> <input type="text"
+							class="form-control" id="interestRate" th:field="*{interestRate}" readonly>
+					</div>					
+					<div class="form-group">
+						<label for="balance">Account Balance</label> <input type="text"
+							class="form-control" id="balance" th:field="*{balance}" readonly>
+					</div>
+				</div>
+		</div>
+
+			<p>
+				Your accrued interest since (insert acc opening date) <span
+					th:text="${date1}"></span> is (insert earned interest) <span
+					th:text="${res}"></span> . <br> Would you like to withdraw
+				your total balance (insert total balance) <span
+					th:text="${totalbalance}"></span> and delete your account?
+			</p>
+
+			<div class="btn-group align-self-center" role="group">
+				<a href="#" class="btn btn-secondary">Back to Home</a>
+				<button type="submit" class="btn btn-primary">Withdraw and Delete</button>
+			</div>
+		</form>
+		
+		
+		
+		<!-- display all accounts table -->
+		<!-- <table class="align-self-center" style="width:30%">
+			<tbody th:each="account : ${accountList}">
+				<tr>
+				need userId? account_user?
+					<th>Account Id</th>
+					<td th:text="${account.accountId}"></td>								
+				</tr>
+				<tr>
+					<th>Account Type</th>
+					<td th:text="${account.accountType}"></td>
+				</tr>
+				<tr>
+					<th>Current Balance</th>
+					<td th:text="${account.balance}"></td>
+				</tr>
+				<tr>
+					<th>Interest earned</th>
+					<td></td>
+				</tr>
+				<tr>
+					<th>Total Balance (with interest)</th>
+					<td></td>
+				</tr>					
+			</tbody>
+		</table> -->
+	</div>
+
+	<div th:replace="fragments/components :: footer"></div>
+</body>
+</html>
