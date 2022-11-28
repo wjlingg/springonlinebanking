@@ -54,38 +54,7 @@
 				<button type="submit" class="btn btn-primary">Withdraw and Delete</button>
 			</div>
 		</form>
-		
-		
-		
-		<!-- display all accounts table -->
-		<!-- <table class="align-self-center" style="width:30%">
-			<tbody th:each="account : ${accountList}">
-				<tr>
-				need userId? account_user?
-					<th>Account Id</th>
-					<td th:text="${account.accountId}"></td>								
-				</tr>
-				<tr>
-					<th>Account Type</th>
-					<td th:text="${account.accountType}"></td>
-				</tr>
-				<tr>
-					<th>Current Balance</th>
-					<td th:text="${account.balance}"></td>
-				</tr>
-				<tr>
-					<th>Interest earned</th>
-					<td></td>
-				</tr>
-				<tr>
-					<th>Total Balance (with interest)</th>
-					<td></td>
-				</tr>					
-			</tbody>
-		</table> -->
-	</div>
-
-	<div>
+			
 		<h3>
 			<span sec:authentication="name"></span>'s account details (<span th:text="${accountNo}"></span>):
 		</h3>

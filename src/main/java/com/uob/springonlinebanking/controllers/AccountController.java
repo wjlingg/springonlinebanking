@@ -109,54 +109,53 @@ public class AccountController {
 		return "redirect:/welcomeuser";
 	}
 
-	// ============================================= View account details
-
-	// list all Account table
-	@GetMapping("/viewaccount1")
-	public String viewAccount1(Accounts account, Model model) {
-		// List<Accounts> accountList = (List<Accounts>) accountRepo.findAll(); 
-		// List<Accounts> accountList2 = (List<Accounts>)
-		// accountRepo.findById(accountId);
-		// model.addAttribute("accountList2", accountList2);
-
-		return "viewAccount1";
-	}
-
-	// list each Account detail (how to retrieve account detail?)
-	@GetMapping("/viewaccount2")
-	public String viewAccount(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
-			Model model) {
-		
-		model.addAttribute("accounts", new Accounts());
-		
-		//Long userId = userDetails.getUserId();
-		//Users user = userRepo.getUserByUserId(userId);
-		
-		//Accounts account = accountRepo.getAllAccountByUserId(accId);
-
-		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-		Accounts acc = accountRepo.findByAccountId((Long)flashMap.get("accountNo"));
-		model.addAttribute("account", acc);
-
-		System.out.println("test");	
-				
-		return "viewAccount";
-	}
-	
-	//not working yet
-	@RequestMapping("/deleteaccount")
-	public String deleteAccount(			
-			@ModelAttribute("date1") Integer date1, 
-			@ModelAttribute("interestRate") Double interestRate,
-			@ModelAttribute("balance") Integer balance,
-			@ModelAttribute("opr") String opr,
-			Model model) {
-		if (opr.equalsIgnoreCase("mul")) {
-			double res = date1 * interestRate * balance;
-			model.addAttribute("res", res);
-		}
-		return "deleteAccount";
-	}
+	/*
+	 * // ============================================= View account details
+	 * 
+	 * // list all Account table
+	 * 
+	 * @GetMapping("/viewaccount1") public String viewAccount1(Accounts account,
+	 * Model model) { // List<Accounts> accountList = (List<Accounts>)
+	 * accountRepo.findAll(); // List<Accounts> accountList2 = (List<Accounts>) //
+	 * accountRepo.findById(accountId); // model.addAttribute("accountList2",
+	 * accountList2);
+	 * 
+	 * return "viewAccount1"; }
+	 * 
+	 * // list each Account detail (how to retrieve account detail?)
+	 * 
+	 * @GetMapping("/viewaccount2") public String viewAccount(HttpServletRequest
+	 * request, @AuthenticationPrincipal MyUserDetails userDetails, Model model) {
+	 * 
+	 * model.addAttribute("accounts", new Accounts());
+	 * 
+	 * //Long userId = userDetails.getUserId(); //Users user =
+	 * userRepo.getUserByUserId(userId);
+	 * 
+	 * //Accounts account = accountRepo.getAllAccountByUserId(accId);
+	 * 
+	 * Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+	 * Accounts acc = accountRepo.findByAccountId((Long)flashMap.get("accountNo"));
+	 * model.addAttribute("account", acc);
+	 * 
+	 * System.out.println("test");
+	 * 
+	 * return "viewAccount"; }
+	 * 
+	 * //not working yet
+	 * 
+	 * @RequestMapping("/deleteaccount") public String deleteAccount(
+	 * 
+	 * @ModelAttribute("date1") Integer date1,
+	 * 
+	 * @ModelAttribute("interestRate") Double interestRate,
+	 * 
+	 * @ModelAttribute("balance") Integer balance,
+	 * 
+	 * @ModelAttribute("opr") String opr, Model model) { if
+	 * (opr.equalsIgnoreCase("mul")) { double res = date1 * interestRate * balance;
+	 * model.addAttribute("res", res); } return "deleteAccount"; }
+	 */
 
 	// ============================================= View account details
 	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html
