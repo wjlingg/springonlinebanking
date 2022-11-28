@@ -28,7 +28,7 @@ import com.uob.springonlinebanking.security.MyUserDetails;
 
 @Controller
 public class AccountController {
-	
+
 	@Autowired
 	AccountRepository accountRepo;
 	@Autowired
@@ -45,24 +45,46 @@ public class AccountController {
 
 	// ============================================= Register
 
+	// ============================================= Register
 	@GetMapping("/register") // used in index.html
-	public String showRegistrationForm() {
-
+	public String showRegistrationForm(HttpServletRequest request, Model model) {
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			model.addAttribute("msg", (String) flashMap.get("msg"));
+			model.addAttribute("userNric", (String) flashMap.get("userNric"));
+			model.addAttribute("contactNo", (String) flashMap.get("contactNo"));
+			model.addAttribute("address", (String) flashMap.get("address"));
+			model.addAttribute("email", (String) flashMap.get("email"));
+			model.addAttribute("nomineeName", (String) flashMap.get("nomineeName"));
+			model.addAttribute("nomineeNric", (String) flashMap.get("nomineeNric"));
+		}
 		return "addUser"; // render addUser.html
 	}
 
 	@PostMapping("/process_register") // used in addUser.html
-	public String processRegister(@RequestParam("accountType") String accountType, Users user) {
-		if (!StringUtils.isEmpty(user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-		}
-		user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
-		userRepo.save(user); // save to user repository
-		Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
-		Accounts account = new Accounts(accountType, 0.0, false, userLocal); // create account with the saved user
-		accountRepo.save(account); // save to account repository
+	public String processRegister(@RequestParam("accountType") String accountType, Users user,
+			RedirectAttributes redirectAttributes) {
+		if (userRepo.getUserByUsername(user.getUserName()) != null) {
+			redirectAttributes.addFlashAttribute("msg", "userNameExist");
+			redirectAttributes.addFlashAttribute("userNric", user.getUserNric());
+			redirectAttributes.addFlashAttribute("contactNo", user.getContactNo());
+			redirectAttributes.addFlashAttribute("address", user.getAddress());
+			redirectAttributes.addFlashAttribute("email", user.getEmail());
+			redirectAttributes.addFlashAttribute("nomineeName", user.getNomineeName());
+			redirectAttributes.addFlashAttribute("nomineeNric", user.getNomineeNric());
+			return "redirect:/register";
+		} else {
+			if (!StringUtils.isEmpty(user.getPassword())) {
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
+			}
+			user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
+			userRepo.save(user); // save to user repository
+			Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
+			Accounts account = new Accounts(accountType, 0.0, false, userLocal); // create account with the saved user
+			accountRepo.save(account); // save to account repository
 
-		return "redirect:/";
+			return "redirect:/";
+		}
 	}
 
 	@GetMapping("/welcomeuser") // used in components.html navbar
@@ -88,7 +110,7 @@ public class AccountController {
 	public String createAccount(@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
-		
+
 		model.addAttribute("user", user); // populate addAccount.html with current user details
 		List<Accounts> accountList = user.getAccountList();
 		List<Accounts> optionList = new ArrayList<>();
@@ -107,7 +129,7 @@ public class AccountController {
 
 	@PostMapping("/process_account_creation") // used in addAccount.html
 	public String processAccount(@RequestParam("accountType") String accountType,
-								@AuthenticationPrincipal MyUserDetails userDetails) {
+			@AuthenticationPrincipal MyUserDetails userDetails) {
 		Long userId = userDetails.getUserId();
 		Users userExisting = userRepo.getUserByUserId(userId);
 
@@ -128,7 +150,6 @@ public class AccountController {
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
 		model.addAttribute("user", user); // populate addAccount.html with current user details
-		
 
 		List<Long> optionList = new ArrayList<Long>();
 		List<Accounts> accountList = user.getAccountList();
@@ -141,10 +162,10 @@ public class AccountController {
 		model.addAttribute("optionList", optionList);
 		Integer count = optionList.size();
 		model.addAttribute("count", count);
-		
+
 		return "viewAccount";
 	}
-	
+
 	@PostMapping("/process_view_account") // used in viewAccount.html
 	public String processShowAccount(@RequestParam("accId") Long accId, Model model, RedirectAttributes redirectAttributes) {
 		Accounts acct = accountRepo.findByAccountId(accId);

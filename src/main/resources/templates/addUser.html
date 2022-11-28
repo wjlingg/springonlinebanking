@@ -11,13 +11,16 @@
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<h3 class="align-self-center my-3">Sign up for a new user
 					account</h3>
+				<div class="alert alert-danger align-self-center" role="alert"
+					th:if="${msg}=='userNameExist'" style="max-width: 500px">
+					Username is already in use!</div>
 				<div
 					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
 					style="max-width: 500px">
 					<h4>User's Details</h4>
 					<div class="form-group">
 						<label for="inputUserNric">NRIC</label> <input type="text"
-							class="form-control" id="inputUserNric" name="userNric" required>
+							class="form-control" id="inputUserNric" name="userNric" th:value="${userNric}" required>
 					</div>
 					<div class="form-group">
 						<label for="inputUsername">Username</label> <input type="text"
@@ -29,16 +32,16 @@
 					</div>
 					<div class="form-group">
 						<label for="inputContactNo">Contact No</label> <input type="text"
-							class="form-control" id="inputContactNo" name="contactNo"
+							class="form-control" id="inputContactNo" name="contactNo" th:value="${contactNo}"
 							required>
 					</div>
 					<div class="form-group">
 						<label for="inputAddress">Address</label> <input type="text"
-							class="form-control" id="inputAddress" name="address" required>
+							class="form-control" id="inputAddress" name="address" th:value="${address}" required>
 					</div>
 					<div class="form-group">
 						<label for="inputEmail">Email</label> <input type="email"
-							class="form-control" id="inputEmail" name="email" required>
+							class="form-control" id="inputEmail" name="email" th:value="${email}" required>
 					</div>
 				</div>
 				<div
@@ -48,12 +51,12 @@
 					<div class="form-group">
 						<label for="inputNomineeName">Nominee Name</label> <input
 							type="text" class="form-control" id="inputNomineeName"
-							name="nomineeName" required>
+							name="nomineeName" th:value="${nomineeName}" required>
 					</div>
 					<div class="form-group">
 						<label for="inputNomineeNric">Nominee NRIC</label> <input
 							type="text" class="form-control" id="inputNomineeNric"
-							name="nomineeNric" required>
+							name="nomineeNric" th:value="${nomineeNric}" required>
 					</div>
 				</div>
 				<div
