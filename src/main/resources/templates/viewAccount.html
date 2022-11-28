@@ -82,7 +82,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<form th:action="@{/process_delete_account}" method="post">
+		<form th:action="@{/delete_account/} + ${accId}" method="get">
 			<div class="btn-group align-self-center" role="group">
 				<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
 				<button type="submit" class="btn btn-primary">Withdraw and

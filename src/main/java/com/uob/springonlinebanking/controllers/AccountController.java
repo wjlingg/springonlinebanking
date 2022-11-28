@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -180,19 +181,18 @@ public class AccountController {
 	public String processShowAccount(@RequestParam("accId") Long accId, Model model,
 			RedirectAttributes redirectAttributes) {
 		Accounts acct = accountRepo.findByAccountId(accId);
-		redirectAttributes.addFlashAttribute("acct", acct);
-
 		List<Transactions> txn = transactionRepo.getTransactionByAccountId(accId);
+		redirectAttributes.addFlashAttribute("acct", acct);
+		redirectAttributes.addFlashAttribute("accId", accId);
 		redirectAttributes.addFlashAttribute("txn", txn);
 		
 		return "redirect:/viewaccount";
 	}
 
 	// ============================================= Delete account details
-	@PostMapping("/process_delete_account")
-	public String showDeleteAccount(@RequestParam("accId") Long accId, Model model) {
+	@GetMapping("delete_account/{accId}")
+	public String showDeleteAccount(@PathVariable("accId") Long accId, Model model) {
 		Accounts acct = accountRepo.findByAccountId(accId);
-
 		model.addAttribute("acct", acct);
 		model.addAttribute("accId", accId);
 		model.addAttribute("acctInitiationDate", acct.getInitiationDate()); // account open date
@@ -214,7 +214,7 @@ public class AccountController {
 		double totalBalance = balance + earnedInt;
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
-
+		
 		return "deleteAccount";
 	}
 
