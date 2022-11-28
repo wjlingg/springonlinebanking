@@ -36,7 +36,8 @@ public class MyUserDetails implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return getGrantedAuthorities(getPrivileges(getUsers().getRolesCollection()));
 	}
-
+	
+	// Do we need to have the roles and privileges? Or do we just need the roles?
     private List<String> getPrivileges(final Collection<Roles> roles) {
         final List<String> privileges = new ArrayList<>();
         final List<Privileges> collection = new ArrayList<>();

@@ -7,6 +7,7 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
+		<form th:action="@{/deleteaccount}" method="post">
 		<h3 class="align-self-center my-3">
 			<span sec:authentication="name"></span>'s account details (<span
 				th:text="${accId}"></span>):
@@ -26,25 +27,27 @@
 					<td th:text="${acct.accountType}"></td>
 					<td th:text="${acct.initiationDate}"></td>
 					<td th:text="${acct.interestRate}"></td>
+					<!-- earned interest -->
+					
 					<td th:text="${acct.balance}"></td>
 				</tr>
 			</tbody>
 		</table>
 		<p>
-			Your accrued interest since (insert acc opening date) <span
-				th:text="${acctInitiationDate}"></span> is (insert earned interest)
-			<span th:text="${acctInterestRate}"></span> . <br> Would you
-			like to withdraw your total balance (insert total balance) <span
-				th:text="${totalBalance}"></span> and delete your account?
+			Your interest earned since <span
+				th:text="${acctInitiationDate}"></span> is 
+			<span th:text="${earnedInterest}"></span>. 
+			<br> Would you like to withdraw your total balance 
+			<span th:text="${totalBalance}"></span> and delete your account?
 		</p>
 
 		<div class="btn-group align-self-center" role="group">
 			<a href="#" class="btn btn-secondary">Back to Home</a>
-			<button type="submit" class="btn btn-primary">Withdraw and
-				Delete</button>
+			<button type="submit" class="btn btn-primary">More information</button>
 		</div>
+		</form>
 	</div>
-
+	
 	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>
