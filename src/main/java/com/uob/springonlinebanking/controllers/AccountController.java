@@ -90,9 +90,15 @@ public class AccountController {
 		
 		model.addAttribute("user", user); // populate addAccount.html with current user details
 		List<Accounts> accountList = user.getAccountList();
+		List<Accounts> optionList = new ArrayList<>();
+		for (Accounts account : accountList) {
+			if (!account.isDormant()) { // only allow viewing on active account 
+				optionList.add(account);
+			}
+		}
 
-		model.addAttribute("accountList", accountList);
-		Integer count = accountList.size();
+		model.addAttribute("optionList", optionList);
+		Integer count = optionList.size();
 		model.addAttribute("count", count);
 
 		return "addAccount";
@@ -122,7 +128,9 @@ public class AccountController {
 		List<Long> optionList = new ArrayList<Long>();
 		List<Accounts> accountList = user.getAccountList();
 		for (Accounts account : accountList) {
-			optionList.add(account.getAccountId());
+			if (!account.isDormant()) { // only allow viewing on active account 
+				optionList.add(account.getAccountId());
+			}
 		}
 
 		model.addAttribute("optionList", optionList);

@@ -31,7 +31,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="acc : ${accountList}">
+									<tr th:each="acc : ${optionList}">
 										<td th:text="${acc.accountId}"></td>
 										<td th:text="${acc.accountType}"></td>
 										<td><a
@@ -66,7 +66,7 @@
 					</div>
 				</div>
 				<div class="btn-group align-self-center" role="group">
-					<a href="/" class="btn btn-secondary">Cancel</a>
+					<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
 					<button type="submit" class="btn btn-primary">Add account</button>
 				</div>
 			</div>
