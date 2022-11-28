@@ -6,8 +6,10 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,27 +24,32 @@ public class UserController {
 	@Autowired
 	UserRepository userRepo;
 	
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	
 	// ============================================= Edit user record by id
 
-	@GetMapping("/editrecord/{id}") // render the editUser.html based on record id, used in viewUser.html
+	@GetMapping("/admin/editrecord/{id}") // render the editUser.html based on record id, used in viewUser.html
 	public String editRecord(@PathVariable("id") Long id, Model model) {
 		Optional<Users> user = userRepo.findById(id);
 		model.addAttribute("user", user);
 		return "editUser";
 	}
 	
-	@PutMapping("/process_edit") // Update user record, used in editUser.html
+	@PutMapping("/admin/process_edit") // Update user record, used in editUser.html
 	public String saveData(@Valid Users user) {
+		if (!StringUtils.isEmpty(user.getPassword())) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+		}
 		userRepo.save(user);
 		return "redirect:/viewUser"; // after update redirect to show record which is in the index.html
 	}
 	
 	// ============================================= Delete user record by id
-	@DeleteMapping("/deleterecord/{id}") // delete record by id, used in viewUser.html
+	@DeleteMapping("/admin/deleterecord/{id}") // delete record by id, used in viewUser.html
 	public String deleteRecord(@PathVariable("id") Long id){
 
 		userRepo.deleteById(id);
-		return "redirect:/viewuser"; // once record is deleted redirect to index.html to show the final records
+		return "redirect:/admin/viewuser"; // once record is deleted redirect to index.html to show the final records
 	}
 	
 	// ============================================= View all user records
