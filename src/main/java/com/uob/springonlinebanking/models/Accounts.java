@@ -1,5 +1,6 @@
 package com.uob.springonlinebanking.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,18 +34,25 @@ public class Accounts {
     
     private boolean isDormant;
     
+    private double interestRate;
+    
+    private LocalDate initiationDate;
+    
 	public Accounts() {
 		super();
 	}
 
-	public Accounts(String accountType, double balance, boolean isDormant, Users user) {
+	public Accounts(String accountType, double balance, Users user, 
+			boolean isDormant, double interestRate, LocalDate initiationDate) {
 		super();
 		this.accountType = accountType;
 		this.balance = balance;
-		this.isDormant = isDormant;
 		this.user = user;
+		this.isDormant = isDormant;
+		this.interestRate = interestRate;
+		this.initiationDate = initiationDate;
 	}
-	
+
 	public Accounts(long accountId, String accountType, double balance, Users user,
 			List<Transactions> accountTransactionList) {
 		super();
@@ -103,9 +111,26 @@ public class Accounts {
 		this.isDormant = isDormant;
 	}
 
+	public double getInterestRate() {
+		return interestRate;
+	}
+
+	public void setInterestRate(double interestRate) {
+		this.interestRate = interestRate;
+	}
+
+	public LocalDate getInitiationDate() {
+		return initiationDate;
+	}
+
+	public void setInitiationDate(LocalDate initiationDate) {
+		this.initiationDate = initiationDate;
+	}
+
 	@Override
 	public String toString() {
 		return "Accounts [accountId=" + accountId + ", accountType=" + accountType + ", balance=" + balance + ", user="
-				+ user + ", accountTransactionList=" + accountTransactionList + ", isDormant=" + isDormant + "]";
+				+ user + ", accountTransactionList=" + accountTransactionList + ", isDormant=" + isDormant
+				+ ", interestRate=" + interestRate + ", initiationDate=" + initiationDate + "]";
 	}
 }	

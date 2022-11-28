@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/components :: header"></div>
+<title>View account - United Overseas Bank</title>
+</head>
+<body>
+	<div th:replace="fragments/components :: navbar"></div>
+	<div class="container my-3" id="content">
+
+		<form th:action="@{/confirm_delete_account}" th:object="${acct}">
+			<div class="h-100 p-3 d-flex flex-column justify-content-center">
+				<div
+					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+					style="max-width: 500px">
+					<h4 class="align-self-center">
+						<span sec:authentication="name"> </span>'s account details for
+						account (<span th:text="${accId}"></span>):
+					</h4>
+					<div class="form-group">
+						<label for="accountId">Account Id</label> <input type="number"
+							class="form-control" id="accountId" th:field="*{accountId}"
+							readonly>
+					</div>
+					<div class="form-group">
+						<label for="accountType">Account Type</label> <input type="text"
+							class="form-control" id="accountType" th:field="*{accountType}"
+							readonly>
+					</div>
+					<div class="form-group">
+						<label for="date1">Account Open Date</label> <input type="text"
+							class="form-control" id="initiationDate"
+							th:field="*{initiationDate}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="interestRate">Annual Interest Rate</label> <input
+							type="text" class="form-control" id="interestRate"
+							th:field="*{interestRate}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="balance">Account Balance</label> <input type="text"
+							class="form-control" id="balance" th:field="*{balance}" readonly>
+					</div>
+				</div>
+			</div>
+
+			<p>
+				Your accrued interest since <span th:text="${acctInitiationDate}"></span>
+				is <span th:text="${acctInterestRate}"></span>.<br> Would you
+				like to withdraw your total balance <span th:text="${totalBalance}"></span>
+				and delete your account?
+			</p>
+
+			<div class="btn-group align-self-center" role="group">
+				<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
+				<button type="submit" class="btn btn-primary">Withdraw and
+					Delete</button>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/components :: footer"></div>
+</body>
+</html>

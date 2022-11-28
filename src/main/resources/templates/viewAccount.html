@@ -36,15 +36,18 @@
 				<button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</form>
+	</div>
+	<div class="container my-3" id="content">
 		<h3 class="align-self-center my-3">
 			<span sec:authentication="name"></span>'s account details (<span
 				th:text="${accId}"></span>):
 		</h3>
-		<h2>Account Details</h2>
 		<table>
 			<thead>
 				<tr>
 					<th>Account Type</th>
+					<th>Account Start Date</th>
+					<th>Annual Interest Rate</th>
 					<th>Account Balance</th>
 				</tr>
 			</thead>
@@ -52,11 +55,42 @@
 			<tbody>
 				<tr th:each="acct : ${acct}">
 					<td th:text="${acct.accountType}"></td>
+					<td th:text="${acct.initiationDate}"></td>
+					<td th:text="${acct.interestRate}"></td>
 					<td th:text="${acct.balance}"></td>
 				</tr>
 			</tbody>
 		</table>
+
+		<h4>Transaction Details</h4>
+		<table>
+			<thead>
+				<tr>
+					<th>Transaction ID</th>
+					<th>Transaction Date/Time</th>
+					<th>Transaction Type</th>
+					<th>Transaction Amount</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="txn : ${txn}">
+					<td th:text="${txn.transactionId}"></td>
+					<td th:text="${txn.dateTime}"></td>
+					<td th:text="${txn.txnType}"></td>
+					<td th:text="${txn.transactionAmount}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<form th:action="@{/process_delete_account}" method="post">
+			<div class="btn-group align-self-center" role="group">
+				<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
+				<button type="submit" class="btn btn-primary">Withdraw and
+					Delete</button>
+			</div>
+		</form>
 	</div>
+
 	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>
