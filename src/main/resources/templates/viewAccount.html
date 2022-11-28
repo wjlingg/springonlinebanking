@@ -8,24 +8,25 @@
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
 		<h3 class="align-self-center my-3">
-			<span sec:authentication="name"></span>'s account details (<span th:text="${accountNo}"></span>):
+			<span sec:authentication="name"></span>'s account details (<span
+				th:text="${accId}"></span>):
 		</h3>
-		<div style="width: 30%; margin: auto">
-			<p class="alert alert-success" role="alert" th:if="${msg}=='deposit'">
-				Deposited Amount: $<span
-					th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
-				after deposit: $<span
-					th:text="${#numbers.formatDecimal(balAfterDeposit, 3,'COMMA', 2,'POINT')}"></span>
-			</p>
-			<p class="alert alert-success" role="alert"
-				th:if="${msg}=='withdraw'">
-				Withdrawn Amount: $<span
-					th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
-				after withdrawal: $<span
-					th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span>
-			</p>
-			<p>TODO: Add the respective account details as a table</p>
-		</div>
+		<h2>Account Details</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Account Type</th>
+					<th>Account Balance</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="acct : ${acct}">
+					<td th:text="${acct.accountType}"></td>
+					<td th:text="${acct.balance}"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	<div th:replace="fragments/components :: footer"></div>
 </body>
