@@ -174,6 +174,7 @@ public class AccountController {
 			//System.out.println(earnedInt);
 			
 			double totalBalance = balance + earnedInt;
+			model.addAttribute("earnedInt", earnedInt);
 			model.addAttribute("totalBalance", totalBalance);
 			
 		return "viewAccount";
