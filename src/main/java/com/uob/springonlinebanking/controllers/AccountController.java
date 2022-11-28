@@ -113,9 +113,15 @@ public class AccountController {
 
 		model.addAttribute("user", user); // populate addAccount.html with current user details
 		List<Accounts> accountList = user.getAccountList();
+		List<Accounts> optionList = new ArrayList<>();
+		for (Accounts account : accountList) {
+			if (!account.isDormant()) { // only allow viewing on active account 
+				optionList.add(account);
+			}
+		}
 
-		model.addAttribute("accountList", accountList);
-		Integer count = accountList.size();
+		model.addAttribute("optionList", optionList);
+		Integer count = optionList.size();
 		model.addAttribute("count", count);
 
 		return "addAccount";
@@ -135,8 +141,12 @@ public class AccountController {
 
 	// ============================================= View account details
 	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html, viewAccountForm.html
-	public String showAccount(@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
-
+	public String showAccount(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails, Model model) {
+		
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			model.addAttribute("acct", (Accounts)flashMap.get("acct"));
+		}
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
 		model.addAttribute("user", user); // populate addAccount.html with current user details
@@ -144,20 +154,22 @@ public class AccountController {
 		List<Long> optionList = new ArrayList<Long>();
 		List<Accounts> accountList = user.getAccountList();
 		for (Accounts account : accountList) {
-			optionList.add(account.getAccountId());
+			if (!account.isDormant()) { // only allow viewing on active account 
+				optionList.add(account.getAccountId());
+			}
 		}
 
 		model.addAttribute("optionList", optionList);
 		Integer count = optionList.size();
 		model.addAttribute("count", count);
 
-		return "viewAccountForm";
+		return "viewAccount";
 	}
 
 	@PostMapping("/process_view_account") // used in viewAccount.html
-	public String processShowAccount(@RequestParam("accId") Long accId, Model model) {
+	public String processShowAccount(@RequestParam("accId") Long accId, Model model, RedirectAttributes redirectAttributes) {
 		Accounts acct = accountRepo.findByAccountId(accId);
-		model.addAttribute("acct", acct);
-		return "viewAccount";
+		redirectAttributes.addFlashAttribute("acct", acct);
+		return "redirect:/viewaccount";
 	}
 }
