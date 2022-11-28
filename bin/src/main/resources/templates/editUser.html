@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:insert="fragments/components.html :: header"></div>
+<div th:replace="fragments/components :: header"></div>
 <title>Edit User - United Overseas Bank</title>
 </head>
 <body>
-	<div th:insert="fragments/components.html :: navbar"></div>
+	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<h3>Edit your account details</h3>
+		<h3 class="align-self-center my-3">Edit your account details</h3>
 		<form th:action="@{/process_edit}" th:method="put" th:object="${user}">
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<div
@@ -55,12 +55,12 @@
 					</div>
 				</div>
 			</div>
-			<div class="btn-group" role="group">
+			<div class="btn-group align-self-center"  role="group">
 				<a href="#" class="btn btn-danger">Cancel</a>
 				<button type="submit" class="btn btn-primary">Edit</button>
 			</div>
 		</form>
 	</div>
-	<div th:insert="fragments/components.html :: footer"></div>
+	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>

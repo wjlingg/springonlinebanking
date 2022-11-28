@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:replace="fragments/components :: header"></div>
+<meta charset="ISO-8859-1">
+<title>Add Transaction - United Overseas Bank</title>
+</head>
+<body>
+	<div th:replace="fragments/components :: navbar"></div>
+	<div class="container my-3" id="content">
+
+		<form th:action="@{/process_transaction}" method="post">
+
+			<div class="h-100 p-3 d-flex flex-column justify-content-center">
+				<h3 class="align-self-center my-3">Add new transaction</h3>
+				<div style="width: 30%; margin: auto">
+					<p class="alert alert-danger" role="alert"
+						th:if="${msg}=='balancelow'">
+						Not able to withdraw $<span
+							th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>
+						Current Balance: $<span
+							th:text="${#numbers.formatDecimal(currBal, 3,'COMMA', 2,'POINT')}"></span><br>Balance
+						after withdrawal: $<span
+							th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span><br>Minimum
+						balance required: $500.00
+					</p>
+				</div>
+				<div
+					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+					style="max-width: 500px">
+					<div class="form-group">
+						<label for="inputAmount">Account Number</label>
+						<div th:switch="${count}">
+							<div th:case="0" class="form-group">
+								<label for="accNo">No Records</label>
+							</div>
+							<div th:case="1" class="form-group">
+								<select class="form-control" id="selectAccNo" name="accId"
+									required>
+									<option th:each="option, i : ${optionList}"
+										th:value="${option}" th:text="${option}" th:selected="${i==0}"></option>
+								</select>
+							</div>
+							<div th:case="*" class="form-group">
+								<select class="form-control" id="selectAccNo" name="accId"
+									required>
+									<option value="0" disabled selected>select option</option>
+									<option th:each="option : ${optionList}" th:value="${option}"
+										th:text="${option}"></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputAmount">Amount</label> <input type="number"
+							step="0.01" class="form-control" id="inputAmount"
+							name="txnAmt" required>
+					</div>
+					<label>Type of transaction</label>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="tType"
+							id="inputTransactionType1" value="deposit" checked> <label
+							class="form-check-label" for="inputTransactionType1">Deposit</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="tType"
+							id="inputTransactionType2" value="withdraw"> <label
+							class="form-check-label" for="inputTransactionType2">Withdraw</label>
+					</div>
+				</div>
+				<div class="btn-group align-self-center" role="group">
+					<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/components :: footer"></div>
+</body>
+</html>

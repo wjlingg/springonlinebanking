@@ -7,7 +7,37 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<form th:action="@{/deleteaccount}" method="post">
+		<form th:action="@{/process_view_account}" method="post">
+			<div class="form-group">
+				<label for="inputAmount">Account Number</label>
+				<div th:switch="${count}">
+					<div th:case="0" class="form-group">
+						<label for="accNo">No Records</label>
+					</div>
+					<div th:case="1" class="form-group">
+						<select class="form-control" id="selectAccNo" name="accId"
+							required>
+							<option th:each="option, i : ${optionList}" th:value="${option}"
+								th:text="${option}" th:selected="${i==0}"></option>
+						</select>
+					</div>
+					<div th:case="*" class="form-group">
+						<select class="form-control" id="selectAccNo" name="accId"
+							required>
+							<option value="0" disabled selected>select option</option>
+							<option th:each="option : ${optionList}" th:value="${option}"
+								th:text="${option}"></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="btn-group align-self-center" role="group">
+				<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="container my-3" id="content">
 		<h3 class="align-self-center my-3">
 			<span sec:authentication="name"></span>'s account details (<span
 				th:text="${accId}"></span>):
@@ -27,27 +57,40 @@
 					<td th:text="${acct.accountType}"></td>
 					<td th:text="${acct.initiationDate}"></td>
 					<td th:text="${acct.interestRate}"></td>
-					<!-- earned interest -->
-					
 					<td th:text="${acct.balance}"></td>
 				</tr>
 			</tbody>
 		</table>
-		<p>
-			Your interest earned since <span
-				th:text="${acctInitiationDate}"></span> is 
-			<span th:text="${earnedInt}"></span>. 
-			<br> Would you like to withdraw your total balance 
-			<span th:text="${totalBalance}"></span> and delete your account?
-		</p>
 
-		<div class="btn-group align-self-center" role="group">
-			<a href="#" class="btn btn-secondary">Back to Home</a>
-			<button type="submit" class="btn btn-primary">More information</button>
-		</div>
+		<h4>Transaction Details</h4>
+		<table>
+			<thead>
+				<tr>
+					<th>Transaction ID</th>
+					<th>Transaction Date/Time</th>
+					<th>Transaction Type</th>
+					<th>Transaction Amount</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="txn : ${txn}">
+					<td th:text="${txn.transactionId}"></td>
+					<td th:text="${txn.dateTime}"></td>
+					<td th:text="${txn.txnType}"></td>
+					<td th:text="${txn.transactionAmount}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<form th:action="@{/delete_account/} + ${accId}" method="get">
+			<div class="btn-group align-self-center" role="group">
+				<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
+				<button type="submit" class="btn btn-primary">Withdraw and
+					Delete</button>
+			</div>
 		</form>
 	</div>
-	
+
 	<div th:replace="fragments/components :: footer"></div>
 </body>
 </html>

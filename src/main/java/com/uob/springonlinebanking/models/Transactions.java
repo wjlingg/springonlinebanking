@@ -30,12 +30,15 @@ public class Transactions {
 	
 	private String msg; // additional message for failure
 
+	private boolean isDormant;
+	
 	public Transactions() {
 		super();
 	}
 
 	public Transactions(long transactionId, String status, double transactionAmount, 
-						LocalDateTime dateTime, Accounts account, String txnType, String msg) {
+						LocalDateTime dateTime, Accounts account, String txnType, 
+						String msg, boolean isDormant) {
 		super();
 		this.transactionId = transactionId;
 		this.status = status;
@@ -44,6 +47,7 @@ public class Transactions {
 		this.account = account;
 		this.txnType = txnType;
 		this.msg = msg;
+		this.isDormant = isDormant;
 	}
 
 	public long getTransactionId() {
@@ -102,10 +106,18 @@ public class Transactions {
 		this.msg = msg;
 	}
 
+	public boolean isDormant() {
+		return isDormant;
+	}
+
+	public void setDormant(boolean isDormant) {
+		this.isDormant = isDormant;
+	}
+
 	@Override
 	public String toString() {
 		return "Transactions [transactionId=" + transactionId + ", status=" + status + ", transactionAmount="
-				+ transactionAmount + ", dateTime=" + dateTime + ", account=" + account + ", txnType="
-				+ txnType + ", msg=" + msg + "]";
+				+ transactionAmount + ", dateTime=" + dateTime + ", account=" + account + ", txnType=" + txnType
+				+ ", msg=" + msg + ", isDormant=" + isDormant + "]";
 	}
 }

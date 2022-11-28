@@ -35,29 +35,6 @@ public class TransactionController {
 	@Autowired
 	UserRepository userRepo;
 
-	// ============================================= View Transactions
-
-//	@GetMapping("/viewtransaction")
-//	public String showTransaction(@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
-//		
-//		Long userId = userDetails.getUserId();
-//		Users user = userRepo.getUserByUserId(userId);
-//		model.addAttribute("user", user); // populate addAccount.html with current user details
-//		
-//
-//		List<Long> optionList = new ArrayList<Long>();
-//		List<Accounts> accountList = user.getAccountList();
-//		for (Accounts account : accountList) {
-//			optionList.add(account.getAccountId());
-//		}
-//
-//		model.addAttribute("optionList", optionList);
-//		Integer count = optionList.size();
-//		model.addAttribute("count", count);
-//		
-//		return "viewTransaction";
-//	}
-
 	// ============================================= Add Transactions
 	@GetMapping("/addtransaction") // used in welcomeUser.html
 	public String showAddTransactionForm(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
@@ -78,7 +55,9 @@ public class TransactionController {
 		List<Long> optionList = new ArrayList<Long>();
 		List<Accounts> accountList = user.getAccountList();
 		for (Accounts account : accountList) {
-			optionList.add(account.getAccountId());
+			if (!account.isDormant()) { // only allow transaction on active account 
+				optionList.add(account.getAccountId());
+			}
 		}
 
 		model.addAttribute("optionList", optionList);
@@ -99,6 +78,7 @@ public class TransactionController {
 		transaction.setTxnType(tType);
 		transaction.setAccount(acct);
 		transaction.setDateTime(LocalDateTime.now());
+		transaction.setDormant(false);
 
 		Double currBal = acct.getBalance();
 
