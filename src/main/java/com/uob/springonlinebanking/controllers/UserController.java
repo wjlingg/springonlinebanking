@@ -46,7 +46,7 @@ public class UserController {
 	}
 	
 	// ============================================= View all user records
-	@GetMapping("/viewuser") // used in components.html navbar
+	@GetMapping("/admin/viewuser") // used in components.html navbar
 	public String showUserList(Users user, Model model) {
 		List<Users> userList = (List<Users>) userRepo.findAll();
 		model.addAttribute("userList",userList);
