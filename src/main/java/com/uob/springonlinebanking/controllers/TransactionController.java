@@ -99,14 +99,14 @@ public class TransactionController {
 		} else if (tType.equals("withdraw")) {
 			Double balAfterWithdrawal = currBal - txnAmt;
 			redirectAttributes.addFlashAttribute("balAfterWithdrawal", balAfterWithdrawal);
-//			if (balAfterWithdrawal < 500) {
-//				redirectAttributes.addFlashAttribute("currBal", currBal);
-//				redirectAttributes.addFlashAttribute("msg", "balancelow");
-//				transaction.setStatus("failure");
-//				transaction.setMsg("Balance below $500 after withdrawal");
-//				transactionRepo.save(transaction);
-//				return "redirect:/addtransaction";
-//			}
+			if (balAfterWithdrawal < 500) {
+				redirectAttributes.addFlashAttribute("currBal", currBal);
+				redirectAttributes.addFlashAttribute("msg", "balancelow");
+				transaction.setStatus("failure");
+				transaction.setMsg("Balance below $500 after withdrawal");
+				transactionRepo.save(transaction);
+				return "redirect:/addtransaction";
+			}
 			redirectAttributes.addFlashAttribute("msg", "withdraw");
 			acct.setBalance(balAfterWithdrawal);
 		}

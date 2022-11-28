@@ -31,3 +31,341 @@
 2022-11-28 10:58:40.317  WARN 4072 --- [http-nio-8080-exec-1] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [1,149] milliseconds.
 2022-11-28 10:59:36.452  INFO 4072 --- [http-nio-8080-exec-4] c.u.s.SpringOnlineBankingApplication     : Deposit successfull
 2022-11-28 11:00:52.635  INFO 4072 --- [http-nio-8080-exec-8] c.u.s.SpringOnlineBankingApplication     : Withdrawal not allowed, balance after withdrawal is below $500
+2022-11-28 11:06:53.099  INFO 4072 --- [http-nio-8080-exec-5] c.u.s.SpringOnlineBankingApplication     : Deposit successfull
+2022-11-28 11:07:24.271  INFO 4072 --- [http-nio-8080-exec-10] c.u.s.SpringOnlineBankingApplication     : Withdrawal not allowed, balance after withdrawal is below $500
+2022-11-28 11:07:37.457  INFO 4072 --- [http-nio-8080-exec-3] c.u.s.SpringOnlineBankingApplication     : Deposit successfull
+2022-11-28 11:07:52.666  INFO 4072 --- [http-nio-8080-exec-5] c.u.s.SpringOnlineBankingApplication     : Withdrawal not allowed, balance after withdrawal is below $500
+2022-11-28 11:13:21.723  INFO 4072 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 39 class path changes (0 additions, 39 deletions, 0 modifications)
+2022-11-28 11:13:23.769  INFO 4072 --- [Thread-5] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-28 11:13:23.777  INFO 4072 --- [Thread-5] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2022-11-28 11:13:23.918  WARN 4072 --- [Thread-5] o.a.c.c.C.[Tomcat].[localhost].[/]       : Cannot serialize session attribute [SPRING_SECURITY_CONTEXT] for session [5DE068C158D0BD904D67FA3479E4A254]
+
+java.io.NotSerializableException: com.uob.springonlinebanking.models.Users
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1185) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1553) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1510) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1433) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1179) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1553) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1510) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1433) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1179) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1553) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1510) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1433) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1179) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:349) ~[na:na]
+	at org.apache.catalina.session.StandardSession.doWriteObject(StandardSession.java:1761) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardSession.writeObjectData(StandardSession.java:1067) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardManager.doUnload(StandardManager.java:317) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardManager.unload(StandardManager.java:268) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardManager.stopInternal(StandardManager.java:384) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.StandardContext.stopInternal(StandardContext.java:5474) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1412) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1401) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.stopInternal(ContainerBase.java:986) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1412) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1401) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.stopInternal(ContainerBase.java:986) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.StandardService.stopInternal(StandardService.java:497) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.StandardServer.stopInternal(StandardServer.java:982) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.startup.Tomcat.stop(Tomcat.java:496) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.stopTomcat(TomcatWebServer.java:273) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.stop(TomcatWebServer.java:331) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle.stop(WebServerStartStopLifecycle.java:52) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.context.SmartLifecycle.stop(SmartLifecycle.java:117) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:234) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.access$300(DefaultLifecycleProcessor.java:54) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.stop(DefaultLifecycleProcessor.java:373) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.stopBeans(DefaultLifecycleProcessor.java:206) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.onClose(DefaultLifecycleProcessor.java:129) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1067) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.doClose(ServletWebServerApplicationContext.java:174) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:1021) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.boot.devtools.restart.Restarter.stop(Restarter.java:309) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+	at org.springframework.boot.devtools.restart.Restarter.lambda$restart$1(Restarter.java:251) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+	at org.springframework.boot.devtools.restart.Restarter$LeakSafeThread.run(Restarter.java:629) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+
+2022-11-28 11:13:23.997  INFO 4072 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:13:24.017  INFO 4072 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-11-28 11:13:24.061  INFO 4072 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-11-28 11:13:35.357  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Starting SpringOnlineBankingApplication using Java 11.0.15.1 on LAPTOP-TOBAS9OD with PID 4072 (D:\SpringLearning\springuob\SpringOnlineBanking\target\classes started by Wen Jian in D:\SpringLearning\springuob\SpringOnlineBanking)
+2022-11-28 11:13:35.358  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : No active profile set, falling back to 1 default profile: "default"
+2022-11-28 11:13:36.192  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-28 11:13:36.275  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 81 ms. Found 5 JPA repository interfaces.
+2022-11-28 11:13:36.704  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-28 11:13:36.705  INFO 4072 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-28 11:13:36.707  INFO 4072 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-28 11:13:36.802  INFO 4072 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-28 11:13:36.803  INFO 4072 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1436 ms
+2022-11-28 11:13:36.869  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2022-11-28 11:13:36.926  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2022-11-28 11:13:36.927  INFO 4072 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/online_banking'
+2022-11-28 11:13:37.088  INFO 4072 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-28 11:13:37.123  INFO 4072 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-11-28 11:13:37.586  INFO 4072 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-28 11:13:37.587  INFO 4072 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:13:38.007  WARN 4072 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-28 11:13:38.278  INFO 4072 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7998ea6b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@11ddb463, org.springframework.security.web.context.SecurityContextPersistenceFilter@45cfa6be, org.springframework.security.web.header.HeaderWriterFilter@2ea222a0, org.springframework.security.web.csrf.CsrfFilter@34c807ed, org.springframework.security.web.authentication.logout.LogoutFilter@3fd7c220, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@500d1bbe, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@68c170dc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5749f846, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7a6cc691, org.springframework.security.web.session.SessionManagementFilter@314c2815, org.springframework.security.web.access.ExceptionTranslationFilter@7fca5d36, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@22c92273]
+2022-11-28 11:13:38.545  INFO 4072 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-28 11:13:38.806  INFO 4072 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-28 11:13:38.844  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-28 11:13:38.922  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Started SpringOnlineBankingApplication in 3.686 seconds (JVM running for 930.221)
+2022-11-28 11:13:38.928  INFO 4072 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   WebMvcAutoConfiguration#hiddenHttpMethodFilter matched:
+      - @ConditionalOnProperty (spring.mvc.hiddenmethod.filter.enabled) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.HiddenHttpMethodFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2022-11-28 11:13:44.806  INFO 4072 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-28 11:13:44.808  INFO 4072 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-28 11:13:44.810  INFO 4072 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-11-28 11:14:12.315  INFO 4072 --- [http-nio-8080-exec-5] c.u.s.SpringOnlineBankingApplication     : Deposit successfull
+2022-11-28 11:14:39.235  INFO 4072 --- [http-nio-8080-exec-4] c.u.s.SpringOnlineBankingApplication     : Withdrawal not allowed, balance after withdrawal is below $500
+2022-11-28 11:16:49.913  INFO 4072 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2022-11-28 11:16:50.863  INFO 4072 --- [Thread-11] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-28 11:16:50.867  INFO 4072 --- [Thread-11] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2022-11-28 11:16:50.878  WARN 4072 --- [Thread-11] o.a.c.c.C.[Tomcat].[localhost].[/]       : Cannot serialize session attribute [SPRING_SECURITY_CONTEXT] for session [4EA4440CBACD53BE84A19F8F79460B64]
+
+java.io.NotSerializableException: com.uob.springonlinebanking.models.Users
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1185) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1553) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1510) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1433) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1179) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1553) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1510) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1433) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1179) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1553) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1510) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1433) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1179) ~[na:na]
+	at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:349) ~[na:na]
+	at org.apache.catalina.session.StandardSession.doWriteObject(StandardSession.java:1761) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardSession.writeObjectData(StandardSession.java:1067) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardManager.doUnload(StandardManager.java:317) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardManager.unload(StandardManager.java:268) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.session.StandardManager.stopInternal(StandardManager.java:384) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.StandardContext.stopInternal(StandardContext.java:5474) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1412) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1401) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.stopInternal(ContainerBase.java:986) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1412) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.ContainerBase$StopChild.call(ContainerBase.java:1401) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.stopInternal(ContainerBase.java:986) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.StandardService.stopInternal(StandardService.java:497) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.core.StandardServer.stopInternal(StandardServer.java:982) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.util.LifecycleBase.stop(LifecycleBase.java:257) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.apache.catalina.startup.Tomcat.stop(Tomcat.java:496) ~[tomcat-embed-core-9.0.68.jar:9.0.68]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.stopTomcat(TomcatWebServer.java:273) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.stop(TomcatWebServer.java:331) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle.stop(WebServerStartStopLifecycle.java:52) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.context.SmartLifecycle.stop(SmartLifecycle.java:117) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStop(DefaultLifecycleProcessor.java:234) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.access$300(DefaultLifecycleProcessor.java:54) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.stop(DefaultLifecycleProcessor.java:373) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.stopBeans(DefaultLifecycleProcessor.java:206) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.DefaultLifecycleProcessor.onClose(DefaultLifecycleProcessor.java:129) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.context.support.AbstractApplicationContext.doClose(AbstractApplicationContext.java:1067) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.doClose(ServletWebServerApplicationContext.java:174) ~[spring-boot-2.7.5.jar:2.7.5]
+	at org.springframework.context.support.AbstractApplicationContext.close(AbstractApplicationContext.java:1021) ~[spring-context-5.3.23.jar:5.3.23]
+	at org.springframework.boot.devtools.restart.Restarter.stop(Restarter.java:309) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+	at org.springframework.boot.devtools.restart.Restarter.lambda$restart$1(Restarter.java:251) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+	at org.springframework.boot.devtools.restart.Restarter$LeakSafeThread.run(Restarter.java:629) ~[spring-boot-devtools-2.7.5.jar:2.7.5]
+
+2022-11-28 11:16:50.893  INFO 4072 --- [Thread-11] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:16:50.895  INFO 4072 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2022-11-28 11:16:50.921  INFO 4072 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2022-11-28 11:16:51.117  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Starting SpringOnlineBankingApplication using Java 11.0.15.1 on LAPTOP-TOBAS9OD with PID 4072 (D:\SpringLearning\springuob\SpringOnlineBanking\target\classes started by Wen Jian in D:\SpringLearning\springuob\SpringOnlineBanking)
+2022-11-28 11:16:51.117  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : No active profile set, falling back to 1 default profile: "default"
+2022-11-28 11:16:51.630  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-28 11:16:51.680  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 49 ms. Found 5 JPA repository interfaces.
+2022-11-28 11:16:52.138  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-28 11:16:52.141  INFO 4072 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-28 11:16:52.141  INFO 4072 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-28 11:16:52.301  INFO 4072 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-28 11:16:52.302  INFO 4072 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1181 ms
+2022-11-28 11:16:52.372  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2022-11-28 11:16:52.438  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2022-11-28 11:16:52.438  INFO 4072 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/online_banking'
+2022-11-28 11:16:52.515  WARN 4072 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Cannot deserialize session attribute [SPRING_SECURITY_CONTEXT] for session [4EA4440CBACD53BE84A19F8F79460B64]
+2022-11-28 11:16:52.635  INFO 4072 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-28 11:16:52.665  INFO 4072 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-11-28 11:16:53.253  INFO 4072 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-28 11:16:53.254  INFO 4072 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:16:54.096  WARN 4072 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-28 11:16:54.527  INFO 4072 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@46423e6b, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@52e6b8e5, org.springframework.security.web.context.SecurityContextPersistenceFilter@1822e4dd, org.springframework.security.web.header.HeaderWriterFilter@771a9cfd, org.springframework.security.web.csrf.CsrfFilter@da754dc, org.springframework.security.web.authentication.logout.LogoutFilter@3e79b7ac, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3cd6f7be, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1f977e9a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c49f4e1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1237190e, org.springframework.security.web.session.SessionManagementFilter@2f945447, org.springframework.security.web.access.ExceptionTranslationFilter@6ced7bf8, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6a05528d]
+2022-11-28 11:16:54.759  INFO 4072 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-28 11:16:55.056  INFO 4072 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-28 11:16:55.096  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-28 11:16:55.179  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Started SpringOnlineBankingApplication in 4.136 seconds (JVM running for 1126.478)
+2022-11-28 11:16:55.185  INFO 4072 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-11-28 11:16:56.507  INFO 4072 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2022-11-28 11:16:57.491  INFO 4072 --- [Thread-16] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-28 11:16:57.514  INFO 4072 --- [Thread-16] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:16:57.516  INFO 4072 --- [Thread-16] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2022-11-28 11:16:57.543  INFO 4072 --- [Thread-16] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2022-11-28 11:16:57.760  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Starting SpringOnlineBankingApplication using Java 11.0.15.1 on LAPTOP-TOBAS9OD with PID 4072 (D:\SpringLearning\springuob\SpringOnlineBanking\target\classes started by Wen Jian in D:\SpringLearning\springuob\SpringOnlineBanking)
+2022-11-28 11:16:57.761  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : No active profile set, falling back to 1 default profile: "default"
+2022-11-28 11:16:58.259  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-28 11:16:58.307  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 47 ms. Found 5 JPA repository interfaces.
+2022-11-28 11:16:58.558  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-28 11:16:58.561  INFO 4072 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-28 11:16:58.562  INFO 4072 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-28 11:16:58.621  INFO 4072 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-28 11:16:58.621  INFO 4072 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 854 ms
+2022-11-28 11:16:58.663  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2022-11-28 11:16:58.705  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2022-11-28 11:16:58.706  INFO 4072 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/online_banking'
+2022-11-28 11:16:58.801  INFO 4072 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-28 11:16:58.822  INFO 4072 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-11-28 11:16:59.198  INFO 4072 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-28 11:16:59.199  INFO 4072 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:16:59.538  WARN 4072 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-28 11:16:59.748  INFO 4072 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4c345892, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@72aff3bc, org.springframework.security.web.context.SecurityContextPersistenceFilter@18ff24c2, org.springframework.security.web.header.HeaderWriterFilter@40410046, org.springframework.security.web.csrf.CsrfFilter@fd55f1, org.springframework.security.web.authentication.logout.LogoutFilter@418c25bc, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2bbbd793, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@271a4988, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6f113e1d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7c9f6dd0, org.springframework.security.web.session.SessionManagementFilter@72c7a5b6, org.springframework.security.web.access.ExceptionTranslationFilter@523dbce1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7a0e9617]
+2022-11-28 11:16:59.942  INFO 4072 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-28 11:17:00.156  INFO 4072 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-28 11:17:00.196  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-28 11:17:00.266  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Started SpringOnlineBankingApplication in 2.604 seconds (JVM running for 1131.565)
+2022-11-28 11:17:00.270  INFO 4072 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-11-28 11:17:02.855  INFO 4072 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2022-11-28 11:17:03.764  INFO 4072 --- [Thread-20] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-28 11:17:03.787  INFO 4072 --- [Thread-20] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:17:03.789  INFO 4072 --- [Thread-20] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2022-11-28 11:17:03.816  INFO 4072 --- [Thread-20] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2022-11-28 11:17:04.025  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Starting SpringOnlineBankingApplication using Java 11.0.15.1 on LAPTOP-TOBAS9OD with PID 4072 (D:\SpringLearning\springuob\SpringOnlineBanking\target\classes started by Wen Jian in D:\SpringLearning\springuob\SpringOnlineBanking)
+2022-11-28 11:17:04.025  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : No active profile set, falling back to 1 default profile: "default"
+2022-11-28 11:17:04.462  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-28 11:17:04.503  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 40 ms. Found 5 JPA repository interfaces.
+2022-11-28 11:17:04.775  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-28 11:17:04.777  INFO 4072 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-28 11:17:04.777  INFO 4072 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-28 11:17:04.832  INFO 4072 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-28 11:17:04.832  INFO 4072 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 799 ms
+2022-11-28 11:17:04.875  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2022-11-28 11:17:04.917  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2022-11-28 11:17:04.918  INFO 4072 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/online_banking'
+2022-11-28 11:17:05.006  INFO 4072 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-28 11:17:05.027  INFO 4072 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-11-28 11:17:05.392  INFO 4072 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-28 11:17:05.393  INFO 4072 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:17:05.773  WARN 4072 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-28 11:17:05.965  INFO 4072 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@11e60836, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@751e0f0, org.springframework.security.web.context.SecurityContextPersistenceFilter@569b9235, org.springframework.security.web.header.HeaderWriterFilter@61618692, org.springframework.security.web.csrf.CsrfFilter@7c4f983f, org.springframework.security.web.authentication.logout.LogoutFilter@2530ffdc, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5c6ac654, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3f550208, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@52ed4666, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6f3edc90, org.springframework.security.web.session.SessionManagementFilter@569576b8, org.springframework.security.web.access.ExceptionTranslationFilter@48db543, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@391a23a1]
+2022-11-28 11:17:06.262  INFO 4072 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-28 11:17:06.916  INFO 4072 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-28 11:17:06.956  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-28 11:17:07.035  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Started SpringOnlineBankingApplication in 3.094 seconds (JVM running for 1138.334)
+2022-11-28 11:17:07.041  INFO 4072 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-11-28 11:23:35.939  INFO 4072 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2022-11-28 11:23:37.665  INFO 4072 --- [Thread-24] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-28 11:23:37.704  INFO 4072 --- [Thread-24] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:23:37.705  INFO 4072 --- [Thread-24] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2022-11-28 11:23:37.726  INFO 4072 --- [Thread-24] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2022-11-28 11:23:38.030  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Starting SpringOnlineBankingApplication using Java 11.0.15.1 on LAPTOP-TOBAS9OD with PID 4072 (D:\SpringLearning\springuob\SpringOnlineBanking\target\classes started by Wen Jian in D:\SpringLearning\springuob\SpringOnlineBanking)
+2022-11-28 11:23:38.032  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : No active profile set, falling back to 1 default profile: "default"
+2022-11-28 11:23:38.846  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-28 11:23:38.928  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 81 ms. Found 5 JPA repository interfaces.
+2022-11-28 11:23:39.518  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-28 11:23:39.522  INFO 4072 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-28 11:23:39.522  INFO 4072 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-28 11:23:39.666  INFO 4072 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-28 11:23:39.667  INFO 4072 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1628 ms
+2022-11-28 11:23:39.764  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2022-11-28 11:23:39.849  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2022-11-28 11:23:39.849  INFO 4072 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/online_banking'
+2022-11-28 11:23:40.074  INFO 4072 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-28 11:23:40.110  INFO 4072 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-11-28 11:23:40.589  INFO 4072 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-28 11:23:40.590  INFO 4072 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:23:41.045  WARN 4072 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-28 11:23:41.305  INFO 4072 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3c31d7ae, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@40a60944, org.springframework.security.web.context.SecurityContextPersistenceFilter@67b4e7a7, org.springframework.security.web.header.HeaderWriterFilter@5933b68b, org.springframework.security.web.csrf.CsrfFilter@41eaef36, org.springframework.security.web.authentication.logout.LogoutFilter@1a556c1, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@249e0144, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7dc902f4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@390a6428, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5962ce2b, org.springframework.security.web.session.SessionManagementFilter@713125e8, org.springframework.security.web.access.ExceptionTranslationFilter@2cd6d62b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4b0a4af9]
+2022-11-28 11:23:41.559  INFO 4072 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-28 11:23:41.806  INFO 4072 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-28 11:23:41.845  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-28 11:23:41.916  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Started SpringOnlineBankingApplication in 4.014 seconds (JVM running for 1533.215)
+2022-11-28 11:23:41.921  INFO 4072 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-11-28 11:23:47.537  INFO 4072 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2022-11-28 11:23:49.027  INFO 4072 --- [Thread-28] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-28 11:23:49.053  INFO 4072 --- [Thread-28] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:23:49.055  INFO 4072 --- [Thread-28] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2022-11-28 11:23:49.064  INFO 4072 --- [Thread-28] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+2022-11-28 11:23:49.310  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Starting SpringOnlineBankingApplication using Java 11.0.15.1 on LAPTOP-TOBAS9OD with PID 4072 (D:\SpringLearning\springuob\SpringOnlineBanking\target\classes started by Wen Jian in D:\SpringLearning\springuob\SpringOnlineBanking)
+2022-11-28 11:23:49.310  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : No active profile set, falling back to 1 default profile: "default"
+2022-11-28 11:23:50.624  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-28 11:23:50.701  INFO 4072 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 76 ms. Found 5 JPA repository interfaces.
+2022-11-28 11:23:51.224  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-28 11:23:51.226  INFO 4072 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-28 11:23:51.227  INFO 4072 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.68]
+2022-11-28 11:23:51.449  INFO 4072 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-28 11:23:51.449  INFO 4072 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2131 ms
+2022-11-28 11:23:51.533  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2022-11-28 11:23:51.600  INFO 4072 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2022-11-28 11:23:51.601  INFO 4072 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/online_banking'
+2022-11-28 11:23:51.774  INFO 4072 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-28 11:23:51.812  INFO 4072 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-11-28 11:23:52.259  INFO 4072 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-28 11:23:52.259  INFO 4072 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-28 11:23:52.666  WARN 4072 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-11-28 11:23:52.932  INFO 4072 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2d2eeec6, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5a6bb6b6, org.springframework.security.web.context.SecurityContextPersistenceFilter@5bf8cb2d, org.springframework.security.web.header.HeaderWriterFilter@7eecd151, org.springframework.security.web.csrf.CsrfFilter@54a36663, org.springframework.security.web.authentication.logout.LogoutFilter@c3ca1d9, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@69417510, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@244910c3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c373b42, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@501746b3, org.springframework.security.web.session.SessionManagementFilter@14a727a4, org.springframework.security.web.access.ExceptionTranslationFilter@287af69f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6bdc2545]
+2022-11-28 11:23:53.260  INFO 4072 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-11-28 11:23:53.642  INFO 4072 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-28 11:23:53.680  INFO 4072 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-11-28 11:23:53.748  INFO 4072 --- [restartedMain] c.u.s.SpringOnlineBankingApplication     : Started SpringOnlineBankingApplication in 4.532 seconds (JVM running for 1545.047)
+2022-11-28 11:23:53.752  INFO 4072 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-11-28 11:24:16.032  INFO 4072 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-11-28 11:24:16.033  INFO 4072 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-11-28 11:24:16.036  INFO 4072 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2022-11-28 11:47:23.362  INFO 4072 --- [http-nio-8080-exec-9] c.u.s.SpringOnlineBankingApplication     : Deposit successfull

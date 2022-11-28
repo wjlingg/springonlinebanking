@@ -1,7 +1,5 @@
 package com.uob.springonlinebanking.aspects;
 
-import java.time.LocalDateTime;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uob.springonlinebanking.SpringOnlineBankingApplication;
 import com.uob.springonlinebanking.models.Accounts;
-import com.uob.springonlinebanking.models.Transactions;
 import com.uob.springonlinebanking.repositories.AccountRepository;
 import com.uob.springonlinebanking.repositories.TransactionRepository;
 
@@ -34,26 +31,12 @@ public class TransactionAspects {
 			RedirectAttributes redirectAttributes) throws Throwable {
 		Accounts acct = accountRepo.findByAccountId(accId);
 		Double currBal = acct.getBalance();
-
-		Transactions transaction = new Transactions();
-		transaction.setTransactionAmount(txnAmt);
-		transaction.setTxnType(tType);
-		transaction.setAccount(acct);
-		transaction.setDateTime(LocalDateTime.now());
-
-		redirectAttributes.addFlashAttribute("txnAmt", txnAmt);
-
+		
 		if (tType.equals("withdraw")) {
 			Double balAfterWithdrawal = currBal - txnAmt;
-			redirectAttributes.addFlashAttribute("balAfterWithdrawal", balAfterWithdrawal);
+			
 			if (balAfterWithdrawal < 500) {
 				logger.info("Withdrawal not allowed, balance after withdrawal is below $500");
-				redirectAttributes.addFlashAttribute("currBal", currBal);
-				redirectAttributes.addFlashAttribute("msg", "balancelow");
-				transaction.setStatus("failure");
-				transaction.setMsg("Balance below $500 after withdrawal");
-				transactionRepo.save(transaction);
-				return "redirect:/addtransaction";
 			} else {
 				logger.info("Withdrawal successfull");
 			}
