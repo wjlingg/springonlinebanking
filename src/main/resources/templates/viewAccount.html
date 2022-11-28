@@ -7,6 +7,35 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
+		<form th:action="@{/process_view_account}" method="post">
+			<div class="form-group">
+				<label for="inputAmount">Account Number</label>
+				<div th:switch="${count}">
+					<div th:case="0" class="form-group">
+						<label for="accNo">No Records</label>
+					</div>
+					<div th:case="1" class="form-group">
+						<select class="form-control" id="selectAccNo" name="accId"
+							required>
+							<option th:each="option, i : ${optionList}" th:value="${option}"
+								th:text="${option}" th:selected="${i==0}"></option>
+						</select>
+					</div>
+					<div th:case="*" class="form-group">
+						<select class="form-control" id="selectAccNo" name="accId"
+							required>
+							<option value="0" disabled selected>select option</option>
+							<option th:each="option : ${optionList}" th:value="${option}"
+								th:text="${option}"></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="btn-group align-self-center" role="group">
+				<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
 		<h3 class="align-self-center my-3">
 			<span sec:authentication="name"></span>'s account details (<span
 				th:text="${accId}"></span>):
