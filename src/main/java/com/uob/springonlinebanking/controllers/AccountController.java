@@ -50,27 +50,45 @@ public class AccountController {
 	}
 
 	// ============================================= Register
-
 	@GetMapping("/register") // used in index.html
-	public String showRegistrationForm() {
-
+	public String showRegistrationForm(HttpServletRequest request, Model model) {
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			model.addAttribute("msg", (String) flashMap.get("msg"));
+			model.addAttribute("userNric", (String) flashMap.get("userNric"));
+			model.addAttribute("contactNo", (String) flashMap.get("contactNo"));
+			model.addAttribute("address", (String) flashMap.get("address"));
+			model.addAttribute("email", (String) flashMap.get("email"));
+			model.addAttribute("nomineeName", (String) flashMap.get("nomineeName"));
+			model.addAttribute("nomineeNric", (String) flashMap.get("nomineeNric"));
+		}
 		return "addUser"; // render addUser.html
 	}
 
 	@PostMapping("/process_register") // used in addUser.html
-	public String processRegister(@RequestParam("accountType") String accountType, Users user) {
-		if (!StringUtils.isEmpty(user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-		}
-		user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
-		userRepo.save(user); // save to user repository
-		Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
-		Accounts account = new Accounts(accountType, 0.0, userLocal, false, 0.036, LocalDate.now()); // create account
-																										// with the
-																										// saved user
-		accountRepo.save(account); // save to account repository
+	public String processRegister(@RequestParam("accountType") String accountType, Users user,
+			RedirectAttributes redirectAttributes) {
+		if (userRepo.getUserByUsername(user.getUserName()) != null) {
+			redirectAttributes.addFlashAttribute("msg", "userNameExist");
+			redirectAttributes.addFlashAttribute("userNric", user.getUserNric());
+			redirectAttributes.addFlashAttribute("contactNo", user.getContactNo());
+			redirectAttributes.addFlashAttribute("address", user.getAddress());
+			redirectAttributes.addFlashAttribute("email", user.getEmail());
+			redirectAttributes.addFlashAttribute("nomineeName", user.getNomineeName());
+			redirectAttributes.addFlashAttribute("nomineeNric", user.getNomineeNric());
+			return "redirect:/register";
+		} else {
+			if (!StringUtils.isEmpty(user.getPassword())) {
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
+			}
+			user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
+			userRepo.save(user); // save to user repository
+			Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
+			Accounts account = new Accounts(accountType, 0.0, userLocal, false, 0.036, LocalDate.now()); // create account
+			accountRepo.save(account); // save to account repository
 
-		return "redirect:/";
+			return "redirect:/";
+		}
 	}
 
 	@GetMapping("/welcomeuser") // used in components.html navbar
