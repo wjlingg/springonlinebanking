@@ -1,6 +1,7 @@
 package com.uob.springonlinebanking.controllers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -68,7 +67,7 @@ public class AccountController {
 		account.setBalance(0.0);
 		account.setUser(userLocal);
 		account.setInterestRate(0.036);
-		account.setDate1(LocalDate.now());
+		account.setInitiationDate(LocalDate.now());
 
 		accountRepo.save(account); // save to account repository
 
@@ -76,7 +75,19 @@ public class AccountController {
 	}
 
 	@GetMapping("/welcomeuser") // used in components.html navbar
-	public String welcomeUser() {
+	public String welcomeUser(HttpServletRequest request, Model model) {
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			String txnType = (String) flashMap.get("msg");
+			if (txnType.equals("deposit")) {
+				model.addAttribute("balAfterDeposit", (Double) flashMap.get("balAfterDeposit"));
+			} else if (txnType.equals("withdraw")) {
+				model.addAttribute("balAfterWithdrawal", (Double) flashMap.get("balAfterWithdrawal"));
+			}
+			model.addAttribute("txnAmt", (Double) flashMap.get("txnAmt"));
+			model.addAttribute("accountNo", (Long) flashMap.get("accountNo"));
+			model.addAttribute("msg", txnType);
+		}
 		return "welcomeUser"; // render welcomeUser.html
 	}
 
@@ -158,22 +169,37 @@ public class AccountController {
 	 */
 
 	// ============================================= View account details
-	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html
-	public String showAccount(HttpServletRequest request, Model model) {
-
-		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-		if (flashMap != null) {
-			String txnType = (String) flashMap.get("msg");
-			if (txnType.equals("deposit")) {
-				model.addAttribute("balAfterDeposit", (Double) flashMap.get("balAfterDeposit"));
-			} else if (txnType.equals("withdraw")) {
-				model.addAttribute("balAfterWithdrawal", (Double) flashMap.get("balAfterWithdrawal"));
-			}
-			model.addAttribute("txnAmt", (Double) flashMap.get("txnAmt"));
-			model.addAttribute("accountNo", (Long) flashMap.get("accountNo"));
-			model.addAttribute("msg", txnType);
-		}
+	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html, viewAccountForm.html
+	public String showAccount(@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		
+		Long userId = userDetails.getUserId();
+		Users user = userRepo.getUserByUserId(userId);
+		model.addAttribute("user", user); // populate addAccount.html with current user details
+		
+
+		List<Long> optionList = new ArrayList<Long>();
+		List<Accounts> accountList = user.getAccountList();
+		for (Accounts account : accountList) {
+			optionList.add(account.getAccountId());
+		}
+
+		model.addAttribute("optionList", optionList);
+		Integer count = optionList.size();
+		model.addAttribute("count", count);
+		
+		return "viewAccountForm";
+	}
+	
+	@PostMapping("/process_view_account") // used in viewAccount.html
+	public String processShowAccount(@RequestParam("accId") Long accId, Model model) {
+		Accounts acct = accountRepo.findByAccountId(accId);
+		model.addAttribute("acct", acct);
+		model.addAttribute("acctInitiationDate", acct.getInitiationDate());
+		model.addAttribute("acctInterestRate", acct.getInterestRate());
+		model.addAttribute("totalBalance", 0);
+		// TODO: insert your interest rate calculation, for now I put as zero for totalBalance
+		// totalBalance = <Write your total balance calculation logic>
+		// then model.addAttribute("totalBalance", totalBalance);
 		return "viewAccount";
 	}
 }

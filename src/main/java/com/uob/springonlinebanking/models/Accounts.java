@@ -34,19 +34,19 @@ public class Accounts {
     
     private double interestRate; // declare date and ir
     
-    private LocalDate date1;
+    private LocalDate initiationDate;
     
 	public Accounts() {
 		super();
 	}
 
-	public Accounts(String accountType, double balance, Users user, double interestRate, LocalDate date1) {	
+	public Accounts(String accountType, double balance, Users user, double interestRate, LocalDate initiationDate) {	
 		super();
 		this.accountType = accountType;
 		this.balance = balance;
 		this.user = user;
 		this.interestRate = interestRate;
-		this.date1 = date1;
+		this.initiationDate = initiationDate;
 	}
 	
 	public Accounts(long accountId, String accountType, double balance, Users user,
@@ -107,27 +107,18 @@ public class Accounts {
 		this.interestRate = interestRate;
 	}
 
-	public LocalDate getDate1() {
-		return date1;
+	public LocalDate getInitiationDate() {
+		return initiationDate;
 	}
 
-	public void setDate1(LocalDate date1) {
-		this.date1 = date1;
+	public void setInitiationDate(LocalDate initiationDate) {
+		this.initiationDate = initiationDate;
 	}
 
 	@Override
 	public String toString() {
 		return "Accounts [accountId=" + accountId + ", accountType=" + accountType + ", balance=" + balance + ", user="
-				+ user + ", accountTransactionList=" + accountTransactionList + ", interestRate=" + interestRate // + "]";
-				+ ", date1=" + date1 + "]";
+				+ user + ", accountTransactionList=" + accountTransactionList + ", interestRate=" + interestRate
+				+ ", initiationDate=" + initiationDate + "]";
 	}
-
-	
-	/*
-	 * @Override public String toString() { return "Accounts [accountId=" +
-	 * accountId + ", accountType=" + accountType + ", balance=" + balance +
-	 * ", user=" + user + ", accountTransactionList=" + accountTransactionList +
-	 * "]"; }
-	 */
-	 
 }

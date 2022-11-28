@@ -8,71 +8,40 @@
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
 		<h3 class="align-self-center my-3">
-
-			<span sec:authentication="name"> </span>'s account details:
+			<span sec:authentication="name"></span>'s account details (<span
+				th:text="${accId}"></span>):
 		</h3>
-		
-		<form th:action="@{/}" th:object="${accounts}">
-			<div class="h-100 p-3 d-flex flex-column justify-content-center">
-				<div
-					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
-					style="max-width: 500px">
-					<h4>Your account details</h4>
-					<div class="form-group">
-						<label for="accountId">Account Id</label> <input type="number"
-							class="form-control" id="accountId" th:field="*{accountId}" readonly>
-					</div>
-					<div class="form-group">
-						<label for="accountType">Account Type</label> <input type="text"
-							class="form-control" id="accountType" th:field="*{accountType}" readonly>
-					</div>
-					<div class="form-group">
-						<label for="date1">Account Start Date</label> <input type="text"
-							class="form-control" id="date1" th:field="*{date1}" readonly>
-					</div>
-					<div class="form-group">
-						<label for="interestRate">Annual Interest Rate</label> <input type="text"
-							class="form-control" id="interestRate" th:field="*{interestRate}" readonly>
-					</div>					
-					<div class="form-group">
-						<label for="balance">Account Balance</label> <input type="text"
-							class="form-control" id="balance" th:field="*{balance}" readonly>
-					</div>
-				</div>
-		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Account Type</th>
+					<th>Account Start Date</th>
+					<th>Annual Interest Rate</th>
+					<th>Account Balance</th>
+				</tr>
+			</thead>
 
-			<p>
-				Your accrued interest since (insert acc opening date) <span
-					th:text="${date1}"></span> is (insert earned interest) <span
-					th:text="${res}"></span> . <br> Would you like to withdraw
-				your total balance (insert total balance) <span
-					th:text="${totalbalance}"></span> and delete your account?
-			</p>
+			<tbody>
+				<tr th:each="acct : ${acct}">
+					<td th:text="${acct.accountType}"></td>
+					<td th:text="${acct.initiationDate}"></td>
+					<td th:text="${acct.interestRate}"></td>
+					<td th:text="${acct.balance}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p>
+			Your accrued interest since (insert acc opening date) <span
+				th:text="${acctInitiationDate}"></span> is (insert earned interest)
+			<span th:text="${acctInterestRate}"></span> . <br> Would you
+			like to withdraw your total balance (insert total balance) <span
+				th:text="${totalBalance}"></span> and delete your account?
+		</p>
 
-			<div class="btn-group align-self-center" role="group">
-				<a href="#" class="btn btn-secondary">Back to Home</a>
-				<button type="submit" class="btn btn-primary">Withdraw and Delete</button>
-			</div>
-		</form>
-			
-		<h3>
-			<span sec:authentication="name"></span>'s account details (<span th:text="${accountNo}"></span>):
-		</h3>
-		<div style="width: 30%; margin: auto">
-			<p class="alert alert-success" role="alert" th:if="${msg}=='deposit'">
-				Deposited Amount: $<span
-					th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
-				after deposit: $<span
-					th:text="${#numbers.formatDecimal(balAfterDeposit, 3,'COMMA', 2,'POINT')}"></span>
-			</p>
-			<p class="alert alert-success" role="alert"
-				th:if="${msg}=='withdraw'">
-				Withdrawn Amount: $<span
-					th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
-				after withdrawal: $<span
-					th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span>
-			</p>
-			<p>TODO: Add the respective account details as a table</p>
+		<div class="btn-group align-self-center" role="group">
+			<a href="#" class="btn btn-secondary">Back to Home</a>
+			<button type="submit" class="btn btn-primary">Withdraw and
+				Delete</button>
 		</div>
 	</div>
 

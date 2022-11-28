@@ -13,6 +13,22 @@
 				Welcome, <span sec:authentication="name"> </span> Your user ID is: <span
 					sec:authentication="principal.userId"> </span>
 			</h4>
+			<div style="width: 30%; margin: auto">
+				<p class="alert alert-success" role="alert"
+					th:if="${msg}=='deposit'">
+					Deposited Amount: $<span
+						th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
+					after deposit: $<span
+						th:text="${#numbers.formatDecimal(balAfterDeposit, 3,'COMMA', 2,'POINT')}"></span>
+				</p>
+				<p class="alert alert-success" role="alert"
+					th:if="${msg}=='withdraw'">
+					Withdrawn Amount: $<span
+						th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
+					after withdrawal: $<span
+						th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span>
+				</p>
+			</div>
 			<div class="align-self-center my-5">
 				<a class="btn btn-secondary btn-lg btn-block"
 					th:href="@{/viewaccount}" role="button">View account</a> <a
