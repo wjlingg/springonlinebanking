@@ -1,6 +1,7 @@
 package com.uob.springonlinebanking.controllers;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -153,11 +156,11 @@ public class AccountController {
 	public String showAccount(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
 			Model model) {
 
-		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-		if (flashMap != null) {
-			model.addAttribute("acct", (Accounts) flashMap.get("acct"));
-			model.addAttribute("txn", (List<Transactions>) flashMap.get("txn"));
-		}
+//		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+//		if (flashMap != null) {
+//			model.addAttribute("acct", (Accounts) flashMap.get("acct"));
+//			model.addAttribute("txn", (List<Transactions>) flashMap.get("txn"));
+//		}
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
 		model.addAttribute("user", user); // populate addAccount.html with current user details
@@ -204,7 +207,6 @@ public class AccountController {
 		LocalDate today = LocalDate.now();
 		LocalDate openDay = acct.getInitiationDate();
 		double diffMonths = ChronoUnit.MONTHS.between(openDay, today); // calculate the months between openDate and
-																		// todayDate
 
 		// calculate interest earned
 		double acctInterestRate = acct.getInterestRate();
@@ -218,8 +220,30 @@ public class AccountController {
 		return "deleteAccount";
 	}
 
-	@GetMapping("/confirm_delete_account")
-	public String confirmDeleteAccount() {
+	@PutMapping("/confirm_delete_account/{totalBalance}")
+	public String confirmDeleteAccount(@PathVariable("totalBalance") Double balance, @Valid Accounts account, Model model) {
+		
+		account.setBalance(0);
+		account.setDormant(true);
+		
+		Long accountId = account.getAccountId();
+		
+		List<Transactions> txnList = account.getAccountTransactionList();
+		for (Transactions txn : txnList) {
+			transactionRepo.updateTxnDormantStatus(true, accountId);
+		}
+		
+		Transactions transactionNew = new Transactions();
+		transactionNew.setTransactionAmount(balance);
+		transactionNew.setTxnType("withdraw");
+		transactionNew.setAccount(account);
+		transactionNew.setDateTime(LocalDateTime.now());
+		transactionNew.setDormant(true);
+		transactionNew.setStatus("success");
+		
+		transactionRepo.save(transactionNew);
+		accountRepo.save(account);
+		
 		return "welcomeUser";
 	}
 }
