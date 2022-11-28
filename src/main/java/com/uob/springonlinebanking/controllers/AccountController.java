@@ -1,13 +1,11 @@
 package com.uob.springonlinebanking.controllers;
 
-import java.security.Principal;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,29 +13,29 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.uob.springonlinebanking.models.Accounts;
 import com.uob.springonlinebanking.models.Users;
 import com.uob.springonlinebanking.repositories.AccountRepository;
+import com.uob.springonlinebanking.repositories.RoleRepository;
 import com.uob.springonlinebanking.repositories.UserRepository;
 import com.uob.springonlinebanking.security.MyUserDetails;
 
 @Controller
 public class AccountController {
+	
 	@Autowired
 	AccountRepository accountRepo;
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	RoleRepository roleRepo;
 
 	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -48,17 +46,18 @@ public class AccountController {
 
 	// ============================================= Register
 
-	@GetMapping("/register")
+	@GetMapping("/register") // used in index.html
 	public String showRegistrationForm() {
 
 		return "addUser"; // render addUser.html
 	}
 
-	@PostMapping("/process_register")
+	@PostMapping("/process_register") // used in addUser.html
 	public String processRegister(@RequestParam("accountType") String accountType, Users user) {
 		if (!StringUtils.isEmpty(user.getPassword())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
+		user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
 		userRepo.save(user); // save to user repository
 		Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
 		// Accounts account = new Accounts(accountType, 0.0, userLocal); // create
@@ -76,55 +75,36 @@ public class AccountController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/welcomeuser")
+	@GetMapping("/welcomeuser") // used in components.html navbar
 	public String welcomeUser() {
 		return "welcomeUser"; // render welcomeUser.html
 	}
 
 	// ============================================= Create another account
 
-	@GetMapping("/createaccount")
+	@GetMapping("/createaccount") // used in welcomeUser.html
 	public String createAccount(@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
-		model.addAttribute("user", user);
-//		model.addAttribute("userAccountList", user.getAccountList());
-//		List<Long> optionList = new ArrayList<Long>();
+		
+		model.addAttribute("user", user); // populate addAccount.html with current user details
 		List<Accounts> accountList = user.getAccountList();
-//		for (Accounts account : accountList) {
-//			optionList.add(account.getAccountId());
-//		}
 
 		model.addAttribute("accountList", accountList);
 		Integer count = accountList.size();
-		System.out.println(count);
 		model.addAttribute("count", count);
 
 		return "addAccount";
 	}
 
-	@PutMapping("/process_account_creation")
-	public String processAccount(@Valid Users user, @AuthenticationPrincipal MyUserDetails userDetails) {
-		if (!StringUtils.isEmpty(user.getPassword())) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-		}
+	@PostMapping("/process_account_creation") // used in addAccount.html
+	public String processAccount(@RequestParam("accountType") String accountType,
+								@AuthenticationPrincipal MyUserDetails userDetails) {
 		Long userId = userDetails.getUserId();
 		Users userExisting = userRepo.getUserByUserId(userId);
-//		userExisting.setUserNric(null);
-//		userExisting.setUserName(null);
-//		userExisting.setPassword(null);
-//		userExisting.setContactNo(null);
-//		userExisting.setAddress(null);
-//		userExisting.setEmail(null);
-//		userExisting.setNomineeName(null);
-//		userExisting.setNomineeNric(null);
-		List<Accounts> existingAccountList = userExisting.getAccountList();
-		List<Accounts> newAccountList = user.getAccountList();
-		for (Accounts account : existingAccountList) {
-			newAccountList.add(account);
-		}
-		user.setAccountList(newAccountList);
-		userRepo.save(user);
+
+		Accounts newAccount = new Accounts(accountType, 0.0, userExisting, 0.036, LocalDate.now()); // create account with the saved user
+		accountRepo.save(newAccount); // save to account repository 
 
 		return "redirect:/welcomeuser";
 	}
@@ -133,7 +113,7 @@ public class AccountController {
 
 	// list all Account table
 	@GetMapping("/viewaccount1")
-	public String viewAccount1(Accounts account, Model model, Principal principal) {
+	public String viewAccount1(Accounts account, Model model) {
 		// List<Accounts> accountList = (List<Accounts>) accountRepo.findAll(); 
 		// List<Accounts> accountList2 = (List<Accounts>)
 		// accountRepo.findById(accountId);
@@ -143,15 +123,20 @@ public class AccountController {
 	}
 
 	// list each Account detail (how to retrieve account detail?)
-	@GetMapping("/viewaccount")
+	@GetMapping("/viewaccount2")
 	public String viewAccount(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
 			Model model) {
 		
 		model.addAttribute("accounts", new Accounts());
 		
-		Long userId = userDetails.getUserId();
-		Users user = userRepo.getUserByUserId(userId);
-		//Accounts account = accountRepo.findByAccountId(accId);
+		//Long userId = userDetails.getUserId();
+		//Users user = userRepo.getUserByUserId(userId);
+		
+		//Accounts account = accountRepo.getAllAccountByUserId(accId);
+
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		Accounts acc = accountRepo.findByAccountId((Long)flashMap.get("accountNo"));
+		model.addAttribute("account", acc);
 
 		System.out.println("test");	
 				
@@ -160,8 +145,7 @@ public class AccountController {
 	
 	//not working yet
 	@RequestMapping("/deleteaccount")
-	public String deleteAccount(
-			
+	public String deleteAccount(			
 			@ModelAttribute("date1") Integer date1, 
 			@ModelAttribute("interestRate") Double interestRate,
 			@ModelAttribute("balance") Integer balance,
@@ -172,5 +156,25 @@ public class AccountController {
 			model.addAttribute("res", res);
 		}
 		return "deleteAccount";
+	}
+
+	// ============================================= View account details
+	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html
+	public String showAccount(HttpServletRequest request, Model model) {
+
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			String txnType = (String) flashMap.get("msg");
+			if (txnType.equals("deposit")) {
+				model.addAttribute("balAfterDeposit", (Double) flashMap.get("balAfterDeposit"));
+			} else if (txnType.equals("withdraw")) {
+				model.addAttribute("balAfterWithdrawal", (Double) flashMap.get("balAfterWithdrawal"));
+			}
+			model.addAttribute("txnAmt", (Double) flashMap.get("txnAmt"));
+			model.addAttribute("accountNo", (Long) flashMap.get("accountNo"));
+			model.addAttribute("msg", txnType);
+		}
+		
+		return "viewAccount";
 	}
 }

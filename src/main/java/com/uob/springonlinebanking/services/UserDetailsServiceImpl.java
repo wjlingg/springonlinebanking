@@ -10,17 +10,17 @@ import com.uob.springonlinebanking.repositories.UserRepository;
 import com.uob.springonlinebanking.security.MyUserDetails;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
+	
 	@Autowired
-	UserRepository userRepository;
+	UserRepository userRepo;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Users users = userRepository.getUserByUsername(username);
+		Users users = userRepo.getUserByUsername(username);
 		
 		if (users == null) {
-			throw new UsernameNotFoundException("User not found!");
+			throw new UsernameNotFoundException("No user found with username: " + username);
 		}
 		return new MyUserDetails(users);
 	}
-	
 }

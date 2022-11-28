@@ -1,10 +1,15 @@
 package com.uob.springonlinebanking.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.uob.springonlinebanking.models.Privileges;
+import com.uob.springonlinebanking.models.Roles;
 import com.uob.springonlinebanking.models.Users;
 
 public class MyUserDetails implements UserDetails {
@@ -18,11 +23,41 @@ public class MyUserDetails implements UserDetails {
 		return this.users.getUserId();
 	}
 
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
+	}
+
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+		return getGrantedAuthorities(getPrivileges(getUsers().getRolesCollection()));
 	}
+
+    private List<String> getPrivileges(final Collection<Roles> roles) {
+        final List<String> privileges = new ArrayList<>();
+        final List<Privileges> collection = new ArrayList<>();
+        for (final Roles role : roles) {
+            privileges.add(role.getRoleName());
+            collection.addAll(role.getPrivilegesCollection());
+        }
+        for (final Privileges item : collection) {
+            privileges.add(item.getPrivilegeName());
+        }
+
+        return privileges;
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities(final List<String> privileges) {
+        final List<GrantedAuthority> authorities = new ArrayList<>();
+        for (final String privilege : privileges) {
+            authorities.add(new SimpleGrantedAuthority(privilege));
+        }
+        return authorities;
+    }
 
 	@Override
 	public String getPassword() {
@@ -53,9 +88,5 @@ public class MyUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
-	/*
-	 * public Long getAccountId() { return this.accounts.getAccountId(); }
-	 */
 
 }

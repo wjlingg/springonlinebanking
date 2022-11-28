@@ -46,9 +46,8 @@ public class TransactionController {
 //	}
 
 	// ============================================= Add Transactions
-	@GetMapping("/addtransaction")
-	public String showAddTransactionForm(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
-			Model model) {
+	@GetMapping("/addtransaction") // used in welcomeUser.html
+	public String showAddTransactionForm(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		model.addAttribute("transactions", new Transactions());
 
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -70,42 +69,53 @@ public class TransactionController {
 
 	    model.addAttribute("optionList", optionList);
 		Integer count = optionList.size();
-		System.out.println(count);
 		model.addAttribute("count", count);
 		
 		return "addTransaction"; // render addTransaction.html
 	}
 
-	@PostMapping("/process_transaction")
-	public String doTransact(@RequestParam("accId") Long accId, @RequestParam("tType") String tType,
-			@RequestParam("transAmount") Double transAmt, Model model, RedirectAttributes redirectAttributes) {
+	@PostMapping("/process_transaction") // used in addTransaction.html
+	public String doTransact(@RequestParam("accId") Long accId, 
+							@RequestParam("tType") String tType,
+							@RequestParam("txnAmt") Double txnAmt, 
+							Model model, RedirectAttributes redirectAttributes) {
 
 		Accounts acct = accountRepo.findByAccountId(accId);
 
 		Transactions transaction = new Transactions();
-		transaction.setTransactionAmount(transAmt);
-		transaction.setStatus("success");
+		transaction.setTransactionAmount(txnAmt);
+		transaction.setTxnType(tType);
 		transaction.setAccount(acct);
 		transaction.setDateTime(LocalDateTime.now());
-		transactionRepo.save(transaction);
 
 		Double currBal = acct.getBalance();
 
+		redirectAttributes.addFlashAttribute("txnAmt", txnAmt);
+		
 		if (tType.equals("deposit")) {
-			acct.setBalance(currBal + transAmt);
+			redirectAttributes.addFlashAttribute("balAfterDeposit", currBal + txnAmt);
+			redirectAttributes.addFlashAttribute("msg", "deposit");
+			acct.setBalance(currBal + txnAmt);
 		} else if (tType.equals("withdraw")) {
-			if (currBal - transAmt < 500) {
-				redirectAttributes.addFlashAttribute("balAfterWithdrawal", currBal - transAmt);
-				redirectAttributes.addFlashAttribute("withdrawalAmt", transAmt);
+			Double balAfterWithdrawal = currBal - txnAmt;
+			redirectAttributes.addFlashAttribute("balAfterWithdrawal", balAfterWithdrawal);
+			if (balAfterWithdrawal < 500) {
 				redirectAttributes.addFlashAttribute("currBal", currBal);
 				redirectAttributes.addFlashAttribute("msg", "balancelow");
+				transaction.setStatus("failure");
+				transaction.setMsg("Balance below $500 after withdrawal");
+				transactionRepo.save(transaction);
 				return "redirect:/addtransaction";
 			}
-			acct.setBalance(currBal - transAmt);
+			redirectAttributes.addFlashAttribute("msg", "withdraw");
+			acct.setBalance(balAfterWithdrawal);
 		}
 
+		redirectAttributes.addFlashAttribute("accountNo", acct.getAccountId());
+		transaction.setStatus("success");
+		transactionRepo.save(transaction);
 		accountRepo.save(acct);
-
-		return "welcomeUser";
+		
+		return "redirect:/viewaccount";
 	}
 }

@@ -37,18 +37,20 @@
 				href="https://www.uobgroup.com/uobgroup/about/index.page"><img
 				src="https://www.uobgroup.com/assets/iwov-resources/assets/BrandAssets/UOB_Logo.svg"
 				width="60" height="60" alt="UOB Logo" loading="lazy"></a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
+			<button sec:authorize="isAuthenticated()" class="navbar-toggler"
+				type="button" data-toggle="collapse"
 				data-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div sec:authorize="isAuthenticated()"
+				class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="/"><i
-							class="fa-solid fa-house"></i> Home <span class="sr-only">(current)</span>
-					</a></li>
+					<li class="nav-item active"><a class="nav-link"
+						href="/welcomeuser"><i class="fa-solid fa-house"></i> Home <span
+							class="sr-only">(current)</span> </a></li>
 					<li class="nav-item"><a class="nav-link" href="#"><i
 							class="fa-solid fa-user"></i> Customers</a></li>
 					<li class="nav-item dropdown"><a
@@ -73,7 +75,7 @@
 								Records</a> <a class="dropdown-item" href="/showaddedrecord">Add
 								Custom Records</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/viewuser">Show Records</a>
+							<a class="dropdown-item" href="/viewuser">Show All Users</a>
 						</div></li>
 				</ul>
 				<div sec:authorize="isAuthenticated()">
