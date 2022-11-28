@@ -58,7 +58,7 @@ public class AccountController {
 		user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
 		userRepo.save(user); // save to user repository
 		Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
-		Accounts account = new Accounts(accountType, 0.0, userLocal); // create account with the saved user
+		Accounts account = new Accounts(accountType, 0.0, false, userLocal); // create account with the saved user
 		accountRepo.save(account); // save to account repository
 
 		return "redirect:/";
@@ -104,7 +104,7 @@ public class AccountController {
 		Long userId = userDetails.getUserId();
 		Users userExisting = userRepo.getUserByUserId(userId);
 
-		Accounts newAccount = new Accounts(accountType, 0.0, userExisting); // create account with the saved user
+		Accounts newAccount = new Accounts(accountType, 0.0, false, userExisting); // create account with the saved user
 		accountRepo.save(newAccount); // save to account repository
 
 		return "redirect:/welcomeuser";

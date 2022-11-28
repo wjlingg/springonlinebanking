@@ -31,14 +31,17 @@ public class Accounts {
 	@JoinColumn(name = "account_transaction")
 	private List<Transactions> accountTransactionList = new ArrayList<>();    
     
+    private boolean isDormant;
+    
 	public Accounts() {
 		super();
 	}
 
-	public Accounts(String accountType, double balance, Users user) {
+	public Accounts(String accountType, double balance, boolean isDormant, Users user) {
 		super();
 		this.accountType = accountType;
 		this.balance = balance;
+		this.isDormant = isDormant;
 		this.user = user;
 	}
 	
@@ -92,9 +95,17 @@ public class Accounts {
 		this.accountTransactionList = accountTransactionList;
 	}
 
+	public boolean isDormant() {
+		return isDormant;
+	}
+
+	public void setDormant(boolean isDormant) {
+		this.isDormant = isDormant;
+	}
+
 	@Override
 	public String toString() {
 		return "Accounts [accountId=" + accountId + ", accountType=" + accountType + ", balance=" + balance + ", user="
-				+ user + ", accountTransactionList=" + accountTransactionList + "]";
+				+ user + ", accountTransactionList=" + accountTransactionList + ", isDormant=" + isDormant + "]";
 	}
 }	

@@ -78,7 +78,9 @@ public class TransactionController {
 		List<Long> optionList = new ArrayList<Long>();
 		List<Accounts> accountList = user.getAccountList();
 		for (Accounts account : accountList) {
-			optionList.add(account.getAccountId());
+			if (!account.isDormant()) { // only allow transaction on active account 
+				optionList.add(account.getAccountId());
+			}
 		}
 
 		model.addAttribute("optionList", optionList);
@@ -99,6 +101,7 @@ public class TransactionController {
 		transaction.setTxnType(tType);
 		transaction.setAccount(acct);
 		transaction.setDateTime(LocalDateTime.now());
+		transaction.setDormant(false);
 
 		Double currBal = acct.getBalance();
 
