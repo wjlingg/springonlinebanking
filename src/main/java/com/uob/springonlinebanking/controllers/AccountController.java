@@ -221,17 +221,27 @@ public class AccountController {
 	}
 
 	@PutMapping("/confirm_delete_account/{totalBalance}")
-	public String confirmDeleteAccount(@PathVariable("totalBalance") Double balance, @Valid Accounts account, Model model) {
-		
+	public String confirmDeleteAccount(@PathVariable("totalBalance") Double balance, @Valid Accounts account, 
+			@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
+		Long accountId = account.getAccountId();
 		account.setBalance(0);
 		account.setDormant(true);
+		Users user = userRepo.getUserByUserId(userDetails.getUserId());
+		account.setUser(user);
 		
-		Long accountId = account.getAccountId();
-		
-		List<Transactions> txnList = account.getAccountTransactionList();
+		System.out.println(accountId);
+		List<Transactions> txnList = transactionRepo.getTransactionByAccountId(accountId);
+		account.setAccountTransactionList(txnList);
+		// need to save the account before saving transactions
+		// need to set the necessary variables before saving
+		accountRepo.save(account); 
+		Accounts acct = accountRepo.findByAccountId(accountId);
 		for (Transactions txn : txnList) {
-			transactionRepo.updateTxnDormantStatus(true, accountId);
+			txn.setDormant(true);
+			txn.setAccount(acct);
+			transactionRepo.save(txn);
 		}
+//		transactionRepo.updateTxnDormantStatus(true, accountId);
 		
 		Transactions transactionNew = new Transactions();
 		transactionNew.setTransactionAmount(balance);
@@ -242,7 +252,6 @@ public class AccountController {
 		transactionNew.setStatus("success");
 		
 		transactionRepo.save(transactionNew);
-		accountRepo.save(account);
 		
 		return "welcomeUser";
 	}

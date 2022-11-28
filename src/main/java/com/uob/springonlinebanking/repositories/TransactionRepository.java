@@ -16,5 +16,6 @@ public interface TransactionRepository extends CrudRepository<Transactions, Long
 	
 	@Modifying
 	@Query("UPDATE Transactions t SET t.isDormant=:isDormant WHERE t.account.accountId=:accId")
+//	@Query(value="UPDATE Transactions SET is_dormant=:isDormant WHERE account_transaction=:accId", nativeQuery=true)
 	public void updateTxnDormantStatus(@Param("isDormant")boolean isDormant, @Param("accId")Long accId);
 }
