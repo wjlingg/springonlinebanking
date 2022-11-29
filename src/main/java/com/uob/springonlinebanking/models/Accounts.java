@@ -32,7 +32,9 @@ public class Accounts {
 	@JoinColumn(name = "account_transaction")
 	private List<Transactions> accountTransactionList = new ArrayList<>();  
     
-    private double interestRate; // declare date and ir
+    private boolean isDormant;
+    
+    private double interestRate;
     
     private LocalDate initiationDate;
     
@@ -40,15 +42,17 @@ public class Accounts {
 		super();
 	}
 
-	public Accounts(String accountType, double balance, Users user, double interestRate, LocalDate initiationDate) {	
+	public Accounts(String accountType, double balance, Users user, 
+			boolean isDormant, double interestRate, LocalDate initiationDate) {
 		super();
 		this.accountType = accountType;
 		this.balance = balance;
 		this.user = user;
+		this.isDormant = isDormant;
 		this.interestRate = interestRate;
 		this.initiationDate = initiationDate;
 	}
-	
+
 	public Accounts(long accountId, String accountType, double balance, Users user,
 			List<Transactions> accountTransactionList) {
 		super();
@@ -99,6 +103,14 @@ public class Accounts {
 		this.accountTransactionList = accountTransactionList;
 	}
 
+	public boolean isDormant() {
+		return isDormant;
+	}
+
+	public void setDormant(boolean isDormant) {
+		this.isDormant = isDormant;
+	}
+
 	public double getInterestRate() {
 		return interestRate;
 	}
@@ -118,7 +130,7 @@ public class Accounts {
 	@Override
 	public String toString() {
 		return "Accounts [accountId=" + accountId + ", accountType=" + accountType + ", balance=" + balance + ", user="
-				+ user + ", accountTransactionList=" + accountTransactionList + ", interestRate=" + interestRate
-				+ ", initiationDate=" + initiationDate + "]";
+				+ user + ", accountTransactionList=" + accountTransactionList + ", isDormant=" + isDormant
+				+ ", interestRate=" + interestRate + ", initiationDate=" + initiationDate + "]";
 	}
 }

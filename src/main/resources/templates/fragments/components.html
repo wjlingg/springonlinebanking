@@ -65,7 +65,7 @@
 							<a class="dropdown-item" href="#">Recurring</a> <a
 								class="dropdown-item" href="#">Fixed</a>
 						</div></li>
-					<li class="nav-item dropdown"><a
+					<li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"><i class="fa-regular fa-file"></i>
@@ -75,7 +75,7 @@
 								Records</a> <a class="dropdown-item" href="/showaddedrecord">Add
 								Custom Records</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/viewuser">Show All Users</a>
+							<a class="dropdown-item" href="/admin/viewuser">Show All Users</a>
 						</div></li>
 				</ul>
 				<div sec:authorize="isAuthenticated()">
