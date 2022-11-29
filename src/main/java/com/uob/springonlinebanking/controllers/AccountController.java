@@ -227,15 +227,29 @@ public class AccountController {
 		// calculate interest earned
 		double acctInterestRate = acct.getInterestRate();
 		double balance = acct.getBalance();
-		double earnedInt = balance * acctInterestRate * diffMonths / 12.0;
+		double earnedInt = getSimpleInterest(balance, acctInterestRate, 12.0, diffMonths);
+		
+//		double earnedInt = balance * acctInterestRate * diffMonths / 12.0;
 
 		double totalBalance = balance + earnedInt;
+		double totalBalanceAfterCompoundInterest = getTotalBalanceAfterCompoundInterest(balance, acctInterestRate, 12.0, diffMonths);
+		System.out.println(totalBalanceAfterCompoundInterest);
+		
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
 		
 		return "deleteAccount";
 	}
 
+	public Double getSimpleInterest(double principal, double interestRate, 
+									double compoundedNumOfTime, double numOfMonths) {
+		return principal*interestRate*numOfMonths/compoundedNumOfTime;
+	}
+	public Double getTotalBalanceAfterCompoundInterest(double principal, double interestRate, 
+									double compoundedNumOfTime, double numOfMonths) {
+		return principal*Math.pow((1+interestRate/compoundedNumOfTime), numOfMonths);
+	}
+	
 	@PutMapping("/confirm_delete_account/{totalBalance}")
 	public String confirmDeleteAccount(@PathVariable("totalBalance") Double balance, @Valid Accounts account, 
 			@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
