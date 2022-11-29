@@ -18,9 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.PutMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -140,59 +143,13 @@ public class AccountController {
 			@AuthenticationPrincipal MyUserDetails userDetails) {
 		Long userId = userDetails.getUserId();
 		Users userExisting = userRepo.getUserByUserId(userId);
-		Accounts newAccount = new Accounts(accountType, 0.0, userExisting, false, 0.036, LocalDate.now()); // create																									// user
+
+		Accounts newAccount = new Accounts(accountType, 0.0, userExisting, false, 0.036, LocalDate.now()); // create account with the saved user
+
 		accountRepo.save(newAccount); // save to account repository
 
 		return "redirect:/welcomeuser";
 	}
-
-	/*
-	 * // ============================================= View account details
-	 * 
-	 * // list all Account table
-	 * 
-	 * @GetMapping("/viewaccount1") public String viewAccount1(Accounts account,
-	 * Model model) { // List<Accounts> accountList = (List<Accounts>)
-	 * accountRepo.findAll(); // List<Accounts> accountList2 = (List<Accounts>) //
-	 * accountRepo.findById(accountId); // model.addAttribute("accountList2",
-	 * accountList2);
-	 * 
-	 * return "viewAccount1"; }
-	 * 
-	 * // list each Account detail (how to retrieve account detail?)
-	 * 
-	 * @GetMapping("/viewaccount2") public String viewAccount(HttpServletRequest
-	 * request, @AuthenticationPrincipal MyUserDetails userDetails, Model model) {
-	 * 
-	 * model.addAttribute("accounts", new Accounts());
-	 * 
-	 * //Long userId = userDetails.getUserId(); //Users user =
-	 * userRepo.getUserByUserId(userId);
-	 * 
-	 * //Accounts account = accountRepo.getAllAccountByUserId(accId);
-	 * 
-	 * Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-	 * Accounts acc = accountRepo.findByAccountId((Long)flashMap.get("accountNo"));
-	 * model.addAttribute("account", acc);
-	 * 
-	 * System.out.println("test");
-	 * 
-	 * return "viewAccount"; }
-	 * 
-	 * //not working yet
-	 * 
-	 * @RequestMapping("/deleteaccount") public String deleteAccount(
-	 * 
-	 * @ModelAttribute("date1") Integer date1,
-	 * 
-	 * @ModelAttribute("interestRate") Double interestRate,
-	 * 
-	 * @ModelAttribute("balance") Integer balance,
-	 * 
-	 * @ModelAttribute("opr") String opr, Model model) { if
-	 * (opr.equalsIgnoreCase("mul")) { double res = date1 * interestRate * balance;
-	 * model.addAttribute("res", res); } return "deleteAccount"; }
-	 */
 
 	// ============================================= View account details
 	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html, viewAccountForm.html
@@ -311,4 +268,5 @@ public class AccountController {
 		
 		return "welcomeUser";
 	}
+
 }
