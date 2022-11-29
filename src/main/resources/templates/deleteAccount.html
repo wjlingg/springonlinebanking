@@ -7,7 +7,10 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<form th:action="@{/confirm_delete_account}" th:object="${acct}">
+
+		<form th:action="@{/confirm_delete_account/} + ${totalBalance}"
+			th:method="put" th:object="${acct}">
+
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<div
 					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
@@ -43,12 +46,12 @@
 				</div>
 				<div class="align-self-center">
 					<div>
-						Your accrued interest since <span th:text="${acctInitiationDate}"></span>
-						is <span th:text="${acctInterestRate}"></span>.<br> Would you
-						like to withdraw your total balance <span
-							th:text="${totalBalance}"></span> and delete your account?
+						Your earned accrued interest since <span
+							th:text="${acctInitiationDate}"></span> is <span
+							th:text="${earnedInt}"></span>.<br> Would you like to
+						withdraw your total balance <span th:text="${totalBalance}"></span>
+						and delete your account?
 					</div>
-
 					<div class="btn-group align-self-center" role="group">
 						<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
 						<button type="submit" class="btn btn-primary">Withdraw
