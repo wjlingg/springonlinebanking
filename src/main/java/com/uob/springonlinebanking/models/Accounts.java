@@ -30,13 +30,13 @@ public class Accounts {
     
     @OneToMany
 	@JoinColumn(name = "account_transaction")
-	private List<Transactions> accountTransactionList = new ArrayList<>();    
+	private List<Transactions> accountTransactionList = new ArrayList<>();  
     
-    private boolean isDormant;
-    
-    private double interestRate;
+    private double interestRate; // declare date and ir
     
     private LocalDate initiationDate;
+    
+    private boolean isDormant;
     
 	public Accounts() {
 		super();
@@ -133,4 +133,4 @@ public class Accounts {
 				+ user + ", accountTransactionList=" + accountTransactionList + ", isDormant=" + isDormant
 				+ ", interestRate=" + interestRate + ", initiationDate=" + initiationDate + "]";
 	}
-}	
+}
