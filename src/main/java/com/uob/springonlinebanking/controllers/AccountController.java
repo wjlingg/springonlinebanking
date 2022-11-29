@@ -256,6 +256,7 @@ public class AccountController {
 		// calculate no. of months
 		LocalDate today = LocalDate.now();
 		LocalDate openDay = acct.getInitiationDate();
+
 		double diffMonths = ChronoUnit.MONTHS.between(openDay, today); // calculate the months between openDate and
 
 		// calculate maturity date
@@ -272,9 +273,10 @@ public class AccountController {
 //		double earnedInt = balance * acctInterestRate * diffMonths / 12.0;
 
 		double totalBalance = balance + earnedInt;
-		double totalBalanceAfterCompoundInterest = getTotalBalanceAfterCompoundInterest(balance, acctInterestRate, 12.0,
-				diffMonths);
-		System.out.println(totalBalanceAfterCompoundInterest);
+		double totalBalanceFixed = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths);
+		System.out.println(totalBalanceFixed);
+		double totalBalanceRecurring = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths, 500.0);
+		System.out.println(totalBalanceRecurring);
 
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
@@ -287,9 +289,18 @@ public class AccountController {
 		return principal * interestRate * numOfMonths / compoundedNumOfTime;
 	}
 
-	public Double getTotalBalanceAfterCompoundInterest(double principal, double interestRate,
-			double compoundedNumOfTime, double numOfMonths) {
-		return principal * Math.pow((1 + interestRate / compoundedNumOfTime), numOfMonths);
+	public Double getTotalBalanceFixed(double principal, double interestRate, 
+									double compoundedNumOfTime, double numOfMonths) {
+		return principal*Math.pow((1+interestRate/compoundedNumOfTime), numOfMonths);
+	}
+	
+	public Double getTotalBalanceRecurring(double principal, double interestRate, 
+			double compoundedNumOfTime, double numOfMonths, double contribution) {
+		System.out.println(numOfMonths);
+		if (numOfMonths == 0.0) {
+			return principal-contribution;
+		}
+		return getTotalBalanceRecurring(principal*(1+interestRate/compoundedNumOfTime)+contribution, interestRate, compoundedNumOfTime, numOfMonths-1, contribution);
 	}
 
 	@PutMapping("/confirm_delete_account/{totalBalance}")
@@ -327,5 +338,4 @@ public class AccountController {
 
 		return "welcomeUser";
 	}
-
 }
