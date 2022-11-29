@@ -58,7 +58,7 @@ public class AccountController {
 		return "index";
 	}
 
-	// ============================================= Register
+	// ============================================= Register Page
 	@GetMapping("/register") // used in index.html
 	public String showRegistrationForm(HttpServletRequest request, Model model) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -110,6 +110,7 @@ public class AccountController {
 		}
 	}
 
+	// ============================================= Welcome User Page
 	@GetMapping("/welcomeuser") // used in components.html navbar
 	public String welcomeUser(HttpServletRequest request, Model model) {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
@@ -243,7 +244,7 @@ public class AccountController {
 	 */
 
 	// ============================================= Delete account details
-	@GetMapping("delete_account/{accId}")
+	@GetMapping("delete_account/{accId}") // used in viewAccount.html
 	public String showDeleteAccount(@PathVariable("accId") Long accId, Model model) {
 		Accounts acct = accountRepo.findByAccountId(accId);
 		model.addAttribute("acct", acct);
@@ -275,9 +276,9 @@ public class AccountController {
 		double totalBalance = balance + earnedInt;
 		
 		double totalBalanceFixed = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths);
-		System.out.println(totalBalanceFixed);
+//		System.out.println(totalBalanceFixed);
 		double totalBalanceRecurring = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths, 500.0);
-		System.out.println(totalBalanceRecurring);
+//		System.out.println(totalBalanceRecurring);
 
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
@@ -297,14 +298,14 @@ public class AccountController {
 	
 	public Double getTotalBalanceRecurring(double principal, double interestRate, 
 			double compoundedNumOfTime, double numOfMonths, double contribution) {
-		System.out.println(numOfMonths);
+//		System.out.println(numOfMonths);
 		if (numOfMonths == 0.0) {
 			return principal-contribution;
 		}
 		return getTotalBalanceRecurring(principal*(1+interestRate/compoundedNumOfTime)+contribution, interestRate, compoundedNumOfTime, numOfMonths-1, contribution);
 	}
 
-	@PutMapping("/confirm_delete_account/{totalBalance}")
+	@PutMapping("/confirm_delete_account/{totalBalance}") // used in deleteAccount.html
 	public String confirmDeleteAccount(@PathVariable("totalBalance") Double balance, @Valid Accounts account,
 			@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		Long accountId = account.getAccountId();
@@ -325,6 +326,7 @@ public class AccountController {
 			txn.setAccount(acct);
 			transactionRepo.save(txn);
 		}
+		
 //		transactionRepo.updateTxnDormantStatus(true, accountId);
 
 		Transactions transactionNew = new Transactions();
@@ -340,10 +342,18 @@ public class AccountController {
 		return "welcomeUser";
 	}
 	
-	@PostMapping("/renewDeposit")
-	public String renewDeposit() {
-//		if can renew then renew
-//		if cannot redirect back to deleteaccount
-		return "welcomeUser"; // redirect to transaction??
+	// ============================================= Renew fixed/recurring account details
+	@PutMapping("/renewDeposit/{accId}/{totalBalance}") // used in deleteAccount.html
+	public String renewDeposit(@PathVariable("accId") Long accId, 
+							@PathVariable("totalBalance") Double totalBalance,
+							@RequestParam("depositAmt") Double depositAmt) {
+		System.out.println(accId);
+		System.out.println(totalBalance);
+		System.out.println(depositAmt);
+		Accounts account = accountRepo.findByAccountId(accId);
+		account.setBalance(totalBalance+depositAmt);
+		account.setInitiationDate(LocalDate.now());
+		accountRepo.save(account);
+		return "redirect:/welcomeuser";
 	}
 }

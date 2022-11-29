@@ -8,43 +8,34 @@
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
 
-		<form th:action="@{/confirm_delete_account/} + ${totalBalance}"
-			th:method="put" th:object="${acct}">
-			<div class="h-100 p-3 d-flex flex-column justify-content-center">
-				<h3 class="align-self-center">Delete Account (Account ID: <span th:text="${accId}"></span>)</h3>
-				<div
-					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
-					style="max-width: 500px">
-					<h4 class="align-self-center">
-						Account Details 
-					</h4>
-					<div class="form-group">
-						<label for="accountId">Account ID</label> <input type="number"
-							class="form-control" id="accountId" th:field="*{accountId}"
-							readonly>
-					</div>
-					<div class="form-group">
-						<label for="accountType">Account Type</label> <input type="text"
-							class="form-control" id="accountType" th:field="*{accountType}"
-							readonly>
-					</div>
-					<div class="form-group">
-						<label for="date1">Account Open Date</label> <input type="text"
-							class="form-control" id="initiationDate"
-							th:field="*{initiationDate}" readonly>
-					</div>
-					<div class="form-group">
-						<label for="interestRate">Annual Interest Rate</label> <input
-							type="text" class="form-control" id="interestRate"
-							th:field="*{interestRate}" readonly>
-					</div>
-					<div class="form-group">
-						<label for="balance">Account Balance</label> <input type="text"
-							class="form-control" id="balance" th:field="*{balance}" readonly>
-					</div>
-				</div>
-				<div class="align-self-center">
-					<div>
+		<div class="h-100 p-3 d-flex flex-column justify-content-center">
+			<h3 class="align-self-center">
+				Delete Account (Account ID: <span th:text="${accId}"></span>)
+			</h3>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Account ID</th>
+						<th>Account Type</th>
+						<th>Account Open Date</th>
+						<th>Annual Interest Rate</th>
+						<th>Account Balance</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr th:each="acct: ${acct}">
+						<td th:text="${acct.accountId}"></td>
+						<td th:text="${acct.accountType}"></td>
+						<td th:text="${acct.initiationDate}"></td>
+						<td th:text="${acct.interestRate}"></td>
+						<td th:text="${acct.balance}"></td>
+					</tr>
+				</tbody>
+
+			</table>
+			<div class="align-self-center">
+				<div>
 					<!-- change date format to dd-mm-yy -->
 					Account Open Date : <span th:text="${acctInitiationDate}"></span><br>
 					Account Maturity Date : <span th:text="${maturityDate}"></span><br>
@@ -52,18 +43,52 @@
 					Current Balance : <span th:text="${balance}"></span><br>
 					Earned Interest : <span th:text="${earnedInt}"></span><br>
 					Total Balance : <span th:text="${totalBalance}"></span><br>
-					</div>
-					<br>
-					<div class="btn-group align-self-center" role="group">
-						<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
-						<button type="submit" class="btn btn-primary">Renew Deposit</button>
-						<button type="submit" class="btn btn-danger">Withdraw
-							and Delete</button>
-					</div>
+				</div>
+				<br>
+				<div class="btn-group align-self-center" role="group">
+					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						data-target="#exampleModal">Renew Deposit</button>
+					<!-- Modal -->
+					<form
+						th:action="@{/renewDeposit/} + ${accId} + '/' + ${totalBalance}"
+						th:method="put" th:object="${acct}">
+						<div class="modal fade" id="exampleModal" tabindex="-1"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Enter
+											amount for new deposit</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										Total Balance : <span th:text="${totalBalance}"></span><br>
+										<label for="inputAmount">Amount to deposit</label> <input
+											type="number" step="0.01" class="form-control"
+											id="inputAmount" name="depositAmt" required>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-primary">Renew
+											Deposit</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- <button type="submit" class="btn btn-primary">Renew Deposit</button> -->
+					<button type="submit" class="btn btn-danger">Withdraw and
+						Delete</button>
+
 				</div>
 			</div>
-
-		</form>
+		</div>
 	</div>
 	<div th:replace="fragments/components :: footer"></div>
 </body>

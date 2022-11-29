@@ -32,11 +32,11 @@ public class Accounts {
 	@JoinColumn(name = "account_transaction")
 	private List<Transactions> accountTransactionList = new ArrayList<>();  
     
-    private double interestRate; // declare date and ir
+    private boolean isDormant;
+    
+    private double interestRate;
     
     private LocalDate initiationDate;
-    
-    private boolean isDormant;
     
 	public Accounts() {
 		super();
