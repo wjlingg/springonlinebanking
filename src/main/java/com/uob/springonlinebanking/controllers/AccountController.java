@@ -273,6 +273,7 @@ public class AccountController {
 //		double earnedInt = balance * acctInterestRate * diffMonths / 12.0;
 
 		double totalBalance = balance + earnedInt;
+		
 		double totalBalanceFixed = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths);
 		System.out.println(totalBalanceFixed);
 		double totalBalanceRecurring = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths, 500.0);
@@ -338,4 +339,5 @@ public class AccountController {
 
 		return "welcomeUser";
 	}
+
 }
