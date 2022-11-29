@@ -9,10 +9,10 @@
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
 
-		<form th:action="@{/process_transaction}" method="post">
+		<form th:action="@{/process_renewdeposit}" method="post">
 
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
-				<h3 class="align-self-center my-3">Add new transaction</h3>
+				<h3 class="align-self-center my-3">Renew or Withdraw Deposit</h3>
 				<div style="width: 30%; margin: auto">
 					<p class="alert alert-danger" role="alert"
 						th:if="${msg}=='balancelow'">
@@ -68,10 +68,12 @@
 							class="form-check-label" for="inputTransactionType2">Withdraw</label>
 					</div>
 				</div>
+				<form th:action="@{/renewdeposit/} + ${totalBalance} + ${}">
 				<div class="btn-group align-self-center" role="group">
 					<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
 					<button type="submit" class="btn btn-primary">Submit</button>
 				</div>
+				</form>
 			</div>
 		</form>
 	</div>

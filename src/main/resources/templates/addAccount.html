@@ -7,46 +7,55 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<form th:action="@{/process_account_creation}" th:method="post"
-			th:object="${user}">
-			<div class="h-100 p-3 d-flex flex-column justify-content-center">
-				<h3 class="align-self-center my-3">
-					Add a new account for <span sec:authentication="name"></span>
-				</h3>
-				<div
-					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
-					style="max-width: 500px">
-					<h4>List of existing account</h4>
-					<div th:switch="${count}">
-						<div th:case="0" class="form-group">
-							<label for="accNo">No Records</label>
-						</div>
-						<div th:case="*" class="form-group">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>Account Number</th>
-										<th>Account Type</th>
-										<th>View</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="acc : ${optionList}">
-										<td th:text="${acc.accountId}"></td>
-										<td th:text="${acc.accountType}"></td>
-										<td><a
-											th:href="@{/viewaccount/{id} (id=${acc.user.userId})}"><i
-												class="fa-solid fa-eye"></i></a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+
+		<div class="h-100 p-3 d-flex flex-column justify-content-center">
+			<h3 class="align-self-center my-3">
+				Add a new account for <span sec:authentication="name"
+					class="cust-username"></span>. (User ID: <span
+					sec:authentication="principal.userId"></span>)
+			</h3>
+			<div
+				class="w-100 p-3 shadow-lg rounded-lg border border-dark align-self-center"
+				style="max-width: 500px">
+				<h4>List of existing account</h4>
+				<div th:switch="${count}">
+					<div th:case="0" class="form-group">
+						<p for="accNo">No Records Available</p>
+					</div>
+					<div th:case="*" class="form-group">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Account Number</th>
+									<th>Account Type</th>
+									<th>View</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="acc : ${optionList}">
+									<td th:text="${acc.accountId}"></td>
+									<td th:text="${acc.accountType}"></td>
+									<td>
+										<form th:action="@{/process_view_account}" method="post">
+											<input th:value="${acc.accountId}" name="accId" hidden="true"></input>
+											<button type="submit" class="btn btn-secondary">
+												<i class="fa-solid fa-eye"></i>
+											</button>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				<div
-					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
-					style="max-width: 500px">
-					<h4>Select Account to create</h4>
+			</div>
+			<div
+				class="align-self-center w-100 p-3 my-3 shadow-lg rounded-lg border border-dark"
+				style="max-width: 500px">
+				<form th:action="@{/process_account_creation}" th:method="post"
+					th:object="${user}" class="d-flex flex-column">
+
+					<h4>Select Account Type to Create</h4>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="accountType"
 							id="inputAccountType1" value="Savings" checked> <label
@@ -60,17 +69,17 @@
 					</div>
 					<div class="form-check">
 						<input class="form-check-input" type="radio" name="accountType"
-							id="inputAccountType3" value="Recurring Deposit" disabled>
+							id="inputAccountType3" value="Recurring Deposit">
 						<label class="form-check-label" for="inputAccountType3">Recurring
 							Deposit</label>
 					</div>
-				</div>
-				<div class="btn-group align-self-center" role="group">
-					<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
-					<button type="submit" class="btn btn-primary">Add account</button>
-				</div>
+					<div class="btn-group align-self-center mt-3" role="group">
+						<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
+						<button type="submit" class="btn btn-primary">Add account</button>
+					</div>
+				</form>
 			</div>
-		</form>
+		</div>
 	</div>
 	<div th:replace="fragments/components :: footer"></div>
 </body>

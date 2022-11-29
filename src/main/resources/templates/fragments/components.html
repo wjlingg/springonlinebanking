@@ -48,11 +48,9 @@
 			<div sec:authorize="isAuthenticated()"
 				class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link"
 						href="/welcomeuser"><i class="fa-solid fa-house"></i> Home <span
 							class="sr-only">(current)</span> </a></li>
-					<li class="nav-item"><a class="nav-link" href="#"><i
-							class="fa-solid fa-user"></i> Customers</a></li>
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -69,13 +67,10 @@
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false"><i class="fa-regular fa-file"></i>
-							Records </a>
+							Customer Records </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="/adddefaultrecord">Add Default
-								Records</a> <a class="dropdown-item" href="/showaddedrecord">Add
-								Custom Records</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="/admin/viewuser">Show All Users</a>
+							<a class="dropdown-item" href="/admin/viewuser">Show Records</a>
+							<a class="dropdown-item" href="/adddefaultrecord">Add Customer Record</a>
 						</div></li>
 				</ul>
 				<div sec:authorize="isAuthenticated()">
