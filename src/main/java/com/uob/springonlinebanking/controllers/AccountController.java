@@ -91,7 +91,16 @@ public class AccountController {
 			user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
 			userRepo.save(user); // save to user repository
 			Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
-			Accounts account = new Accounts(accountType, 0.0, userLocal, false, 0.036, LocalDate.now()); // create account
+			
+			double interestRate; 				  // set interest rate
+			if (accountType.equalsIgnoreCase("Savings")) {
+				interestRate = 0.05;
+			} else if (accountType.equalsIgnoreCase("Fixed Deposit")) {
+				interestRate = 0.10;
+			} else {
+				interestRate = 0.15;
+			}
+			Accounts account = new Accounts(accountType, 0.0, userLocal, false, interestRate, LocalDate.now()); // create account
 			accountRepo.save(account); // save to account repository
 
 			return "redirect:/";
@@ -143,9 +152,17 @@ public class AccountController {
 			@AuthenticationPrincipal MyUserDetails userDetails) {
 		Long userId = userDetails.getUserId();
 		Users userExisting = userRepo.getUserByUserId(userId);
-
-		Accounts newAccount = new Accounts(accountType, 0.0, userExisting, false, 0.036, LocalDate.now()); // create account with the saved user
-
+		
+		double interestRate; 				  // set interest rate
+		if (accountType.equalsIgnoreCase("Savings")) {
+			interestRate = 0.05;
+		} else if (accountType.equalsIgnoreCase("Fixed Deposit")) {
+			interestRate = 0.10;
+		} else {
+			interestRate = 0.15;
+		}
+			
+		Accounts newAccount = new Accounts(accountType, 0.0, userExisting, false, interestRate, LocalDate.now()); // create user account
 		accountRepo.save(newAccount); // save to account repository
 
 		return "redirect:/welcomeuser";
