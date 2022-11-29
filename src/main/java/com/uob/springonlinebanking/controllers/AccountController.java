@@ -1,5 +1,7 @@
 package com.uob.springonlinebanking.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -212,33 +214,67 @@ public class AccountController {
 		return "redirect:/viewaccount";
 	}
 
+	/*
+	 * // ============================================= Delete account details
+	 * 
+	 * @GetMapping("delete_account/{accId}") public String
+	 * showDeleteAccount(@PathVariable("accId") Long accId, Model model) { Accounts
+	 * acct = accountRepo.findByAccountId(accId); model.addAttribute("acct", acct);
+	 * model.addAttribute("accId", accId); model.addAttribute("acctInitiationDate",
+	 * acct.getInitiationDate()); // account open date
+	 * model.addAttribute("todayDate", LocalDate.now()); // today date
+	 * model.addAttribute("acctInterestRate", acct.getInterestRate());
+	 * model.addAttribute("balance", acct.getBalance()); // current balance
+	 * 
+	 * // calculate no. of months LocalDate today = LocalDate.now(); LocalDate
+	 * openDay = acct.getInitiationDate(); double diffMonths =
+	 * ChronoUnit.MONTHS.between(openDay, today); // calculate the months between
+	 * openDate and
+	 * 
+	 * // calculate interest earned double acctInterestRate =
+	 * acct.getInterestRate(); double balance = acct.getBalance(); double earnedInt
+	 * = balance * acctInterestRate * diffMonths / 12.0;
+	 * 
+	 * double totalBalance = balance + earnedInt; model.addAttribute("earnedInt",
+	 * earnedInt); model.addAttribute("totalBalance", totalBalance);
+	 * 
+	 * return "deleteAccount"; }
+	 */
+	
 	// ============================================= Delete account details
-	@GetMapping("delete_account/{accId}")
-	public String showDeleteAccount(@PathVariable("accId") Long accId, Model model) {
-		Accounts acct = accountRepo.findByAccountId(accId);
-		model.addAttribute("acct", acct);
-		model.addAttribute("accId", accId);
-		model.addAttribute("acctInitiationDate", acct.getInitiationDate()); // account open date
-		model.addAttribute("todayDate", LocalDate.now()); // today date
-		model.addAttribute("acctInterestRate", acct.getInterestRate());
-		model.addAttribute("balance", acct.getBalance()); // current balance
+		@GetMapping("delete_account/{accId}")
+		public String showDeleteAccount(@PathVariable("accId") Long accId, Model model) {
+			Accounts acct = accountRepo.findByAccountId(accId);
+			model.addAttribute("acct", acct);
+			model.addAttribute("accId", accId);
+			model.addAttribute("acctInitiationDate", acct.getInitiationDate()); // account open date
+			model.addAttribute("todayDate", LocalDate.now()); // today date
+			model.addAttribute("acctInterestRate", acct.getInterestRate());
+			model.addAttribute("balance", acct.getBalance()); // current balance
 
-		// calculate no. of months
-		LocalDate today = LocalDate.now();
-		LocalDate openDay = acct.getInitiationDate();
-		double diffMonths = ChronoUnit.MONTHS.between(openDay, today); // calculate the months between openDate and
+			// calculate no. of months
+			LocalDate today = LocalDate.now();
+			LocalDate openDay = acct.getInitiationDate();
+			double diffMonths = ChronoUnit.MONTHS.between(openDay, today); // calculate the months between openDate and
+			
+			// calculate maturity date
+			LocalDate maturityDate = ChronoUnit.YEARS.addTo(acct.getInitiationDate(), 1); // how to dd-mm-yyyy
+			model.addAttribute("maturityDate", maturityDate);
+			long daysMaturityDate = ChronoUnit.DAYS.between(today,maturityDate);
+			model.addAttribute("daysMaturityDate", daysMaturityDate);
+			
+			// calculate interest earned
+			double acctInterestRate = acct.getInterestRate();
+			double balance = acct.getBalance();
+			double earnedInt = balance * acctInterestRate * diffMonths / 12.0;
 
-		// calculate interest earned
-		double acctInterestRate = acct.getInterestRate();
-		double balance = acct.getBalance();
-		double earnedInt = balance * acctInterestRate * diffMonths / 12.0;
-
-		double totalBalance = balance + earnedInt;
-		model.addAttribute("earnedInt", earnedInt);
-		model.addAttribute("totalBalance", totalBalance);
-		
-		return "deleteAccount";
-	}
+			double totalBalance = balance + earnedInt;
+			model.addAttribute("earnedInt", earnedInt);
+			model.addAttribute("totalBalance", totalBalance);
+			
+			
+			return "deleteAccount";
+		}
 
 	@PutMapping("/confirm_delete_account/{totalBalance}")
 	public String confirmDeleteAccount(@PathVariable("totalBalance") Double balance, @Valid Accounts account, 
