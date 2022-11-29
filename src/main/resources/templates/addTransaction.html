@@ -44,7 +44,7 @@
 							<div th:case="*" class="form-group">
 								<select class="form-control" id="selectAccNo" name="accId"
 									required>
-									<option value="0" disabled selected>select option</option>
+									<option value="" disabled selected>Select an option</option>
 									<option th:each="option : ${optionList}" th:value="${option}"
 										th:text="${option}"></option>
 								</select>
