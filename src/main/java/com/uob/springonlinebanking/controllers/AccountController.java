@@ -282,7 +282,7 @@ public class AccountController {
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
 		//acct.setBalance(total)
-
+		
 		
 		return "deleteAccount";
 	}

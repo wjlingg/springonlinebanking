@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -112,8 +113,8 @@ public class TransactionController {
 	}
 	
 	// ============================================= Renew Deposit
-		@GetMapping("/renewdeposit") // used in welcomeUser.html
-		public String showRenewDeposit(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
+		@GetMapping("/renewdeposit/{totalBalance}") // used in welcomeUser.html
+		public String showRenewDeposit(@PathVariable("totalBalance") Double balance, HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
 				Model model) {
 			model.addAttribute("transactions", new Transactions());
 
