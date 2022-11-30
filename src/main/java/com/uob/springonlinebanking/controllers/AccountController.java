@@ -244,8 +244,8 @@ public class AccountController {
 	 */
 
 	// ============================================= Delete account details
-	@GetMapping("delete_account/{accId}") // used in viewAccount.html
-	public String showDeleteAccount(@PathVariable("accId") Long accId, Model model) {
+	@GetMapping("account_actions/{accId}") // used in viewAccount.html
+	public String showAccountAction(@PathVariable("accId") Long accId, Model model) {
 		Accounts acct = accountRepo.findByAccountId(accId);
 		model.addAttribute("acct", acct);
 		model.addAttribute("accId", accId);
@@ -283,7 +283,7 @@ public class AccountController {
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
 
-		return "deleteAccount";
+		return "accountActions";
 	}
 
 	public Double getSimpleInterest(double principal, double interestRate, double compoundedNumOfTime,
@@ -305,7 +305,7 @@ public class AccountController {
 		return getTotalBalanceRecurring(principal*(1+interestRate/compoundedNumOfTime)+contribution, interestRate, compoundedNumOfTime, numOfMonths-1, contribution);
 	}
 
-	@PutMapping("/confirm_delete_account/{accId}/{totalBalance}") // used in deleteAccount.html
+	@PutMapping("/confirm_delete_account/{accId}/{totalBalance}") // used in accountActions.html
 	public String confirmDeleteAccount(@PathVariable("accId") Long accId, @PathVariable("totalBalance") Double balance,
 			@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		Accounts account = accountRepo.findByAccountId(accId);
@@ -344,7 +344,7 @@ public class AccountController {
 	}
 	
 	// ============================================= Renew fixed/recurring account details
-	@PutMapping("/renewDeposit/{accId}/{totalBalance}") // used in deleteAccount.html
+	@PutMapping("/renewDeposit/{accId}/{totalBalance}") // used in accountActions.html
 	public String renewDeposit(@PathVariable("accId") Long accId, 
 							@PathVariable("totalBalance") Double totalBalance,
 							@RequestParam("depositAmt") Double depositAmt) {
