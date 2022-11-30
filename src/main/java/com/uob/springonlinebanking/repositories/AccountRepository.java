@@ -20,4 +20,7 @@ public interface AccountRepository extends CrudRepository<Accounts, Long> {
 	
 	@Query("SELECT a FROM Accounts a WHERE a.user.userId = ?1 and a.isDormant = ?2 and a.accountType = ?3")
 	public List<Accounts> findByAccountDetails2(Long userId, boolean isDormant, String accountType);
+
+	@Query("SELECT a FROM Accounts a WHERE a.user.userId=?1 AND a.accountType = ?2")
+	public List<Accounts> getAllAccountsByUserIdAndAccountType(Long id, String accountType);
 }

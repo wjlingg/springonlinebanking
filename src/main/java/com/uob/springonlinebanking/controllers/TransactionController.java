@@ -2,6 +2,7 @@ package com.uob.springonlinebanking.controllers;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,11 +54,12 @@ public class TransactionController {
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
 
-		List<Long> optionList = new ArrayList<Long>();
-		List<Accounts> accountList = user.getAccountList();
-		for (Accounts account : accountList) {
-			if (!account.isDormant()) { // only allow transaction on active account 
-				optionList.add(account.getAccountId());
+		Map<Long, String> optionList = new HashMap<Long, String>();
+		List<Accounts> savingAccountList = accountRepo.getAllAccountsByUserIdAndAccountType(userId, "Savings");
+		for (Accounts account : savingAccountList) {
+			if (!account.isDormant()) { // only allow transaction on active account
+				String stringValue = account.getAccountId() + " - " + account.getAccountType() + " (Balance: $" + account.getBalance() + ")";
+				optionList.put(account.getAccountId(), stringValue);
 			}
 		}
 
@@ -86,6 +88,13 @@ public class TransactionController {
 		redirectAttributes.addFlashAttribute("txnAmt", txnAmt);
 
 		if (tType.equals("deposit")) {
+			if (acct.getBalance() == 0.0 && txnAmt < 500.0) {
+				redirectAttributes.addFlashAttribute("msg", "firsttxn");
+				transaction.setStatus("failure");
+				transaction.setMsg("First deposit below $500");
+				transactionRepo.save(transaction);
+				return "redirect:/addtransaction";
+			}
 			redirectAttributes.addFlashAttribute("balAfterDeposit", currBal + txnAmt);
 			redirectAttributes.addFlashAttribute("msg", "deposit");
 			acct.setBalance(currBal + txnAmt);
