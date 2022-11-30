@@ -1,6 +1,6 @@
 # Springboot Online Banking
 
-![alt text](https://github.com/wjlingg/springonlinebanking/blob/main/image.png)
+![alt text](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/image.png)
 
 ## Build and Deploy the Project
 ```
