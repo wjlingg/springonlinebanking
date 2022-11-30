@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -189,11 +190,12 @@ public class AccountController {
 		Users user = userRepo.getUserByUserId(userId);
 		model.addAttribute("user", user); // populate addAccount.html with current user details
 
-		List<Long> optionList = new ArrayList<Long>();
+		Map<Long, String> optionList = new HashMap<Long, String>();
 		List<Accounts> accountList = user.getAccountList();
 		for (Accounts account : accountList) {
 			if (!account.isDormant()) { // only allow viewing on active account
-				optionList.add(account.getAccountId());
+				String stringValue = account.getAccountId() + " - " + account.getAccountType();
+				optionList.put(account.getAccountId(), stringValue);
 			}
 		}
 
@@ -208,7 +210,7 @@ public class AccountController {
 	public String processShowAccount(@RequestParam("accId") Long accId, Model model,
 			RedirectAttributes redirectAttributes) {
 		Accounts acct = accountRepo.findByAccountId(accId);
-		List<Transactions> txn = transactionRepo.getTransactionByAccountId(accId);
+		List<Transactions> txn = transactionRepo.getSuccessTxnByAccountId(accId);
 		redirectAttributes.addFlashAttribute("acct", acct);
 		redirectAttributes.addFlashAttribute("accId", accId);
 		redirectAttributes.addFlashAttribute("txn", txn);
@@ -252,7 +254,6 @@ public class AccountController {
 		model.addAttribute("acctInitiationDate", acct.getInitiationDate()); // account open date
 		model.addAttribute("todayDate", LocalDate.now()); // today date
 		model.addAttribute("acctInterestRate", acct.getInterestRate());
-		model.addAttribute("balance", acct.getBalance()); // current balance
 
 		// calculate no. of months
 		LocalDate today = LocalDate.now();
@@ -269,17 +270,26 @@ public class AccountController {
 		// calculate interest earned
 		double acctInterestRate = acct.getInterestRate();
 		double balance = acct.getBalance();
-		double earnedInt = getSimpleInterest(balance, acctInterestRate, 12.0, diffMonths);
+		double earnedInt = 0.0;
 
-//		double earnedInt = balance * acctInterestRate * diffMonths / 12.0;
+		switch (acct.getAccountType()) {
+		case "Savings":
+			earnedInt = getSimpleInterest(balance, acctInterestRate, 12.0, diffMonths);
+			break;
+		case "Fixed Deposit":
+			earnedInt = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths) - balance;
+//				System.out.println(balance + earnedInt);
+			break;
+		case "Recurring Deposit":
+			double tempPrincipal = acct.getBalance() * diffMonths;
+			earnedInt = getTotalBalanceRecurring(balance, tempPrincipal, acctInterestRate, 12.0, diffMonths, 500.0);
+//				System.out.println(balance + earnedInt);
+			balance = tempPrincipal;
+			break;
+		}
 
 		double totalBalance = balance + earnedInt;
-		
-		double totalBalanceFixed = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths);
-//		System.out.println(totalBalanceFixed);
-		double totalBalanceRecurring = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths, 500.0);
-//		System.out.println(totalBalanceRecurring);
-
+		model.addAttribute("balance", balance);
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
 
@@ -291,18 +301,22 @@ public class AccountController {
 		return principal * interestRate * numOfMonths / compoundedNumOfTime;
 	}
 
-	public Double getTotalBalanceFixed(double principal, double interestRate, 
-									double compoundedNumOfTime, double numOfMonths) {
-		return principal*Math.pow((1+interestRate/compoundedNumOfTime), numOfMonths);
+	public Double getTotalBalanceFixed(double principal, double interestRate, double compoundedNumOfTime,
+			double numOfMonths) {
+		return principal * Math.pow((1 + interestRate / compoundedNumOfTime), numOfMonths);
 	}
-	
-	public Double getTotalBalanceRecurring(double principal, double interestRate, 
+
+	public Double getTotalBalanceRecurring(double principal, double tempPrincipal, double interestRate,
 			double compoundedNumOfTime, double numOfMonths, double contribution) {
 //		System.out.println(numOfMonths);
-		if (numOfMonths == 0.0) {
-			return principal-contribution;
+		if (principal == 0.0) {
+			return 0.0;
 		}
-		return getTotalBalanceRecurring(principal*(1+interestRate/compoundedNumOfTime)+contribution, interestRate, compoundedNumOfTime, numOfMonths-1, contribution);
+		if (numOfMonths == 0.0) {
+			return principal - contribution - tempPrincipal;
+		}
+		return getTotalBalanceRecurring(principal * (1 + interestRate / compoundedNumOfTime) + contribution,
+				tempPrincipal, interestRate, compoundedNumOfTime, numOfMonths - 1, contribution);
 	}
 
 	@PutMapping("/confirm_delete_account/{accId}/{totalBalance}") // used in accountActions.html
@@ -327,7 +341,7 @@ public class AccountController {
 			txn.setAccount(acct);
 			transactionRepo.save(txn);
 		}
-		
+
 //		transactionRepo.updateTxnDormantStatus(true, accountId);
 
 		Transactions transactionNew = new Transactions();
@@ -342,17 +356,17 @@ public class AccountController {
 
 		return "welcomeUser";
 	}
-	
-	// ============================================= Renew fixed/recurring account details
+
+	// ============================================= Renew fixed/recurring account
+	// details
 	@PutMapping("/renewDeposit/{accId}/{totalBalance}") // used in accountActions.html
-	public String renewDeposit(@PathVariable("accId") Long accId, 
-							@PathVariable("totalBalance") Double totalBalance,
-							@RequestParam("depositAmt") Double depositAmt) {
+	public String renewDeposit(@PathVariable("accId") Long accId, @PathVariable("totalBalance") Double totalBalance,
+			@RequestParam("depositAmt") Double depositAmt) {
 		System.out.println(accId);
 		System.out.println(totalBalance);
 		System.out.println(depositAmt);
 		Accounts account = accountRepo.findByAccountId(accId);
-		account.setBalance(totalBalance+depositAmt);
+		account.setBalance(totalBalance + depositAmt);
 		account.setInitiationDate(LocalDate.now());
 		accountRepo.save(account);
 		return "redirect:/welcomeuser";

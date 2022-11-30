@@ -13,7 +13,7 @@
 
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<h3 class="align-self-center my-3">Add new transaction</h3>
-				<div style="width: 30%; margin: auto">
+				<div style="max-width: 500px;">
 					<p class="alert alert-danger" role="alert"
 						th:if="${msg}=='balancelow'">
 						Not able to withdraw $<span
@@ -23,6 +23,10 @@
 						after withdrawal: $<span
 							th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span><br>Minimum
 						balance required: $500.00
+					</p>
+					<p class="alert alert-danger" role="alert"
+						th:if="${msg}=='firsttxn'">
+						First deposit into Savings Account have to be at least $500
 					</p>
 				</div>
 				<div
@@ -34,19 +38,12 @@
 							<div th:case="0" class="form-group">
 								<label for="accNo">No Records</label>
 							</div>
-							<div th:case="1" class="form-group">
-								<select class="form-control" id="selectAccNo" name="accId"
-									required>
-									<option th:each="option, i : ${optionList}"
-										th:value="${option}" th:text="${option}" th:selected="${i==0}"></option>
-								</select>
-							</div>
 							<div th:case="*" class="form-group">
 								<select class="form-control" id="selectAccNo" name="accId"
 									required>
 									<option value="" disabled selected>Select an option</option>
-									<option th:each="option : ${optionList}" th:value="${option}"
-										th:text="${option}"></option>
+									<option th:each="option : ${optionList}" th:value="${option.key}"
+										th:text="${option.value}"></option>
 								</select>
 							</div>
 						</div>

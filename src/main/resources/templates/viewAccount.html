@@ -21,10 +21,9 @@
 						<div class="col-auto my-1">
 							<select class="custom-select" id="selectAccNo" name="accId"
 								required>
-								<option value="" disabled selected required>Select an
-									account</option>
-								<option th:each="option : ${optionList}" th:value="${option}"
-									th:text="${option}"></option>
+								<option value="" disabled selected>Select an account</option>
+								<option th:each="option : ${optionList}"
+									th:value="${option.key}" th:text="${option.value}"></option>
 							</select>
 						</div>
 						<div class="col-auto my-1">
@@ -82,7 +81,8 @@
 			<form th:action="@{/account_actions/} + ${accId}" method="get">
 				<div class="btn-group align-self-center my-3" role="group">
 					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
-					<button type="submit" class="btn btn-primary">Account Actions</button>
+					<button type="submit" class="btn btn-primary">Account
+						Actions</button>
 				</div>
 			</form>
 		</div>

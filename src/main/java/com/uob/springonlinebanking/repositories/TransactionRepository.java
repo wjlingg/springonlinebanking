@@ -14,6 +14,9 @@ public interface TransactionRepository extends CrudRepository<Transactions, Long
 	@Query("SELECT t FROM Transactions t WHERE t.account.accountId=?1")
 	public List<Transactions> getTransactionByAccountId(Long accountId);
 	
+	@Query("SELECT t FROM Transactions t WHERE t.account.accountId=?1 AND t.status='success'")
+	public List<Transactions> getSuccessTxnByAccountId(Long accountId);
+	
 	@Modifying
 	@Query("UPDATE Transactions t SET t.isDormant=:isDormant WHERE t.account.accountId=:accId")
 //	@Query(value="UPDATE Transactions SET is_dormant=:isDormant WHERE account_transaction=:accId", nativeQuery=true)
