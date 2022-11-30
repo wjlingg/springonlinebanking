@@ -27,9 +27,8 @@
 									th:text="${option}"></option>
 							</select>
 						</div>
-						<div class="col-auto my-1 btn-group">
+						<div class="col-auto my-1">
 							<button type="submit" class="btn btn-primary">Submit</button>
-							<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
 						</div>
 					</div>
 				</div>
@@ -40,7 +39,7 @@
 			<h4 class="align-self-center my-3">
 				Account Details (Account ID: <span th:text="${accId}"></span>)
 			</h4>
-			<table class="table">
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>Account Type</th>
@@ -61,7 +60,7 @@
 			</table>
 
 			<h4>Transaction Details</h4>
-			<table class="table">
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>Transaction ID</th>
@@ -81,10 +80,9 @@
 				</tbody>
 			</table>
 			<form th:action="@{/delete_account/} + ${accId}" method="get">
-				<div class="btn-group align-self-center" role="group">
+				<div class="btn-group align-self-center my-3" role="group">
 					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
-					<button type="submit" class="btn btn-danger">Withdraw and
-						Delete</button>
+					<button type="submit" class="btn btn-primary">Account Actions</button>
 				</div>
 			</form>
 		</div>

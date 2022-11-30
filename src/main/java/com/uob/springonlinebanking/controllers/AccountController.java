@@ -305,9 +305,10 @@ public class AccountController {
 		return getTotalBalanceRecurring(principal*(1+interestRate/compoundedNumOfTime)+contribution, interestRate, compoundedNumOfTime, numOfMonths-1, contribution);
 	}
 
-	@PutMapping("/confirm_delete_account/{totalBalance}") // used in deleteAccount.html
-	public String confirmDeleteAccount(@PathVariable("totalBalance") Double balance, @Valid Accounts account,
+	@PutMapping("/confirm_delete_account/{accId}/{totalBalance}") // used in deleteAccount.html
+	public String confirmDeleteAccount(@PathVariable("accId") Long accId, @PathVariable("totalBalance") Double balance,
 			@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
+		Accounts account = accountRepo.findByAccountId(accId);
 		Long accountId = account.getAccountId();
 		account.setBalance(0);
 		account.setDormant(true);

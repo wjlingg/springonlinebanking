@@ -7,86 +7,150 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-
 		<div class="h-100 p-3 d-flex flex-column justify-content-center">
 			<h3 class="align-self-center">
 				Delete Account (Account ID: <span th:text="${accId}"></span>)
 			</h3>
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>Account ID</th>
-						<th>Account Type</th>
-						<th>Account Open Date</th>
-						<th>Annual Interest Rate</th>
-						<th>Account Balance</th>
-					</tr>
-				</thead>
-				<tbody>
-
-					<tr th:each="acct: ${acct}">
-						<td th:text="${acct.accountId}"></td>
-						<td th:text="${acct.accountType}"></td>
-						<td th:text="${acct.initiationDate}"></td>
-						<td th:text="${acct.interestRate}"></td>
-						<td th:text="${acct.balance}"></td>
-					</tr>
-				</tbody>
-
-			</table>
-			<div class="align-self-center">
-				<div>
-					<!-- change date format to dd-mm-yy -->
-					Account Open Date : <span th:text="${acctInitiationDate}"></span><br>
-					Account Maturity Date : <span th:text="${maturityDate}"></span><br>
-					Days left : <span th:text="${daysMaturityDate}"></span><br>
-					Current Balance : <span th:text="${balance}"></span><br>
-					Earned Interest : <span th:text="${earnedInt}"></span><br>
-					Total Balance : <span th:text="${totalBalance}"></span><br>
-				</div>
-				<br>
+			<div
+				class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
+				style="max-width: 500px">
+				<h4>Account Details</h4>
+				<table class="table table-hover">
+					<tbody>
+						<tr>
+							<th scope="row">Account ID</th>
+							<td th:text="${acct.accountId}"></td>
+						</tr>
+						<tr>
+							<th scope="row">Account Type</th>
+							<td th:text="${acct.accountType}"></td>
+						</tr>
+						<tr>
+							<th scope="row">Account Open Date</th>
+							<td th:text="${acctInitiationDate}"></td>
+						</tr>
+						<tr th:if="${acct.accountType != 'Savings'}">
+							<th scope="row">Maturity Date</th>
+							<td th:text="${maturityDate}"></td>
+						</tr>
+						<tr th:if="${acct.accountType != 'Savings'}">
+							<th scope="row">Days to Maturity</th>
+							<td th:text="${daysMaturityDate}"></td>
+						</tr>
+						<tr>
+							<th scope="row">Annual Interest Rate</th>
+							<td th:text="${acct.interestRate}"></td>
+						</tr>
+						<tr th:if="${acct.accountType != 'Savings'}">
+							<th scope="row">Principal Amount</th>
+							<td th:text="${balance}"></td>
+						</tr>
+						<tr th:if="${acct.accountType != 'Savings'}">
+							<th scope="row">Earned Interest</th>
+							<td th:text="${earnedInt}"></td>
+						</tr>
+						<tr th:if="${acct.accountType != 'Savings'}">
+							<th scope="row">Total Balance</th>
+							<td th:text="${totalBalance}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="align-self-center my-3">
 				<div class="btn-group align-self-center" role="group">
-					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
-					<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-toggle="modal"
-						data-target="#exampleModal">Renew Deposit</button>
-					<!-- Modal -->
-					<form
-						th:action="@{/renewDeposit/} + ${accId} + '/' + ${totalBalance}"
-						th:method="put" th:object="${acct}">
-						<div class="modal fade" id="exampleModal" tabindex="-1"
-							aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Enter
-											amount for new deposit</h5>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										Total Balance : <span th:text="${totalBalance}"></span><br>
-										<label for="inputAmount">Amount to deposit</label> <input
-											type="number" step="0.01" class="form-control"
-											id="inputAmount" name="depositAmt" required>
-									</div>
-									<div class="modal-footer">
+					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a> <a
+						th:if="${acct.accountType != 'Savings' && daysMaturityDate == 0}"
+						type="button" class="btn btn-primary" data-toggle="modal"
+						href="#renewModal">Renew Deposit</a> <a type="button"
+						class="btn btn-danger" data-toggle="modal" href="#deleteModal">Withdraw
+						and Delete</a>
+				</div>
+			</div>
+			<!-- Delete Modal -->
+			<div class="modal fade" id="deleteModal" tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Confirm withdraw and delete</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="mb-3 alert alert-danger" role="alert">
+								<p>
+									Your earned accrued interest since <span
+										th:text="${acctInitiationDate}"></span> is SGD <span
+										th:text="${earnedInt}"></span>.
+								</p>
+								<p>
+									Would you like to withdraw your total balance <span
+										th:text="${totalBalance}"></span> and delete your bank account
+									(ID: <span th:text="${acct.accountId}"></span>)?
+								</p>
+								<p>This action is irreversible.</p>
+							</div>
+							<div class="modal-footer">
+								<form
+									th:action="@{/confirm_delete_account/} + ${acct.accountId} + '/' + ${totalBalance}"
+									th:method="put">
+									<div class="btn-group" role="group">
 										<button type="button" class="btn btn-secondary"
 											data-dismiss="modal">Close</button>
-										<button type="submit" class="btn btn-primary">Renew
-											Deposit</button>
+										<button type="submit" class="btn btn-danger">Delete</button>
 									</div>
-								</div>
+								</form>
 							</div>
 						</div>
-					</form>
-					<!-- <button type="submit" class="btn btn-primary">Renew Deposit</button> -->
-					<button type="submit" class="btn btn-danger">Withdraw and
-						Delete</button>
-
+					</div>
 				</div>
+			</div>
+			<!-- Delete Modal -->
+			<!-- Renew Modal -->
+			<div class="modal fade" id="renewModal" tabindex="-1"
+				aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">
+								Renew your <span th:text="${acct.accountType}"></span> account
+							</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<form
+							th:action="@{/renewDeposit/} + ${accId} + '/' + ${totalBalance}"
+							th:method="put" th:object="${acct}">
+							<div class="modal-body">
+								<p>
+									Your <span th:text="${acct.accountType}"></span> (Account Id: <span
+										th:text="${acct.accountId}"></span>) has matured.
+								</p>
+								<p>
+									Total Balance (after interest credited): <strong>SGD <span
+										th:text="${totalBalance}"></span></strong>
+								</p>
+								<label for="inputAmount">Input amount to new <span th:text="${acct.accountType}"></span> account</label><input
+									type="number" step="0.01" class="form-control" id="inputAmount"
+									name="depositAmt" required>
+								<span class="fst-italic text-muted text-center mt-2">Excess amount not deposited will be withdrawn</span>
+							</div>
+							<div class="modal-footer">
+								<div class="btn-group">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Close</button>
+									<button type="submit" class="btn btn-primary">Renew
+										Deposit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- Renew Modal -->
 			</div>
 		</div>
 	</div>
