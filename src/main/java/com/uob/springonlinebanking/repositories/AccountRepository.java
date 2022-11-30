@@ -9,7 +9,7 @@ import com.uob.springonlinebanking.models.Accounts;
 
 public interface AccountRepository extends CrudRepository<Accounts, Long> {
 	
-	//@Query("SELECT a FROM Accounts a WHERE a.accountId = ?1")
+	@Query("SELECT a FROM Accounts a WHERE a.accountId = ?1")
 	public Accounts findByAccountId(Long accId);
 	
 	@Query("SELECT a FROM Accounts a WHERE a.user.userId=?1")
