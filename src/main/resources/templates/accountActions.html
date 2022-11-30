@@ -60,10 +60,10 @@
 				<div class="btn-group align-self-center" role="group">
 					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a> <a
 						th:if="${acct.accountType != 'Savings' && daysMaturityDate == 0}"
-						type="button" class="btn btn-primary" data-toggle="modal"
-						href="#renewModal">Renew Deposit</a> <a type="button"
-						class="btn btn-danger" data-toggle="modal" href="#deleteModal">Withdraw
-						and Delete</a>
+						type="button" class="btn btn-primary"
+						th:href="@{/renewDeposit/} + ${accId} + '/' + ${totalBalance}">Renew
+						Deposit</a> <a type="button" class="btn btn-danger"
+						data-toggle="modal" href="#deleteModal">Withdraw and Delete</a>
 				</div>
 			</div>
 			<!-- Delete Modal -->
@@ -108,50 +108,6 @@
 				</div>
 			</div>
 			<!-- Delete Modal -->
-			<!-- Renew Modal -->
-			<div class="modal fade" id="renewModal" tabindex="-1"
-				aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">
-								Renew your <span th:text="${acct.accountType}"></span> account
-							</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<form
-							th:action="@{/renewDeposit/} + ${accId} + '/' + ${totalBalance}"
-							th:method="put" th:object="${acct}">
-							<div class="modal-body">
-								<p>
-									Your <span th:text="${acct.accountType}"></span> (Account Id: <span
-										th:text="${acct.accountId}"></span>) has matured.
-								</p>
-								<p>
-									Total Balance (after interest credited): <strong>SGD <span
-										th:text="${totalBalance}"></span></strong>
-								</p>
-								<label for="inputAmount">Input amount to new <span th:text="${acct.accountType}"></span> account</label><input
-									type="number" step="0.01" class="form-control" id="inputAmount"
-									name="depositAmt" required>
-								<span class="fst-italic text-muted text-center mt-2">Excess amount not deposited will be withdrawn</span>
-							</div>
-							<div class="modal-footer">
-								<div class="btn-group">
-									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary">Renew
-										Deposit</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-				<!-- Renew Modal -->
-			</div>
 		</div>
 	</div>
 	<div th:replace="fragments/components :: footer"></div>

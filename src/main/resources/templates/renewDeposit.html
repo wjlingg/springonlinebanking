@@ -9,73 +9,100 @@
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
 
-		<form th:action="@{/process_renewdeposit}" method="post">
+		<div class="h-100 p-3 d-flex flex-column justify-content-center">
 
-			<div class="h-100 p-3 d-flex flex-column justify-content-center">
-				<h3 class="align-self-center my-3">Renew or Withdraw Deposit</h3>
-				<div style="width: 30%; margin: auto">
-					<p class="alert alert-danger" role="alert"
-						th:if="${msg}=='balancelow'">
-						Not able to withdraw $<span
-							th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>
-						Current Balance: $<span
-							th:text="${#numbers.formatDecimal(currBal, 3,'COMMA', 2,'POINT')}"></span><br>Balance
-						after withdrawal: $<span
-							th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span><br>Minimum
-						balance required: $500.00
-					</p>
-				</div>
-				<div
-					class="w-100 p-3 m-3 shadow-lg rounded-lg border border-dark align-self-center"
-					style="max-width: 500px">
-					<div class="form-group">
-						<label for="inputAmount">Account Number</label>
-						<div th:switch="${count}">
-							<div th:case="0" class="form-group">
-								<label for="accNo">No Records</label>
-							</div>
-							<div th:case="1" class="form-group">
-								<select class="form-control" id="selectAccNo" name="accId"
-									required>
-									<option th:each="option, i : ${optionList}"
-										th:value="${option}" th:text="${option}" th:selected="${i==0}"></option>
-								</select>
-							</div>
-							<div th:case="*" class="form-group">
-								<select class="form-control" id="selectAccNo" name="accId"
-									required>
-									<option value="" disabled selected>Select an option</option>
-									<option th:each="option : ${optionList}" th:value="${option}"
-										th:text="${option}"></option>
-								</select>
+			<h5 class="align-self-center my-3">
+				Renew your <span th:text="${acct.accountType}"></span> account
+			</h5>
+			<p>
+				Your <span th:text="${acct.accountType}"></span> (Account Id: <span
+					th:text="${acct.accountId}"></span>) has matured.
+			</p>
+			<p>
+				Total Balance (after interest credited): <strong>SGD <span
+					th:text="${totalBalance}"></span></strong>
+			</p>
+		</div>
+		<form
+			th:action="@{/process_renew_deposit/} + ${accId} + '/' + ${totalBalance}"
+			method="post">
+			<p th:if="${msg}=='null'">
+
+				<label for="inputAmount">Input amount to new <span
+					th:text="${acct.accountType}"></span> account
+				</label><input type="number" step="0.01" class="form-control"
+					id="inputAmount" name="depositAmt" required> <span
+					class="fst-italic text-muted text-center mt-2">Excess amount
+					will be deposited to savings account</span>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</p>
+			<p th:if="${msg}=='getSavings'">
+			<!-- TODO: Add a message saying how much the user is lacking or in excess -->
+				<a type="button" class="btn btn-primary" data-toggle="modal"
+					href="#renewModal">Select Savings Account</a>
+			</p>
+			<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
+		</form>
+		<!-- Renew Modal -->
+		<div class="modal fade" id="renewModal" tabindex="-1"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Select your savings account</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form
+						th:action="@{/process_renew_deposit_saving/} + ${accId} + '/' + ${totalBalance} + '/' + ${depositAmt}"
+						th:method="post" th:object="${acct}">
+						<div class="modal-body">
+							<div class="mt-3" th:switch="${count}">
+								<div th:case="0" class="align-items-center">
+									<h3>No Account Record Found</h3>
+									<p>
+										Click <a href="/createaccount">here</a> to add an account
+									</p>
+								</div>
+								<!-- 								<div th:case="1" class="form-group">
+									<select class="form-control" id="selectAccNo" name="accId"
+										required>
+										<option th:each="option, i : ${optionList}"
+											th:value="${option}" th:text="${option}"
+											th:selected="${i==0}"></option>
+									</select>
+								</div> -->
+								<div th:case="*">
+									<h3>View Account Details</h3>
+									<div class="form-row align-items-center">
+										<div class="col-auto my-1">
+											<select class="custom-select" id="selectAccNo"
+												name="accSavingsId" required>
+												<option value="" disabled selected required>Select
+													an account</option>
+												<option th:each="option : ${optionList}"
+													th:value="${option}" th:text="${option}"></option>
+											</select>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputAmount">Amount</label> <input type="number"
-							step="0.01" class="form-control" id="inputAmount"
-							name="txnAmt" required>
-					</div>
-					<label>Type of transaction</label>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="tType"
-							id="inputTransactionType1" value="deposit" checked> <label
-							class="form-check-label" for="inputTransactionType1">Deposit</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="tType"
-							id="inputTransactionType2" value="withdraw"> <label
-							class="form-check-label" for="inputTransactionType2">Withdraw</label>
-					</div>
+						<div class="modal-footer">
+							<div class="btn-group">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
 				</div>
-				<form th:action="@{/renewdeposit/} + ${totalBalance} + ${}">
-				<div class="btn-group align-self-center" role="group">
-					<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
-				</form>
 			</div>
-		</form>
+
+		</div>
+		<!-- Renew Modal -->
 	</div>
 	<div th:replace="fragments/components :: footer"></div>
 </body>
