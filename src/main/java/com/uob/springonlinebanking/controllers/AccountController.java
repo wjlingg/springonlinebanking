@@ -287,7 +287,7 @@ public class AccountController {
 		}
 
 		double totalBalance = balance + earnedInt;
-		
+
 		model.addAttribute("balance", balance);
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
@@ -369,24 +369,42 @@ public class AccountController {
 
 	@PostMapping("/process_renew_deposit/{accId}/{totalBalance}") // used in renewDeposit.html
 	public String processRenewDeposit(@PathVariable("accId") Long accId,
-			@PathVariable("totalBalance") Double totalBalance, @RequestParam("depositAmt") Double depositAmt,
-			Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
-
-		if (depositAmt == totalBalance) {
-			// TODO : write logic to save to fixed deposit account
-			return "redirect:/welcomeuser";
+			@PathVariable("totalBalance") Double totalBalance, @RequestParam("depositAmtInput") Double depositAmtInput,
+			@RequestParam(value = "depositAmtChecked", required = false) String depositAmtChecked, Model model,
+			@AuthenticationPrincipal MyUserDetails userDetails) {
+		Accounts account = accountRepo.findByAccountId(accId);
+		System.out.println("depositAmtInput: " + depositAmtInput);
+		System.out.println("depositAmtChecked: " + depositAmtChecked);
+		
+		if (depositAmtChecked != null) { // if full transfer of deposit amount is checked
+			if (Double.parseDouble(depositAmtChecked) == totalBalance) {
+				System.out.println("full deposit amount");
+				account.setBalance(totalBalance);
+				account.setInitiationDate(LocalDate.now());
+				accountRepo.save(account);
+				return "redirect:/welcomeuser";
+			}
 		}
 
-		double remainingAmt = depositAmt - totalBalance;
-		boolean checkBalance = remainingAmt > 0;
-		if (checkBalance) {
+		if (depositAmtInput == 0) { // if never input deposit amount redirect back
+			System.out.println("zero deposit amount");
+			
+			model.addAttribute("acct", account);
+			model.addAttribute("accId", accId);
+			model.addAttribute("totalBalance", totalBalance);
+			model.addAttribute("msg", "null");
+			model.addAttribute("msgSelect", "noSelection");
+			return "renewDeposit";
+		}
+
+		double remainingAmt = depositAmtInput - totalBalance;
+		boolean checkBalance = remainingAmt > 0; // if deposit more than total balance
+		if (checkBalance) { // then add $500 because savings account need to be at least $500 remaining after deduction
 			remainingAmt += 500.0;
 		}
 		System.out.println("Amt to save: " + remainingAmt);
 		model.addAttribute("msg", "getSavings");
-		model.addAttribute("depositAmt", depositAmt);
-
-		Accounts account = accountRepo.findByAccountId(accId);
+		model.addAttribute("depositAmtInput", depositAmtInput);
 		model.addAttribute("acct", account);
 
 		Long userId = userDetails.getUserId();
@@ -400,9 +418,15 @@ public class AccountController {
 			accountList = accountRepo.findByAccountDetails2(userId, false, "Savings");
 		}
 
-		List<Long> optionList = new ArrayList<Long>();
+//		List<Long> optionList = new ArrayList<Long>();
+//		for (Accounts accountSaving : accountList) {
+//			optionList.add(accountSaving.getAccountId());
+//		}
+
+		Map<Long, String> optionList = new HashMap<Long, String>();
 		for (Accounts accountSaving : accountList) {
-			optionList.add(accountSaving.getAccountId());
+			String stringValue = accountSaving.getAccountId() + " ($" + accountSaving.getBalance() + ")";
+			optionList.put(accountSaving.getAccountId(), stringValue);
 		}
 
 		model.addAttribute("optionList", optionList);
@@ -415,23 +439,24 @@ public class AccountController {
 	@PostMapping("/process_renew_deposit_saving/{accFixedId}/{totalBalance}/{depositAmt}") // used in renewDeposit.html
 	public String processRenewDepositSaving(@PathVariable("accFixedId") Long accFixedId,
 			@PathVariable("totalBalance") Double totalBalance, @PathVariable("depositAmt") Double depositAmt,
-			@RequestParam("accSavingsId") Long accSavingsId, Model model, @AuthenticationPrincipal MyUserDetails userDetails) {
+			@RequestParam("accSavingsId") Long accSavingsId, Model model,
+			@AuthenticationPrincipal MyUserDetails userDetails) {
 //		model.addAttribute("depositAmt", depositAmt);
 		System.out.println("Fixed acc: " + accFixedId);
 		System.out.println("Total bal: " + totalBalance);
 		System.out.println("Savings acc: " + accSavingsId);
 		System.out.println("Deposit amt: " + depositAmt);
-		
+
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
-		
+
 		Accounts accountSavings = accountRepo.findByAccountId(accSavingsId);
 		Accounts accountFixed = accountRepo.findByAccountId(accFixedId);
 		double remainingAmt = depositAmt - totalBalance;
 		double txnAmt = accountSavings.getBalance() - remainingAmt;
-		
+
 		Transactions transaction = new Transactions();
-		
+
 		if (remainingAmt > 0) { // eg deposit = 7000, balance = 6655 -> 7000-6655
 //			model.addAttribute("requiredAmt", depositAmt - totalBalance);
 //			model.addAttribute("subMsg", "more");
@@ -440,18 +465,18 @@ public class AccountController {
 		} else {// eg deposit = 6000, balance = 6655 -> 6655 - 6000
 //			model.addAttribute("excessAmt", totalBalance - depositAmt);
 //			model.addAttribute("subMsg", "less");
-			transaction.setTransactionAmount(-1*remainingAmt);
+			transaction.setTransactionAmount(-1 * remainingAmt);
 			transaction.setTxnType("deposit");
 		}
-		
+
 		accountSavings.setBalance(txnAmt);
 		System.out.println("After setting balance: " + accountSavings.getBalance());
 		accountRepo.save(accountSavings);
-		
+
 		accountFixed.setBalance(depositAmt);
 		accountFixed.setInitiationDate(LocalDate.now());
 		accountRepo.save(accountFixed);
-		
+
 		transaction.setAccount(accountSavings);
 		transaction.setDateTime(LocalDateTime.now());
 		transaction.setDormant(false);

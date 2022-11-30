@@ -14,6 +14,9 @@
 			<h5 class="align-self-center my-3">
 				Renew your <span th:text="${acct.accountType}"></span> account
 			</h5>
+			<p class="alert alert-danger" role="alert"
+				th:if="${msgSelect}=='noSelection'">Please either checked the
+				full transfer or input a deposit amount</p>
 			<p>
 				Your <span th:text="${acct.accountType}"></span> (Account Id: <span
 					th:text="${acct.accountId}"></span>) has matured.
@@ -27,17 +30,23 @@
 			th:action="@{/process_renew_deposit/} + ${accId} + '/' + ${totalBalance}"
 			method="post">
 			<p th:if="${msg}=='null'">
-
 				<label for="inputAmount">Input amount to new <span
 					th:text="${acct.accountType}"></span> account
 				</label><input type="number" step="0.01" class="form-control"
-					id="inputAmount" name="depositAmt" required> <span
-					class="fst-italic text-muted text-center mt-2">Excess amount
-					will be deposited to savings account</span>
-				<button type="submit" class="btn btn-primary">Submit</button>
+					id="inputAmount" name="depositAmtInput" value="0" required>
+			<div>
+				<input type="checkbox" id="depositAmtChecked"
+					name="depositAmtChecked" th:value="${totalBalance}"> I
+				would like to transfer all $<label for="depositAmtChecked"><span
+					th:text="${totalBalance}"></span></label> to new fixed deposit account
+			</div>
+			<span class="fst-italic text-muted text-center mt-2">Excess
+				amount will be deposited to savings account. Insufficient funds will
+				be credited from savings account.</span> <br>
+			<button type="submit" class="btn btn-primary">Submit</button>
 			</p>
 			<p th:if="${msg}=='getSavings'">
-			<!-- TODO: Add a message saying how much the user is lacking or in excess -->
+				<!-- TODO: Add a message saying how much the user is lacking or in excess -->
 				<a type="button" class="btn btn-primary" data-toggle="modal"
 					href="#renewModal">Select Savings Account</a>
 			</p>
@@ -56,7 +65,7 @@
 						</button>
 					</div>
 					<form
-						th:action="@{/process_renew_deposit_saving/} + ${accId} + '/' + ${totalBalance} + '/' + ${depositAmt}"
+						th:action="@{/process_renew_deposit_saving/} + ${accId} + '/' + ${totalBalance} + '/' + ${depositAmtInput}"
 						th:method="post" th:object="${acct}">
 						<div class="modal-body">
 							<div class="mt-3" th:switch="${count}">
@@ -83,7 +92,7 @@
 												<option value="" disabled selected required>Select
 													an account</option>
 												<option th:each="option : ${optionList}"
-													th:value="${option}" th:text="${option}"></option>
+													th:value="${option.key}" th:text="${option.value}"></option>
 											</select>
 										</div>
 									</div>
