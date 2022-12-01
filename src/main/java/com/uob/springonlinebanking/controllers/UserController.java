@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -27,15 +29,14 @@ import com.uob.springonlinebanking.repositories.UserRepository;
 
 @Controller
 public class UserController {
-	
+
 	@Autowired
 	UserRepository userRepo;
 	@Autowired
 	RoleRepository roleRepo;
-	
-	
+
 	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	
+
 	@GetMapping("/")
 	public String showMain() {
 		return "index";
@@ -106,7 +107,7 @@ public class UserController {
 		}
 		return "welcomeUser"; // render welcomeUser.html
 	}
-	
+
 	// ============================================= Edit user record by id
 
 	@GetMapping("/admin/editrecord/{id}") // render the editUser.html based on record id, used in viewUser.html
@@ -115,7 +116,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "editUser";
 	}
-	
+
 	@PutMapping("/admin/process_edit") // Update user record, used in editUser.html
 	public String saveData(@Valid Users user) {
 		if (!StringUtils.isEmpty(user.getPassword())) {
@@ -124,20 +125,39 @@ public class UserController {
 		userRepo.save(user);
 		return "redirect:/viewUser"; // after update redirect to show record which is in the index.html
 	}
-	
+
 	// ============================================= Delete user record by id
 	@DeleteMapping("/admin/deleterecord/{id}") // delete record by id, used in viewUser.html
-	public String deleteRecord(@PathVariable("id") Long id){
+	public String deleteRecord(@PathVariable("id") Long id) {
 
 		userRepo.deleteById(id);
 		return "redirect:/admin/viewuser"; // once record is deleted redirect to index.html to show the final records
 	}
-	
+
 	// ============================================= View all user records
 	@GetMapping("/admin/viewuser") // used in components.html navbar
-	public String showUserList(Users user, Model model) {
-		List<Users> userList = (List<Users>) userRepo.findAll();
-		model.addAttribute("userList",userList);
+	public String showUserList(Users user, Model model, HttpServletRequest request) {
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap == null) {
+			List<Users> userList = (List<Users>) userRepo.findAll();
+			model.addAttribute("userList", userList);	
+		} else {
+			model.addAttribute("count", (Integer) flashMap.get("count"));
+			model.addAttribute("userList", (List<Users>) flashMap.get("searchedUserList"));	
+		}
 		return "viewUser";
+	}
+	
+	// ============================================= Search for user records by username
+	@PostMapping("/admin/process_search") // used in viewUser.html
+	public String showSearchedUserList(@RequestParam("searchString") String searchString, Users user, Model model,
+			RedirectAttributes redirectAttributes) {
+		System.out.println(searchString);
+		List<Users> searchedUserList = (List<Users>) userRepo.getSearchedUserByUsername(searchString);
+		Integer count = searchedUserList.size();
+		redirectAttributes.addFlashAttribute("count", count);
+		redirectAttributes.addFlashAttribute("searchedUserList", searchedUserList);
+		return "redirect:/admin/viewuser";
+
 	}
 }

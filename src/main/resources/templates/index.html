@@ -4,12 +4,12 @@
 <div th:replace="fragments/components :: header"></div>
 <title>Login - United Overseas Bank</title>
 <style>
-body{
-background-image:url('/Spring/springonlinebanking/src/main/resources/templates/img/uob_homepage2.jpg');
-background-image:url('https://www.carecredit.com/sites/cc/image/what-is-good-credit-score-1.jpg');  
-background-size:100%;
-height: 1080px; 
-background-repeat: no-repeat; 
+body {
+background: url([[@{images/uob_homepage2.jpg}]]);
+background-image:url('https://www.carecredit.com/sites/cc/image/what-is-good-credit-score-1.jpg');
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;  
 }
 </style>
 </head>
