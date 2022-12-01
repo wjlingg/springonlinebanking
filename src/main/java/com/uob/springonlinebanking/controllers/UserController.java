@@ -123,7 +123,7 @@ public class UserController {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 		}
 		userRepo.save(user);
-		return "redirect:/viewUser"; // after update redirect to show record which is in the index.html
+		return "redirect:/admin/viewuser"; // after update redirect to show record which is in the index.html
 	}
 
 	// ============================================= Delete user record by id

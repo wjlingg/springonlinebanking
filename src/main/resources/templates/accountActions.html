@@ -68,7 +68,7 @@
 						Renew Deposit</a> 
 					<a type="button" class="btn btn-danger" data-toggle="modal" href="#deleteModal">
 						<span th:if="${acct.accountType == 'Savings'}">Withdraw and Delete</span>
-						<span th:if="${acct.accountType != 'Savings' && daysMaturityDate gt 0}">Foreclose Deposit Account</span>
+						<span th:if="${acct.accountType != 'Savings' && daysMaturityDate gt 0}">Forceclose Deposit Account</span>
 						<span th:if="${acct.accountType != 'Savings' && daysMaturityDate le 0}">Withdraw and Delete</span>
 					</a>
 				</div>
