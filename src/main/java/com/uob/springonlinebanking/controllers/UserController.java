@@ -141,6 +141,7 @@ public class UserController {
 			List<Users> userList = (List<Users>) userRepo.findAll();
 			model.addAttribute("userList", userList);	
 		} else {
+			model.addAttribute("count", (Integer) flashMap.get("count"));
 			model.addAttribute("userList", (List<Users>) flashMap.get("searchedUserList"));	
 		}
 		return "viewUser";
@@ -152,6 +153,8 @@ public class UserController {
 			RedirectAttributes redirectAttributes) {
 		System.out.println(searchString);
 		List<Users> searchedUserList = (List<Users>) userRepo.getSearchedUserByUsername(searchString);
+		Integer count = searchedUserList.size();
+		redirectAttributes.addFlashAttribute("count", count);
 		redirectAttributes.addFlashAttribute("searchedUserList", searchedUserList);
 		return "redirect:/admin/viewuser";
 	}
