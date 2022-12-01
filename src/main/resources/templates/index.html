@@ -3,10 +3,9 @@
 <head>
 <div th:replace="fragments/components :: header"></div>
 <title>Login - United Overseas Bank</title>
-<style>
+<style th:inline="text">
 body {
-background: url([[@{static/images/uob_homepage2.jpg}]]);
-background-image:url('https://www.carecredit.com/sites/cc/image/what-is-good-credit-score-1.jpg');
+background: url("images/uob_homepage2.jpg");
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover;  
