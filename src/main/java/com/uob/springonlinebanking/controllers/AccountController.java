@@ -212,22 +212,28 @@ public class AccountController {
 		double acctInterestRate = acct.getInterestRate();
 		double balance = acct.getBalance();
 		double earnedInt = 0.0;
+		double totalBalance = 0.0;
 
 		switch (acct.getAccountType()) {
 		case "Savings":
 			earnedInt = getSimpleInterest(balance, acctInterestRate, 12.0, diffMonths);
+			totalBalance = balance + earnedInt;
 			break;
 		case "Fixed Deposit":
-			earnedInt = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths) - balance;
+			totalBalance = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths);
+			earnedInt = totalBalance - balance;
 			break;
 		case "Recurring Deposit":
-			double tempPrincipal = acct.getBalance() * diffMonths;
-			earnedInt = getTotalBalanceRecurring(balance, tempPrincipal, acctInterestRate, 12.0, diffMonths, acct.getRecurringDeposit());
-			balance = tempPrincipal;
+			if (diffMonths == 0) {
+				totalBalance = balance;
+			} else {
+				double balanceWithRecurringDeposit = balance + (acct.getRecurringDeposit() * diffMonths);
+				totalBalance = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths, acct.getRecurringDeposit());
+				earnedInt = totalBalance - balanceWithRecurringDeposit;
+				balance = balanceWithRecurringDeposit;
+			}
 			break;
 		}
-
-		double totalBalance = balance + earnedInt;
 
 		model.addAttribute("balance", balance);
 		model.addAttribute("earnedInt", earnedInt);
@@ -246,16 +252,16 @@ public class AccountController {
 		return principal * Math.pow((1 + interestRate / compoundedNumOfTime), numOfMonths);
 	}
 
-	public Double getTotalBalanceRecurring(double principal, double tempPrincipal, double interestRate,
+	public Double getTotalBalanceRecurring(double principal, double interestRate,
 			double compoundedNumOfTime, double numOfMonths, double contribution) {
 		if (principal == 0.0) {
 			return 0.0;
 		}
 		if (numOfMonths == 0.0) {
-			return principal - contribution - tempPrincipal;
+			return principal;
 		}
 		return getTotalBalanceRecurring(principal * (1 + interestRate / compoundedNumOfTime) + contribution,
-				tempPrincipal, interestRate, compoundedNumOfTime, numOfMonths - 1, contribution);
+				interestRate, compoundedNumOfTime, numOfMonths - 1, contribution);
 	}
 
 	@PutMapping("/confirm_delete_account/{accId}/{totalBalance}") // used in accountActions.html
