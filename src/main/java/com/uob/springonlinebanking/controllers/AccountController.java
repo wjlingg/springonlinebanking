@@ -212,23 +212,29 @@ public class AccountController {
 		double acctInterestRate = acct.getInterestRate();
 		double balance = acct.getBalance();
 		double earnedInt = 0.0;
+		double totalBalance = 0.0;
 
 		switch (acct.getAccountType()) {
 		case "Savings":
 			earnedInt = getSimpleInterest(balance, acctInterestRate, 12.0, diffMonths);
+			totalBalance = balance + earnedInt;
 			break;
 		case "Fixed Deposit":
-			earnedInt = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths) - balance;
+			totalBalance = getTotalBalanceFixed(balance, acctInterestRate, 12.0, diffMonths);
+			earnedInt = totalBalance - balance;
 			break;
 		case "Recurring Deposit":
-			double tempPrincipal = acct.getBalance() * diffMonths;
-			earnedInt = getTotalBalanceRecurring(balance, tempPrincipal, acctInterestRate, 12.0, diffMonths,
-					acct.getRecurringDeposit());
-			balance = tempPrincipal;
+			if (diffMonths == 0) {
+				totalBalance = balance;
+			} else {
+				double balanceWithRecurringDeposit = balance + (acct.getRecurringDeposit() * diffMonths);
+				totalBalance = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths,
+						acct.getRecurringDeposit());
+				earnedInt = totalBalance - balanceWithRecurringDeposit;
+				balance = balanceWithRecurringDeposit;
+			}
 			break;
 		}
-
-		double totalBalance = balance + earnedInt;
 
 		model.addAttribute("balance", balance);
 		model.addAttribute("earnedInt", earnedInt);
@@ -247,16 +253,16 @@ public class AccountController {
 		return principal * Math.pow((1 + interestRate / compoundedNumOfTime), numOfMonths);
 	}
 
-	public Double getTotalBalanceRecurring(double principal, double tempPrincipal, double interestRate,
-			double compoundedNumOfTime, double numOfMonths, double contribution) {
+	public Double getTotalBalanceRecurring(double principal, double interestRate, double compoundedNumOfTime,
+			double numOfMonths, double contribution) {
 		if (principal == 0.0) {
 			return 0.0;
 		}
 		if (numOfMonths == 0.0) {
-			return principal - contribution - tempPrincipal;
+			return principal;
 		}
 		return getTotalBalanceRecurring(principal * (1 + interestRate / compoundedNumOfTime) + contribution,
-				tempPrincipal, interestRate, compoundedNumOfTime, numOfMonths - 1, contribution);
+				interestRate, compoundedNumOfTime, numOfMonths - 1, contribution);
 	}
 
 	@PutMapping("/confirm_delete_account/{accId}/{totalBalance}") // used in accountActions.html
@@ -343,7 +349,7 @@ public class AccountController {
 			accountRepo.save(account);
 			return "redirect:/welcomeuser";
 		}
-		
+
 		if (depositAmtInput == 0) { // if never input deposit amount redirect back
 			System.out.println("zero deposit amount");
 			model.addAttribute("accId", accId);
@@ -378,11 +384,12 @@ public class AccountController {
 		if (checkBalance) { // if deposit is more than total balance, need withdraw from savings account
 			accountTempList = accountRepo.findByAccountDetails2(userId, false, "Savings");
 			System.out.println("temp list size: " + accountTempList.size());
-			
+
 			accountList = accountRepo.findByAccountDetails1(userId, remainingAmt, false, "Savings");
 			if (accountTempList.size() == 0) { // if there is no savings account then ask user to create account
 				model.addAttribute("countMsg", "empty");
-			} else { // if there are savings account but not enough funds then ask user to add deposit
+			} else { // if there are savings account but not enough funds then ask user to add
+						// deposit
 				model.addAttribute("countMsg", "insufficient");
 			}
 		} else { // if deposit is less than total balance, need deposit to savings account
@@ -414,7 +421,7 @@ public class AccountController {
 
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
-		
+
 		Accounts accountSavings = accountRepo.findByAccountId(Long.parseLong(accSavingsId.split("\\(")[0].trim()));
 		System.out.println("Savings accId after: " + accountSavings.getAccountId());
 		Accounts accountFixed = accountRepo.findByAccountId(accFixedId);
