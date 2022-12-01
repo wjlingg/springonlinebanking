@@ -1,25 +1,18 @@
 package com.uob.springonlinebanking.controllers;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +28,6 @@ import com.uob.springonlinebanking.models.Accounts;
 import com.uob.springonlinebanking.models.Transactions;
 import com.uob.springonlinebanking.models.Users;
 import com.uob.springonlinebanking.repositories.AccountRepository;
-import com.uob.springonlinebanking.repositories.RoleRepository;
 import com.uob.springonlinebanking.repositories.TransactionRepository;
 import com.uob.springonlinebanking.repositories.UserRepository;
 import com.uob.springonlinebanking.security.MyUserDetails;
@@ -48,91 +40,18 @@ public class AccountController {
 	@Autowired
 	UserRepository userRepo;
 	@Autowired
-	RoleRepository roleRepo;
-	@Autowired
 	TransactionRepository transactionRepo;
-
-	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-	@GetMapping("/")
-	public String showMain() {
-		return "index";
-	}
-
-	// ============================================= Register Page
-	@GetMapping("/register") // used in index.html
-	public String showRegistrationForm(HttpServletRequest request, Model model) {
-		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-		if (flashMap != null) {
-			model.addAttribute("msg", (String) flashMap.get("msg"));
-			model.addAttribute("userNric", (String) flashMap.get("userNric"));
-			model.addAttribute("contactNo", (String) flashMap.get("contactNo"));
-			model.addAttribute("address", (String) flashMap.get("address"));
-			model.addAttribute("email", (String) flashMap.get("email"));
-			model.addAttribute("nomineeName", (String) flashMap.get("nomineeName"));
-			model.addAttribute("nomineeNric", (String) flashMap.get("nomineeNric"));
-		}
-		return "addUser"; // render addUser.html
-	}
-
-	@PostMapping("/process_register") // used in addUser.html
-	public String processRegister(@RequestParam("accountType") String accountType, Users user,
-			RedirectAttributes redirectAttributes) {
-		if (userRepo.getUserByUsername(user.getUserName()) != null) {
-			redirectAttributes.addFlashAttribute("msg", "userNameExist");
-			redirectAttributes.addFlashAttribute("userNric", user.getUserNric());
-			redirectAttributes.addFlashAttribute("contactNo", user.getContactNo());
-			redirectAttributes.addFlashAttribute("address", user.getAddress());
-			redirectAttributes.addFlashAttribute("email", user.getEmail());
-			redirectAttributes.addFlashAttribute("nomineeName", user.getNomineeName());
-			redirectAttributes.addFlashAttribute("nomineeNric", user.getNomineeNric());
-			return "redirect:/register";
-		} else {
-			if (!StringUtils.isEmpty(user.getPassword())) {
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-			}
-			user.setRolesCollection(Arrays.asList(roleRepo.findRoleByRoleName("ROLE_USER")));
-			userRepo.save(user); // save to user repository
-			Users userLocal = userRepo.getUserByUserId(user.getUserId()); // get the user that has been just saved
-
-			double interestRate; // set interest rate
-			if (accountType.equalsIgnoreCase("Savings")) {
-				interestRate = 0.05;
-			} else if (accountType.equalsIgnoreCase("Fixed Deposit")) {
-				interestRate = 0.10;
-			} else {
-				interestRate = 0.15;
-			}
-			Accounts account = new Accounts(accountType, 0.0, userLocal, false, interestRate, LocalDate.now()); // create
-																												// account
-			accountRepo.save(account); // save to account repository
-
-			return "redirect:/";
-		}
-	}
-
-	// ============================================= Welcome User Page
-	@GetMapping("/welcomeuser") // used in components.html navbar
-	public String welcomeUser(HttpServletRequest request, Model model) {
-		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
-		if (flashMap != null) {
-			String txnType = (String) flashMap.get("msg");
-			if (txnType.equals("deposit")) {
-				model.addAttribute("balAfterDeposit", (Double) flashMap.get("balAfterDeposit"));
-			} else if (txnType.equals("withdraw")) {
-				model.addAttribute("balAfterWithdrawal", (Double) flashMap.get("balAfterWithdrawal"));
-			}
-			model.addAttribute("txnAmt", (Double) flashMap.get("txnAmt"));
-			model.addAttribute("accountNo", (Long) flashMap.get("accountNo"));
-			model.addAttribute("msg", txnType);
-		}
-		return "welcomeUser"; // render welcomeUser.html
-	}
 
 	// ============================================= Create another account
 
 	@GetMapping("/createaccount") // used in welcomeUser.html
-	public String createAccount(@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
+	public String createAccount(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
+			Model model) {
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			model.addAttribute("msg", (String) flashMap.get("msg"));
+		}
+		
 		Long userId = userDetails.getUserId();
 		Users user = userRepo.getUserByUserId(userId);
 
@@ -154,9 +73,18 @@ public class AccountController {
 
 	@PostMapping("/process_account_creation") // used in addAccount.html
 	public String processAccount(@RequestParam("accountType") String accountType,
-			@AuthenticationPrincipal MyUserDetails userDetails) {
+			@RequestParam("balance") double balance,
+			@RequestParam(value = "recurringDeposit", required = false) String recurringDeposit,
+			@AuthenticationPrincipal MyUserDetails userDetails, RedirectAttributes redirectAttributes) {
 		Long userId = userDetails.getUserId();
 		Users userExisting = userRepo.getUserByUserId(userId);
+
+		double tmpRecurringDeposit;
+		if (recurringDeposit == "") {
+			tmpRecurringDeposit = 0.0;
+		} else {
+			tmpRecurringDeposit = Double.parseDouble(recurringDeposit);
+		}
 
 		double interestRate; // set interest rate
 		if (accountType.equalsIgnoreCase("Savings")) {
@@ -166,13 +94,26 @@ public class AccountController {
 		} else {
 			interestRate = 0.15;
 		}
-
-		Accounts newAccount = new Accounts(accountType, 0.0, userExisting, false, interestRate, LocalDate.now()); // create
-		// account
-		// user
-
-		accountRepo.save(newAccount); // save to account repository
-
+		if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Fixed Deposit")) {
+			if (balance > 500 && tmpRecurringDeposit == 0.0) {
+				Accounts newAccount = new Accounts(accountType, balance, userExisting, false, interestRate,
+						LocalDate.now());
+				accountRepo.save(newAccount); // save to account repository
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "savingsFixedError");
+				return "redirect:/createaccount";
+			}
+		} else if (accountType.equalsIgnoreCase("Recurring Deposit")) {
+			
+			if (balance > 500 && tmpRecurringDeposit > 0.0) {
+				Accounts newAccount = new Accounts(accountType, balance, tmpRecurringDeposit, userExisting, false,
+						interestRate, LocalDate.now());
+				accountRepo.save(newAccount); // save to account repository
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "recurringError");
+				return "redirect:/createaccount";
+			}
+		}
 		return "redirect:/welcomeuser";
 	}
 
@@ -281,7 +222,7 @@ public class AccountController {
 			break;
 		case "Recurring Deposit":
 			double tempPrincipal = acct.getBalance() * diffMonths;
-			earnedInt = getTotalBalanceRecurring(balance, tempPrincipal, acctInterestRate, 12.0, diffMonths, 500.0);
+			earnedInt = getTotalBalanceRecurring(balance, tempPrincipal, acctInterestRate, 12.0, diffMonths, acct.getRecurringDeposit());
 			balance = tempPrincipal;
 			break;
 		}

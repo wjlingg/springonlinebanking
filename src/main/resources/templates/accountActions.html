@@ -45,6 +45,10 @@
 							<th scope="row">Principal Amount</th>
 							<td th:text="${balance}"></td>
 						</tr>
+						<tr th:if="${acct.accountType == 'Recurring Deposit'}">
+							<th scope="row">Recurring Deposit Amount</th>
+							<td th:text="${acct.recurringDeposit}"></td>
+						</tr>
 						<tr th:if="${acct.accountType != 'Savings'}">
 							<th scope="row">Earned Interest</th>
 							<td th:text="${earnedInt}"></td>

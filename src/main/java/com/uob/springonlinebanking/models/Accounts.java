@@ -23,8 +23,10 @@ public class Accounts {
     private String accountType;
     
     private double balance;
+    
+    private double recurringDeposit;
 
-    @ManyToOne
+	@ManyToOne
     @JoinColumn(name = "user_account")
     private Users user;
     
@@ -40,6 +42,18 @@ public class Accounts {
     
 	public Accounts() {
 		super();
+	}
+	
+	public Accounts(String accountType, double balance, double recurringDeposit, Users user, boolean isDormant,
+			double interestRate, LocalDate initiationDate) {
+		super();
+		this.accountType = accountType;
+		this.balance = balance;
+		this.recurringDeposit = recurringDeposit;
+		this.user = user;
+		this.isDormant = isDormant;
+		this.interestRate = interestRate;
+		this.initiationDate = initiationDate;
 	}
 
 	public Accounts(String accountType, double balance, Users user, 
@@ -85,6 +99,14 @@ public class Accounts {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
+	}
+	
+	public double getRecurringDeposit() {
+		return recurringDeposit;
+	}
+
+	public void setRecurringDeposit(double recurringDeposit) {
+		this.recurringDeposit = recurringDeposit;
 	}
 
 	public Users getUser() {

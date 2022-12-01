@@ -56,22 +56,44 @@
 					th:object="${user}" class="d-flex flex-column">
 
 					<h4>Select Account Type to Create</h4>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="accountType"
-							id="inputAccountType1" value="Savings" checked> <label
-							class="form-check-label" for="inputAccountType1">Savings</label>
+					<p class="alert alert-danger" role="alert"
+						th:if="${msg}=='savingsFixedError'">Error: For Savings and
+						Fixed Deposit Accounts, minimum initial deposit is $500 and
+						"Recurring Deposit Amount" field must be left empty</p>
+					<p class="alert alert-danger" role="alert"
+						th:if="${msg}=='recurringError'">Error: For Recurring Deposit
+						Account, minimum initial deposit is $500 and "Recurring Deposit
+						Amount" value must be more than $0</p>
+					<div class="form-group">
+						<label>Account Type</label>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="accountType"
+								id="inputAccountType1" value="Savings" checked> <label
+								class="form-check-label" for="inputAccountType1">Savings</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="accountType"
+								id="inputAccountType2" value="Fixed Deposit"> <label
+								class="form-check-label" for="inputAccountType2">Fixed
+								Deposit</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="accountType"
+								id="inputAccountType3" value="Recurring Deposit"> <label
+								class="form-check-label" for="inputAccountType3">Recurring
+								Deposit</label>
+						</div>
 					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="accountType"
-							id="inputAccountType2" value="Fixed Deposit"> <label
-							class="form-check-label" for="inputAccountType2">Fixed
-							Deposit</label>
+					<div class="form-group">
+						<label for="inputBalance">Initial Deposit (min. $500)</label> <input
+							type="number" class="form-control" id="inputBalance"
+							name="balance" required>
 					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="radio" name="accountType"
-							id="inputAccountType3" value="Recurring Deposit">
-						<label class="form-check-label" for="inputAccountType3">Recurring
-							Deposit</label>
+					<div class="form-group">
+						<label for="inputRecurringDeposit">Recurring Deposit
+							Amount (only for Recurring Deposit account)</label> <input type="number"
+							class="form-control" id="inputRecurringDeposit"
+							name="recurringDeposit">
 					</div>
 					<div class="btn-group align-self-center mt-3" role="group">
 						<a href="/welcomeuser" class="btn btn-secondary">Cancel</a>
