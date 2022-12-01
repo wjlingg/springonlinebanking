@@ -1,6 +1,6 @@
 # Springboot Online Banking Application
 
-![alt text](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/image.png)
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/application.png)
 
 ## Introduction
 The Springboot Online Banking Application aims to:

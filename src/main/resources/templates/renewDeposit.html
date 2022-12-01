@@ -8,71 +8,73 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-
 		<div class="h-100 p-3 d-flex flex-column justify-content-center">
-
-			<h5 class="align-self-center my-3">
+			<h4 class="align-self-center my-3">
 				Renew your <span th:text="${acct.accountType}"></span> account
-			</h5>
-			<p class="alert alert-danger" role="alert"
-				th:if="${msgSelect}=='noSelection'">No selection of input
-				detected. Please either checked the full transfer or input a deposit
-				amount</p>
-			<p>
-			<p class="alert alert-danger" role="alert"
-				th:if="${msgSelect}=='multipleSelection'">Multiple selected
-				input detected. Please either checked the full transfer or input a
-				deposit amount</p>
-			<p>
-				Your <span th:text="${acct.accountType}"></span> (Account Id: <span
-					th:text="${acct.accountId}"></span>) has matured.
-			</p>
-			<p>
-				Total Balance (after interest credited): <strong>SGD <span
-					th:text="${totalBalance}"></span></strong>
-			</p>
+			</h4>
+			<div class="align-self-center p-3 m-3 shadow-lg rounded-lg border border-dark">
+				<p class="alert alert-danger" role="alert"
+					th:if="${msgSelect}=='noSelection'">No selection of input
+					detected.<br>Please either checked the full transfer or input a
+					deposit amount.</p>
+				<p>
+				<p class="alert alert-danger" role="alert"
+					th:if="${msgSelect}=='multipleSelection'">Multiple selected
+					input detected. Please either checked the full transfer or input a
+					deposit amount</p>
+				<p>
+					Your <span th:text="${acct.accountType}"></span> Account (Account ID: <span
+						th:text="${acct.accountId}"></span>) has matured.
+				</p>
+				<p>
+					Total Balance (after interest credited): <strong>$<span
+						th:text="${totalBalance}"></span></strong>
+				</p>
+
+				<form
+					th:action="@{/process_renew_deposit/} + ${accId} + '/' + ${totalBalance}"
+					method="post">
+					<p th:if="${msg}=='null'">
+						<label for="inputAmount">Amount to deposit into new <span
+							th:text="${acct.accountType}"></span> Account
+						</label><input type="number" step="0.01" class="form-control"
+							id="inputAmount" name="depositAmtInput" value="0" required>
+						<input type="checkbox" id="depositAmtChecked"
+							name="depositAmtChecked" th:value="${totalBalance}"> I
+						would like to transfer all $<label for="depositAmtChecked"><span
+							th:text="${totalBalance}"></span></label> to new fixed deposit account <br>
+						<span class="fst-italic text-muted text-center mt-2">Excess
+							balance will be deposited to your savings account.<br>Insufficient funds
+							will be credited from your savings account.</span><br>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</p>
+					<p class="alert alert-success" role="alert"
+						th:if="${msg}=='fullDeposit'">
+						</label><input type="number" step="0.01" class="form-control"
+							id="inputAmount" name="depositAmtInput" value="0" hidden><input
+							type="checkbox" id="depositAmtCheckedConfirm"
+							name="depositAmtCheckedConfirm" th:value="${totalBalance}"
+							checked> <strong> SGD <span
+							th:text="${depositAmtChecked}"></span></strong> will be fully deposited to
+						renewed fixed deposit account.<br>
+						<button type="submit" class="btn btn-primary">Confirm
+							Submit</button>
+					</p>
+					<p class="alert alert-success" role="alert"
+						th:if="${msg}=='getSavings'">
+						<strong>SGD <span th:text="${depositAmtInput}"></span></strong>
+						will be deposited to renewed fixed deposit account.<br> <strong>SGD
+							<span th:text="${remainingAmt}"></span>
+						</strong><label th:if="${msgSub}=='withdraw'"> will be withdrawn
+							from savings account.</label> <label th:if="${msgSub}=='deposit'">
+							will be deposited to savings account.</label><br> Please select a
+						savings account.<br> <a type="button" class="btn btn-primary"
+							data-toggle="modal" href="#renewModal">Select Savings Account</a>
+					</p>
+					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
+				</form>
+			</div>
 		</div>
-		<form
-			th:action="@{/process_renew_deposit/} + ${accId} + '/' + ${totalBalance}"
-			method="post">
-			<p th:if="${msg}=='null'">
-				<label for="inputAmount">Input amount to new <span
-					th:text="${acct.accountType}"></span> account
-				</label><input type="number" step="0.01" class="form-control"
-					id="inputAmount" name="depositAmtInput" value="0" required>
-				<input type="checkbox" id="depositAmtChecked"
-					name="depositAmtChecked" th:value="${totalBalance}"> I
-				would like to transfer all $<label for="depositAmtChecked"><span
-					th:text="${totalBalance}"></span></label> to new fixed deposit account <br>
-				<span class="fst-italic text-muted text-center mt-2">Excess
-					amount will be deposited to savings account. Insufficient funds
-					will be credited from savings account.</span><br>
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</p>
-			<p class="alert alert-success" role="alert"
-				th:if="${msg}=='fullDeposit'">
-				</label><input type="number" step="0.01" class="form-control"
-					id="inputAmount" name="depositAmtInput" value="0" hidden><input
-					type="checkbox" id="depositAmtCheckedConfirm"
-					name="depositAmtCheckedConfirm" th:value="${totalBalance}" checked>
-				<strong> SGD <span th:text="${depositAmtChecked}"></span></strong>
-				will be fully deposited to renewed fixed deposit account.<br>
-				<button type="submit" class="btn btn-primary">Confirm
-					Submit</button>
-			</p>
-			<p class="alert alert-success" role="alert"
-				th:if="${msg}=='getSavings'">
-				<strong>SGD <span th:text="${depositAmtInput}"></span></strong> will
-				be deposited to renewed fixed deposit account.<br> <strong>SGD
-					<span th:text="${remainingAmt}"></span>
-				</strong><label th:if="${msgSub}=='withdraw'"> will be withdrawn from
-					savings account.</label> <label th:if="${msgSub}=='deposit'"> will
-					be deposited to savings account.</label><br> Please select a savings
-				account.<br> <a type="button" class="btn btn-primary"
-					data-toggle="modal" href="#renewModal">Select Savings Account</a>
-			</p>
-			<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a>
-		</form>
 		<!-- Renew Modal -->
 		<div class="modal fade" id="renewModal" tabindex="-1"
 			aria-hidden="true">
@@ -98,8 +100,8 @@
 									</p>
 									<p class="alert alert-danger" role="alert"
 										th:if="${countMsg}=='insufficient'">
-										No Account Has Sufficient Funds<br> Click <a href="/addtransaction">here</a>
-										to make a deposit
+										No Account Has Sufficient Funds<br> Click <a
+											href="/addtransaction">here</a> to make a deposit
 									</p>
 								</div>
 								<div th:case="1" class="form-group">
