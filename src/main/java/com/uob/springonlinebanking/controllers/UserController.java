@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -146,7 +147,7 @@ public class UserController {
 		}
 		return "viewUser";
 	}
-
+	
 	// ============================================= Search for user records by username
 	@PostMapping("/admin/process_search") // used in viewUser.html
 	public String showSearchedUserList(@RequestParam("searchString") String searchString, Users user, Model model,
@@ -157,5 +158,6 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("count", count);
 		redirectAttributes.addFlashAttribute("searchedUserList", searchedUserList);
 		return "redirect:/admin/viewuser";
+
 	}
 }
