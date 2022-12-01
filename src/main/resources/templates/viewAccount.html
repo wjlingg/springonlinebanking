@@ -6,18 +6,18 @@
 </head>
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
-	<div class="container my-3" id="content">
-		<form th:action="@{/process_view_account}" method="post">
+	<div class="container my-3 d-flex flex-column" id="content">
+		<form th:action="@{/process_view_account}" method="post" class="align-self-center">
 			<div class="mt-3" th:switch="${count}">
-				<div th:case="0" class="align-items-center">
+				<div th:case="0">
 					<h3>No Account Record Found</h3>
 					<p>
 						Click <a href="/createaccount">here</a> to add an account
 					</p>
 				</div>
 				<div th:case="*">
-					<h3>View Account Details</h3>
-					<div class="form-row align-items-center">
+					<h3 class="text-center">View Account Details</h3>
+					<div class="form-row">
 						<div class="col-auto my-1">
 							<select class="custom-select" id="selectAccNo" name="accId"
 								required>
@@ -34,8 +34,8 @@
 			</div>
 		</form>
 
-		<div class="mt-5" th:if="${accId}">
-			<h4 class="align-self-center my-3">
+		<div class="mt-5 p-3 m-3 shadow-lg rounded-lg border border-dark" th:if="${accId}">
+			<h4 class="my-3">
 				Account Details (Account ID: <span th:text="${accId}"></span>)
 			</h4>
 			<table class="table table-hover">

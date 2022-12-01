@@ -7,74 +7,85 @@
 <body>
 	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container my-3" id="content">
-		<h2>List of Users</h2>
-		<div style="overflow-x: auto;">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th scope="col">User ID</th>
-						<th scope="col">User Name</th>
-						<th scope="col">User NRIC</th>
-						<th scope="col">User Email</th>
-						<th scope="col">User Address</th>
-						<th scope="col">User Contact No.</th>
-						<th scope="col">Nominee Name</th>
-						<th scope="col">Options</th>
-					</tr>
-				</thead>
+		<div
+			class="d-flex flex-column p-3 m-3 shadow-lg rounded-lg border border-dark">
+			<div class="align-self-end">
+				<form class="form-inline" th:action="@{/admin/process_search}" method="POST">
+					<input class="form-control mr-sm-2" type="search"
+						placeholder="Search User" aria-label="Search User" name="searchString">
+					<button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+				</form>
+			</div>
+			<h2 class="mt-3">List of Users</h2>
+			<div style="overflow-x: auto;">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">User ID</th>
+							<th scope="col">User Name</th>
+							<th scope="col">User NRIC</th>
+							<th scope="col">User Email</th>
+							<th scope="col">User Address</th>
+							<th scope="col">User Contact No.</th>
+							<th scope="col">Nominee Name</th>
+							<th scope="col">Options</th>
+						</tr>
+					</thead>
 
-				<tbody>
-					<tr th:each="user : ${userList}">
-						<td scope="row" th:text="${user.userId}"></td>
-						<td th:text="${user.userName}"></td>
-						<td th:text="${user.userNric}"></td>
-						<td th:text="${user.email}"></td>
-						<td th:text="${user.address}"></td>
-						<td th:text="${user.contactNo}"></td>
-						<td th:text="${user.nomineeName}"></td>
-						<td>
-							<div class="btn-group" role="group">
-								<a class="btn btn-primary"
-									th:href="@{/admin/editrecord/{userId}(userId=${user.userId})}">Edit</a>
-								<button type="button" class="btn btn-danger" data-toggle="modal"
-									th:attr="data-target='#deleteModal'+ ${user.userId}">Delete</button>
-							</div>
-						</td>
-						<div class="modal fade" th:id="'deleteModal' + ${user.userId}"
-							tabindex="-1" aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title">Confirm delete</h5>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<div class="mb-3 alert alert-danger" role="alert">
-											Deleting User Account (ID: <span th:text="${user.userId}"></span>).
-											This action is irreversible
+					<tbody>
+						<tr th:each="user : ${userList}">
+							<td scope="row" th:text="${user.userId}"></td>
+							<td th:text="${user.userName}"></td>
+							<td th:text="${user.userNric}"></td>
+							<td th:text="${user.email}"></td>
+							<td th:text="${user.address}"></td>
+							<td th:text="${user.contactNo}"></td>
+							<td th:text="${user.nomineeName}"></td>
+							<td>
+								<div class="btn-group" role="group">
+									<a class="btn btn-primary"
+										th:href="@{/admin/editrecord/{userId}(userId=${user.userId})}">Edit</a>
+									<button type="button" class="btn btn-danger"
+										data-toggle="modal"
+										th:attr="data-target='#deleteModal'+ ${user.userId}">Delete</button>
+								</div>
+							</td>
+							<div class="modal fade" th:id="'deleteModal' + ${user.userId}"
+								tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Confirm delete</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
 										</div>
-										<div class="modal-footer">
-											<form th:action="@{/admin/deleterecord/} + ${user.userId}"
-												th:method="DELETE">
-												<div class="btn-group" role="group">
-													<button type="button" class="btn btn-secondary"
-														data-dismiss="modal">Close</button>
-													<button type="submit" class="btn btn-danger">Delete</button>
-												</div>
-											</form>
+										<div class="modal-body">
+											<div class="mb-3 alert alert-danger" role="alert">
+												Deleting User Account (ID: <span th:text="${user.userId}"></span>).
+												This action is irreversible
+											</div>
+											<div class="modal-footer">
+												<form th:action="@{/admin/deleterecord/} + ${user.userId}"
+													th:method="DELETE">
+													<div class="btn-group" role="group">
+														<button type="button" class="btn btn-secondary"
+															data-dismiss="modal">Close</button>
+														<button type="submit" class="btn btn-danger">Delete</button>
+													</div>
+												</form>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="my-3">
-			<a href="/welcomeuser" class="btn btn-secondary">Back to home</a>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="my-3">
+				<a href="/welcomeuser" class="btn btn-secondary">Back to home</a>
+			</div>
 		</div>
 	</div>
 	<div th:replace="fragments/components :: footer"></div>

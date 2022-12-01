@@ -15,30 +15,32 @@
 			<div style="max-width: 500px;">
 				<p class="alert alert-success" role="alert"
 					th:if="${msg}=='deposit'">
-					Account ID: <span th:text="${accountNo}"></span><br>
-					Deposited Amount: $<span
+					Account ID: <span th:text="${accountNo}"></span><br> Deposited
+					Amount: $<span
 						th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
 					after deposit: $<span
 						th:text="${#numbers.formatDecimal(balAfterDeposit, 3,'COMMA', 2,'POINT')}"></span>
 				</p>
 				<p class="alert alert-success" role="alert"
 					th:if="${msg}=='withdraw'">
-					Account ID: <span th:text="${accountNo}"></span><br>
-					Withdrawn Amount: $<span
+					Account ID: <span th:text="${accountNo}"></span><br> Withdrawn
+					Amount: $<span
 						th:text="${#numbers.formatDecimal(txnAmt, 3,'COMMA', 2,'POINT')}"></span><br>Balance
 					after Withdrawal: $<span
 						th:text="${#numbers.formatDecimal(balAfterWithdrawal, 3,'COMMA', 2,'POINT')}"></span>
 				</p>
 			</div>
-			<div class="align-self-center">
+			<div
+				class="align-self-center p-3 m-3 shadow-lg rounded-lg border border-dark"
+				style="max-width: 500px;">
 				<a class="btn btn-primary btn-lg btn-block my-4"
 					sec:authorize="hasRole('ADMIN')" th:href="@{/admin/viewuser}"
 					role="button">View customer record(s)</a> <a
 					class="btn btn-primary btn-lg btn-block my-4"
 					th:href="@{/viewaccount}" role="button">View account(s)</a> <a
 					class="btn btn-secondary btn-lg btn-block my-4"
-					th:href="@{/createaccount}" role="button">Create an
-					account</a> <a class="btn btn-secondary btn-lg btn-block my-4"
+					th:href="@{/createaccount}" role="button">Create an account</a> <a
+					class="btn btn-secondary btn-lg btn-block my-4"
 					th:href="@{/addtransaction}" role="button">Make a transaction</a>
 			</div>
 		</div>

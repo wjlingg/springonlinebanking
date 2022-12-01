@@ -41,7 +41,7 @@
 							<th scope="row">Annual Interest Rate</th>
 							<td th:text="${acct.interestRate}"></td>
 						</tr>
-						<tr th:if="${acct.accountType != 'Savings'}">
+						<tr>
 							<th scope="row">Principal Amount</th>
 							<td th:text="${balance}"></td>
 						</tr>
@@ -49,11 +49,11 @@
 							<th scope="row">Recurring Deposit Amount</th>
 							<td th:text="${acct.recurringDeposit}"></td>
 						</tr>
-						<tr th:if="${acct.accountType != 'Savings'}">
+						<tr>
 							<th scope="row">Earned Interest</th>
 							<td th:text="${earnedInt}"></td>
 						</tr>
-						<tr th:if="${acct.accountType != 'Savings'}">
+						<tr>
 							<th scope="row">Total Balance</th>
 							<td th:text="${totalBalance}"></td>
 						</tr>
@@ -86,11 +86,11 @@
 							<div class="mb-3 alert alert-danger" role="alert">
 								<p>
 									Your earned accrued interest since <span
-										th:text="${acctInitiationDate}"></span> is SGD <span
+										th:text="${acctInitiationDate}"></span> is $<span
 										th:text="${earnedInt}"></span>.
 								</p>
 								<p>
-									Would you like to withdraw your total balance <span
+									Would you like to withdraw your total balance $<span
 										th:text="${totalBalance}"></span> and delete your bank account
 									(ID: <span th:text="${acct.accountId}"></span>)?
 								</p>

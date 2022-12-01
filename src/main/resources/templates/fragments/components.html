@@ -52,11 +52,9 @@
 						aria-expanded="false"><i class="fa-solid fa-piggy-bank"></i>
 							Accounts </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Savings</a> <a
-								class="dropdown-item" href="#">Current</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Recurring</a> <a
-								class="dropdown-item" href="#">Fixed</a>
+							<a class="dropdown-item" href="/viewaccount">View Account(s)</a>
+							<a class="dropdown-item" href="/createaccount">Open Account</a> 
+							<a class="dropdown-item" href="/addtransaction">Add Transaction</a>
 						</div></li>
 					<li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
@@ -65,8 +63,7 @@
 							Customer Records </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="/admin/viewuser">Show Records</a>
-							<a class="dropdown-item" href="/adddefaultrecord">Add
-								Customer Record</a>
+							<a class="dropdown-item" href="/adddefaultrecord">Add Customer Record</a>
 						</div></li>
 				</ul>
 				<div sec:authorize="isAuthenticated()">
