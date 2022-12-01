@@ -94,7 +94,7 @@ public class AccountController {
 		} else {
 			interestRate = 0.15;
 		}
-		
+
 		Long newAccId = 0L;
 		if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Fixed Deposit")) {
 			if (balance >= 500 && tmpRecurringDeposit == 0.0) {
@@ -119,13 +119,14 @@ public class AccountController {
 			}
 		}
 		Accounts account = accountRepo.findByAccountId(newAccId);
-		Transactions transaction = new Transactions("success", balance, LocalDateTime.now(), account, "initial deposit", false);
+		Transactions transaction = new Transactions("success", balance, LocalDateTime.now(), account, "initial deposit",
+				false);
 		transactionRepo.save(transaction);
 		return "redirect:/welcomeuser";
 	}
 
 	// ============================================= View account details
-	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html, viewAccountForm.html
+	@GetMapping("/viewaccount") // used in welcomeUser.html, addAccount.html, viewAccount.html
 	public String showAccount(HttpServletRequest request, @AuthenticationPrincipal MyUserDetails userDetails,
 			Model model) {
 
@@ -195,13 +196,15 @@ public class AccountController {
 
 	// ============================================= Delete account details
 	@GetMapping("account_actions/{accId}") // used in viewAccount.html
-	public String showAccountAction(@PathVariable("accId") Long accId, Model model) {
+	public String showAccountAction(@PathVariable("accId") Long accId,
+			@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		Accounts acct = accountRepo.findByAccountId(accId);
 		model.addAttribute("acct", acct);
 		model.addAttribute("accId", accId);
 		model.addAttribute("acctInitiationDate", acct.getInitiationDate()); // account open date
 		model.addAttribute("todayDate", LocalDate.now()); // today date
 		model.addAttribute("acctInterestRate", acct.getInterestRate());
+		model.addAttribute("msg", "null");
 
 		// calculate no. of months
 		LocalDate today = LocalDate.now();
@@ -247,6 +250,23 @@ public class AccountController {
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
 
+		if (!acct.getAccountType().equals("Savings")) {
+			// TODO: check if the user got savings account
+			Long userId = userDetails.getUserId();
+			List<Accounts> accountSavingList = accountRepo.findByAccountDetails2(userId, false, "Savings");
+			Map<Long, String> optionList = new HashMap<Long, String>();
+			for (Accounts account : accountSavingList) {
+				String stringValue = account.getAccountId() + " ($" + account.getBalance() + ")";
+				optionList.put(account.getAccountId(), stringValue);
+			}
+
+			model.addAttribute("optionList", optionList);
+			Integer count = optionList.size();
+			model.addAttribute("count", count);
+			if (count != 0) {
+				model.addAttribute("msg", "getSavings");
+			}
+		}
 		return "accountActions";
 	}
 
@@ -274,8 +294,42 @@ public class AccountController {
 
 	@PutMapping("/confirm_delete_account/{accId}/{totalBalance}") // used in accountActions.html
 	public String confirmDeleteAccount(@PathVariable("accId") Long accId, @PathVariable("totalBalance") Double balance,
+			@RequestParam(value = "accSavingsId", required = false) String accSavingsId,
 			@AuthenticationPrincipal MyUserDetails userDetails, Model model) {
 		Accounts account = accountRepo.findByAccountId(accId);
+		System.out.println("Savings acc: " + accSavingsId);
+		if (accSavingsId != null) {
+			Accounts accountSavings = accountRepo.findByAccountId(Long.parseLong(accSavingsId.split("\\(")[0].trim()));
+			accountSavings.setBalance(accountSavings.getBalance() + balance);
+			System.out.println(accountSavings.getBalance());
+			account.setBalance(0);
+			account.setDormant(true);
+			accountRepo.save(accountSavings);
+			accountRepo.save(account);
+			
+			Transactions transactionNewSavings = new Transactions();
+			transactionNewSavings.setTransactionAmount(balance);
+			transactionNewSavings.setTxnType("deposit");
+			transactionNewSavings.setAccount(accountSavings);
+			transactionNewSavings.setDateTime(LocalDateTime.now());
+			transactionNewSavings.setDormant(false);
+			transactionNewSavings.setStatus("success");
+
+			transactionRepo.save(transactionNewSavings);
+			
+			Transactions transactionNewDeposit = new Transactions();
+			transactionNewDeposit.setTransactionAmount(balance);
+			transactionNewDeposit.setTxnType("withdraw");
+			transactionNewDeposit.setAccount(account);
+			transactionNewDeposit.setDateTime(LocalDateTime.now());
+			transactionNewDeposit.setDormant(true);
+			transactionNewDeposit.setStatus("success");
+
+			transactionRepo.save(transactionNewDeposit);
+			
+			return "welcomeUser";
+		}
+
 		Long accountId = account.getAccountId();
 		account.setBalance(0);
 		account.setDormant(true);

@@ -96,10 +96,44 @@
 								</p>
 								<p>This action is irreversible.</p>
 							</div>
+
 							<div class="modal-footer">
 								<form
 									th:action="@{/confirm_delete_account/} + ${acct.accountId} + '/' + ${totalBalance}"
 									th:method="put">
+									<div class="alert alert-success" role="alert"
+										th:if="${msg}=='getSavings'">
+										Please select a savings account to withdraw to.
+										<div class="mt-3" th:switch="${count}">
+											<div th:case="0" class="align-items-center">
+												No Savings Account Found<br> Click <a
+													href="/createaccount">here</a> to add a savings account
+											</div>
+											<div th:case="1" class="form-group">
+												<h6>Confirm your selected savings account</h6>
+												<select class="form-control" id="selectAccNo"
+													name="accSavingsId" required>
+													<option th:each="option, i : ${optionList}"
+														th:value="${option.value}" th:text="${option.key}"
+														th:selected="${i==0}"></option>
+												</select>
+											</div>
+											<div th:case="*">
+												<h6>Confirm your selected savings account</h6>
+												<div class="form-row align-items-center">
+													<div class="col-auto my-1">
+														<select class="custom-select" id="selectAccNo"
+															name="accSavingsId" required>
+															<option value="" disabled selected required>Select
+																an account</option>
+															<option th:each="option : ${optionList}"
+																th:value="${option.value}" th:text="${option.key}"></option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 									<div class="btn-group" role="group">
 										<button type="button" class="btn btn-secondary"
 											data-dismiss="modal">Close</button>
