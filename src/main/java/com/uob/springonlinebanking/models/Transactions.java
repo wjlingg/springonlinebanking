@@ -25,28 +25,25 @@ public class Transactions {
 	@ManyToOne
 	@JoinColumn(name = "account_transaction")
 	private Accounts account;
-	
+
 	private String txnType; // deposit, withdraw
-	
+
 	private String msg; // additional message for failure
 
 	private boolean isDormant;
-	
+
 	public Transactions() {
 		super();
 	}
 
-	public Transactions(long transactionId, String status, double transactionAmount, 
-						LocalDateTime dateTime, Accounts account, String txnType, 
-						String msg, boolean isDormant) {
+	public Transactions(String status, double transactionAmount, LocalDateTime dateTime, Accounts account,
+			String txnType, boolean isDormant) {
 		super();
-		this.transactionId = transactionId;
 		this.status = status;
 		this.transactionAmount = transactionAmount;
 		this.dateTime = dateTime;
 		this.account = account;
 		this.txnType = txnType;
-		this.msg = msg;
 		this.isDormant = isDormant;
 	}
 

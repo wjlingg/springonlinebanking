@@ -94,26 +94,33 @@ public class AccountController {
 		} else {
 			interestRate = 0.15;
 		}
+		
+		Long newAccId = 0L;
 		if (accountType.equalsIgnoreCase("Savings") || accountType.equalsIgnoreCase("Fixed Deposit")) {
-			if (balance > 500 && tmpRecurringDeposit == 0.0) {
+			if (balance >= 500 && tmpRecurringDeposit == 0.0) {
 				Accounts newAccount = new Accounts(accountType, balance, userExisting, false, interestRate,
 						LocalDate.now());
 				accountRepo.save(newAccount); // save to account repository
+				newAccId = newAccount.getAccountId();
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "savingsFixedError");
 				return "redirect:/createaccount";
 			}
 		} else if (accountType.equalsIgnoreCase("Recurring Deposit")) {
 
-			if (balance > 500 && tmpRecurringDeposit > 0.0) {
+			if (balance >= 500 && tmpRecurringDeposit > 0.0) {
 				Accounts newAccount = new Accounts(accountType, balance, tmpRecurringDeposit, userExisting, false,
 						interestRate, LocalDate.now());
 				accountRepo.save(newAccount); // save to account repository
+				newAccId = newAccount.getAccountId();
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "recurringError");
 				return "redirect:/createaccount";
 			}
 		}
+		Accounts account = accountRepo.findByAccountId(newAccId);
+		Transactions transaction = new Transactions("success", balance, LocalDateTime.now(), account, "initial deposit", false);
+		transactionRepo.save(transaction);
 		return "redirect:/welcomeuser";
 	}
 
