@@ -18,10 +18,11 @@ public class Roles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;
 
-    // owning side roles class "copy" the referencing side users class ie (private Collection<Roles> rolesCollection;)
+    // being referenced side roles class "copy" the owning side users class ie (private Collection<Roles> rolesCollection;)
     @ManyToMany(mappedBy = "rolesCollection") 
     private Collection<Users> usersCollection;
 
+    // actual physical mapping on the owning side roles class, owns the foreign key privilegeId
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_privileges", 
 			    joinColumns = @JoinColumn(name = "role_id_roles", referencedColumnName = "roleId"), 

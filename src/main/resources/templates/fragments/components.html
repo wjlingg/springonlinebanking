@@ -53,8 +53,8 @@
 							Accounts </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="/viewaccount">View Account(s)</a>
-							<a class="dropdown-item" href="/createaccount">Open Account</a> 
-							<a class="dropdown-item" href="/addtransaction">Add Transaction</a>
+							<a class="dropdown-item" href="/createaccount">Open Account</a> <a
+								class="dropdown-item" href="/addtransaction">Add Transaction</a>
 						</div></li>
 					<li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
@@ -63,13 +63,13 @@
 							Customer Records </a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="/admin/viewuser">Show Records</a>
-							<a class="dropdown-item" href="/adddefaultrecord">Add Customer Record</a>
+							<a class="dropdown-item" href="#">Add
+								Customer Record</a>
 						</div></li>
 				</ul>
 				<div sec:authorize="isAuthenticated()">
 					<form th:action="@{/logout}" method="post">
-						<button class="btn btn-danger me-3" th:action="@{/logout}"
-							id="logout-btn">Logout</button>
+						<button class="btn btn-danger me-3" id="logout-btn">Logout</button>
 					</form>
 				</div>
 			</div>

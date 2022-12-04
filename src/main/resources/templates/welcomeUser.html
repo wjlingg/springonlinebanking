@@ -12,7 +12,7 @@
 				Welcome, <span sec:authentication="name" class="cust-username"></span>.
 				(User ID: <span sec:authentication="principal.userId"></span>)
 			</h3>
-			<div style="max-width: 500px;">
+			<div class="align-self-center my-3" style="max-width: 500px;">
 				<p class="alert alert-success" role="alert"
 					th:if="${msg}=='deposit'">
 					Account ID: <span th:text="${accountNo}"></span><br> Deposited

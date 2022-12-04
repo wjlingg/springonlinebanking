@@ -26,10 +26,12 @@ public class Accounts {
     
     private double recurringDeposit;
 
+    // actual physical mapping on the owning side, owns the foreign key userId
 	@ManyToOne
     @JoinColumn(name = "user_account")
     private Users user;
     
+	// accountId is being referenced by Transactions entity
     @OneToMany
 	@JoinColumn(name = "account_transaction")
 	private List<Transactions> accountTransactionList = new ArrayList<>();  

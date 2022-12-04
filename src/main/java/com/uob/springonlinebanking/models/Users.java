@@ -31,10 +31,12 @@ public class Users {
 	private String nomineeName;
 	private String nomineeNric;
 	
+	// userId is being referenced by Accounts entity
 	@OneToMany // one user can have many accounts
 	@JoinColumn(name = "user_account")
 	private List<Accounts> accountList = new ArrayList<>();
 
+	// actual physical mapping on the owning side users class, owns the foreign key roleId
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", 
 			    joinColumns = @JoinColumn(name = "user_id_users", referencedColumnName = "userId"), 

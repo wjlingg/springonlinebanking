@@ -22,6 +22,7 @@ public class Transactions {
 
 	private LocalDateTime dateTime;
 
+	// actual physical mapping on the owning side, owns the foreign key accountId
 	@ManyToOne
 	@JoinColumn(name = "account_transaction")
 	private Accounts account;

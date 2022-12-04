@@ -62,14 +62,18 @@
 			</div>
 			<div class="align-self-center my-3">
 				<div class="btn-group align-self-center" role="group">
-					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a> 
-					<a th:if="${acct.accountType != 'Savings' && daysMaturityDate le 0}" type="button" 
-						class="btn btn-primary"	th:href="@{/renewDeposit/} + ${accId} + '/' + ${totalBalance}">
-						Renew Deposit</a> 
-					<a type="button" class="btn btn-danger" data-toggle="modal" href="#deleteModal">
-						<span th:if="${acct.accountType == 'Savings'}">Withdraw and Delete</span>
-						<span th:if="${acct.accountType != 'Savings' && daysMaturityDate gt 0}">Forceclose Deposit Account</span>
-						<span th:if="${acct.accountType != 'Savings' && daysMaturityDate le 0}">Withdraw and Delete</span>
+					<a href="/welcomeuser" class="btn btn-secondary">Back to Home</a> <a
+						th:if="${acct.accountType != 'Savings' && daysMaturityDate le 0}"
+						type="button" class="btn btn-primary"
+						th:href="@{/renewDeposit/} + ${accId} + '/' + ${totalBalance}">
+						Renew Deposit</a> <a type="button" class="btn btn-danger"
+						data-toggle="modal" href="#deleteModal"> <span
+						th:if="${acct.accountType == 'Savings'}">Withdraw and
+							Delete</span> <span
+						th:if="${acct.accountType != 'Savings' && daysMaturityDate gt 0}">Force
+							Closure Deposit Account</span> <span
+						th:if="${acct.accountType != 'Savings' && daysMaturityDate le 0}">Withdraw
+							and Delete</span>
 					</a>
 				</div>
 			</div>
@@ -85,66 +89,66 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<div class="modal-body">
-							<div class="mb-3 alert alert-danger" role="alert">
-								<p>
-									Your earned accrued interest since <span
-										th:text="${acctInitiationDate}"></span> is $<span
-										th:text="${earnedInt}"></span>.
-								</p>
-								<p>
-									Would you like to withdraw your total balance $<span
-										th:text="${totalBalance}"></span> and delete your bank account
-									(ID: <span th:text="${acct.accountId}"></span>)?
-								</p>
-								<p>This action is irreversible.</p>
-							</div>
+						<form
+							th:action="@{/confirm_delete_account/} + ${acct.accountId} + '/' + ${totalBalance}"
+							th:method="put">
+							<div class="modal-body">
+								<div class="mb-3 alert alert-danger" role="alert">
+									<p>
+										Your earned accrued interest since <span
+											th:text="${acctInitiationDate}"></span> is $<span
+											th:text="${earnedInt}"></span>.
+									</p>
+									<p>
+										Would you like to withdraw your total balance $<span
+											th:text="${totalBalance}"></span> and delete your bank
+										account (ID: <span th:text="${acct.accountId}"></span>)?
+									</p>
+									<p>This action is irreversible.</p>
+								</div>
 
-							<div class="modal-footer">
-								<form
-									th:action="@{/confirm_delete_account/} + ${acct.accountId} + '/' + ${totalBalance}"
-									th:method="put">
-									<div class="alert alert-success" role="alert"
-										th:if="${msg}=='getSavings'">
-										Please select a savings account to withdraw to.
-										<div class="mt-3" th:switch="${count}">
-											<div th:case="0" class="align-items-center">
-												No Savings Account Found<br> Click <a
-													href="/createaccount">here</a> to add a savings account
-											</div>
-											<div th:case="1" class="form-group">
-												<h6>Confirm your selected savings account</h6>
-												<select class="form-control" id="selectAccNo"
-													name="accSavingsId" required>
-													<option th:each="option, i : ${optionList}"
-														th:value="${option.value}" th:text="${option.key}"
-														th:selected="${i==0}"></option>
-												</select>
-											</div>
-											<div th:case="*">
-												<h6>Confirm your selected savings account</h6>
-												<div class="form-row align-items-center">
-													<div class="col-auto my-1">
-														<select class="custom-select" id="selectAccNo"
-															name="accSavingsId" required>
-															<option value="" disabled selected required>Select
-																an account</option>
-															<option th:each="option : ${optionList}"
-																th:value="${option.value}" th:text="${option.key}"></option>
-														</select>
-													</div>
+								<div class="alert alert-success" role="alert"
+									th:if="${msg}=='getSavings'">
+									Please select a savings account to withdraw to.
+									<div class="mt-3" th:switch="${count}">
+										<div th:case="0" class="align-items-center">
+											No Savings Account Found<br> Click <a
+												href="/createaccount">here</a> to add a savings account
+										</div>
+										<div th:case="1" class="form-group">
+											<h6>Confirm your selected savings account</h6>
+											<select class="form-control" id="selectAccNo"
+												name="accSavingsId" required>
+												<option th:each="option, i : ${optionList}"
+													th:value="${option.key}" th:text="${option.value}"
+													th:selected="${i==0}"></option>
+											</select>
+										</div>
+										<div th:case="*">
+											<h6>Confirm your selected savings account</h6>
+											<div class="form-row align-items-center">
+												<div class="col-auto my-1">
+													<select class="custom-select" id="selectAccNo"
+														name="accSavingsId" required>
+														<option value="" disabled selected required>Select
+															an account</option>
+														<option th:each="option : ${optionList}"
+															th:value="${option.key}" th:text="${option.value}"></option>
+													</select>
 												</div>
 											</div>
 										</div>
 									</div>
+								</div>
+								<div class="modal-footer">
 									<div class="btn-group" role="group">
 										<button type="button" class="btn btn-secondary"
 											data-dismiss="modal">Close</button>
 										<button type="submit" class="btn btn-danger">Delete</button>
 									</div>
-								</form>
+								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>

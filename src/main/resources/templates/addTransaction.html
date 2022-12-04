@@ -12,7 +12,7 @@
 		<form th:action="@{/process_transaction}" method="post">
 			<div class="h-100 p-3 d-flex flex-column justify-content-center">
 				<h3 class="align-self-center my-3">Add new transaction</h3>
-				<div class="align-self-center" style="max-width: 500px;">
+				<div class="align-self-center my-3" style="max-width: 500px;">
 					<p class="alert alert-danger" role="alert"
 						th:if="${msg}=='balancelow'">
 						Not able to withdraw $<span

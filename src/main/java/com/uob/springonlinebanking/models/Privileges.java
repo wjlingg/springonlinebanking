@@ -17,7 +17,7 @@ public class Privileges {
 
     private String privilegeName;
 
-    // owning side privileges class "copy" the referencing side roles class ie (private Collection<Privileges> privilegesCollection;)
+    // being referenced side privileges class "copy" the owning side roles class ie (private Collection<Privileges> privilegesCollection;)
     @ManyToMany(mappedBy = "privilegesCollection")
     private Collection<Roles> rolesCollection;
 

@@ -90,7 +90,7 @@ Go to MySQL Workbench
 4.1.1) Renew Deposit
 - On maturity, user can choose to renew their deposit by depositing more than, less than or equal to the total balance after accrued interest. 
 - If chosen deposited amount is more than total balance, remaining amount required will be credited from user savings account.
-- If chosen deposited amount is less than total balance, excess amount will be deposited from user savings account.
+- If chosen deposited amount is less than total balance, excess amount will be deposited to user savings account.
 
 4.1.2) Withdraw balance and Delete Account
 - Before or after maturity, users can also choose to withdraw the total balance and close the account.

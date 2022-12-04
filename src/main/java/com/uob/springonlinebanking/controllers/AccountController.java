@@ -167,33 +167,6 @@ public class AccountController {
 		return "redirect:/viewaccount";
 	}
 
-	/*
-	 * // ============================================= Delete account details
-	 * 
-	 * @GetMapping("delete_account/{accId}") public String
-	 * showDeleteAccount(@PathVariable("accId") Long accId, Model model) { Accounts
-	 * acct = accountRepo.findByAccountId(accId); model.addAttribute("acct", acct);
-	 * model.addAttribute("accId", accId); model.addAttribute("acctInitiationDate",
-	 * acct.getInitiationDate()); // account open date
-	 * model.addAttribute("todayDate", LocalDate.now()); // today date
-	 * model.addAttribute("acctInterestRate", acct.getInterestRate());
-	 * model.addAttribute("balance", acct.getBalance()); // current balance
-	 * 
-	 * // calculate no. of months LocalDate today = LocalDate.now(); LocalDate
-	 * openDay = acct.getInitiationDate(); double diffMonths =
-	 * ChronoUnit.MONTHS.between(openDay, today); // calculate the months between
-	 * openDate and
-	 * 
-	 * // calculate interest earned double acctInterestRate =
-	 * acct.getInterestRate(); double balance = acct.getBalance(); double earnedInt
-	 * = balance * acctInterestRate * diffMonths / 12.0;
-	 * 
-	 * double totalBalance = balance + earnedInt; model.addAttribute("earnedInt",
-	 * earnedInt); model.addAttribute("totalBalance", totalBalance);
-	 * 
-	 * return "deleteAccount"; }
-	 */
-
 	// ============================================= Delete account details
 	@GetMapping("account_actions/{accId}") // used in viewAccount.html
 	public String showAccountAction(@PathVariable("accId") Long accId,
@@ -306,7 +279,7 @@ public class AccountController {
 			account.setDormant(true);
 			accountRepo.save(accountSavings);
 			accountRepo.save(account);
-			
+
 			Transactions transactionNewSavings = new Transactions();
 			transactionNewSavings.setTransactionAmount(balance);
 			transactionNewSavings.setTxnType("deposit");
@@ -316,7 +289,7 @@ public class AccountController {
 			transactionNewSavings.setStatus("success");
 
 			transactionRepo.save(transactionNewSavings);
-			
+
 			Transactions transactionNewDeposit = new Transactions();
 			transactionNewDeposit.setTransactionAmount(balance);
 			transactionNewDeposit.setTxnType("withdraw");
@@ -326,7 +299,7 @@ public class AccountController {
 			transactionNewDeposit.setStatus("success");
 
 			transactionRepo.save(transactionNewDeposit);
-			
+
 			return "welcomeUser";
 		}
 
@@ -408,6 +381,10 @@ public class AccountController {
 			account.setBalance(totalBalance);
 			account.setInitiationDate(LocalDate.now());
 			accountRepo.save(account);
+			Accounts accountNew = accountRepo.findByAccountId(accId);
+			Transactions transaction = new Transactions("success", totalBalance, LocalDateTime.now(), accountNew,
+					"initial deposit", false);
+			transactionRepo.save(transaction);
 			return "redirect:/welcomeuser";
 		}
 
@@ -417,6 +394,15 @@ public class AccountController {
 			model.addAttribute("totalBalance", totalBalance);
 			model.addAttribute("msg", "null");
 			model.addAttribute("msgSelect", "noSelection");
+			return "renewDeposit";
+		}
+
+		if (depositAmtInput < 500) { // if input deposit amount is less than $500 redirect back
+			System.out.println("minimum $500 deposit amount needed");
+			model.addAttribute("accId", accId);
+			model.addAttribute("totalBalance", totalBalance);
+			model.addAttribute("msg", "null");
+			model.addAttribute("msgSelect", "minSelection");
 			return "renewDeposit";
 		}
 
@@ -454,8 +440,13 @@ public class AccountController {
 				model.addAttribute("countMsg", "insufficient");
 			}
 		} else { // if deposit is less than total balance, need deposit to savings account
-			model.addAttribute("countMsg", "empty");
+
 			accountList = accountRepo.findByAccountDetails2(userId, false, "Savings");
+			if (accountList.size() == 0) { // if there is no savings account then ask user to create account
+				model.addAttribute("countMsg", "empty");
+			} else { // if there are savings account
+				model.addAttribute("countMsg", "enough");
+			}
 		}
 		Map<Long, String> optionList = new HashMap<Long, String>();
 		for (Accounts accountSaving : accountList) {
@@ -474,7 +465,7 @@ public class AccountController {
 			@PathVariable("totalBalance") Double totalBalance, @PathVariable("depositAmt") Double depositAmt,
 			@RequestParam("accSavingsId") String accSavingsId, Model model,
 			@AuthenticationPrincipal MyUserDetails userDetails) {
-//		model.addAttribute("depositAmt", depositAmt);
+
 		System.out.println("Fixed acc: " + accFixedId);
 		System.out.println("Total bal: " + totalBalance);
 		System.out.println("Savings acc: " + accSavingsId);
@@ -510,6 +501,7 @@ public class AccountController {
 		transaction.setAccount(accountSavings);
 		transaction.setDateTime(LocalDateTime.now());
 		transaction.setDormant(false);
+		transaction.setStatus("success");
 		transactionRepo.save(transaction);
 
 		return "redirect:/welcomeuser";
