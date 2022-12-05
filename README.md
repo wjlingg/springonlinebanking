@@ -90,6 +90,8 @@ Go to MySQL Workbench
 
 ![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/processviewaccount.png)
 
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/acctype.jpg)
+
 - A drop down menu has been implemented for users to view the various accounts they have
 
 - When Account Id is selected, it gets the User's Account and Transaction Details from the database and displays it in a table

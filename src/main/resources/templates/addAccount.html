@@ -63,7 +63,7 @@
 					<p class="alert alert-danger" role="alert"
 						th:if="${msg}=='recurringError'">Error: For Recurring Deposit
 						Account, minimum initial deposit is $500 and "Recurring Deposit
-						Amount" value must be more than $0</p>
+						Amount" value must be more than $500</p>
 					<div class="form-group">
 						<label>Account Type</label>
 						<div class="form-check">
@@ -91,7 +91,7 @@
 					</div>
 					<div class="form-group">
 						<label for="inputRecurringDeposit">Recurring Deposit
-							Amount (only for Recurring Deposit account)</label> <input type="number"
+							Amount (min. $500 only for Recurring Deposit account)</label> <input type="number"
 							class="form-control" id="inputRecurringDeposit"
 							name="recurringDeposit">
 					</div>

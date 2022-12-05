@@ -108,7 +108,7 @@ public class AccountController {
 			}
 		} else if (accountType.equalsIgnoreCase("Recurring Deposit")) {
 
-			if (balance >= 500 && tmpRecurringDeposit > 0.0) {
+			if (balance >= 500 && tmpRecurringDeposit >= 500.0) {
 				Accounts newAccount = new Accounts(accountType, balance, tmpRecurringDeposit, userExisting, false,
 						interestRate, LocalDate.now());
 				accountRepo.save(newAccount); // save to account repository
@@ -183,7 +183,7 @@ public class AccountController {
 		LocalDate today = LocalDate.now();
 		LocalDate openDay = acct.getInitiationDate();
 
-		double diffMonths = ChronoUnit.MONTHS.between(openDay, today); // calculate the months between openDate and
+		double diffMonths = ChronoUnit.MONTHS.between(openDay, today); // calculate the months between openDate and todayDate
 
 		// calculate maturity date
 		LocalDate maturityDate = ChronoUnit.YEARS.addTo(acct.getInitiationDate(), 1); // how to dd-mm-yyyy
@@ -210,7 +210,7 @@ public class AccountController {
 			if (diffMonths == 0) {
 				totalBalance = balance;
 			} else {
-				double balanceWithRecurringDeposit = balance + (acct.getRecurringDeposit() * diffMonths);
+				double balanceWithRecurringDeposit = (acct.getRecurringDeposit() * diffMonths);
 				totalBalance = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths,
 						acct.getRecurringDeposit());
 				earnedInt = totalBalance - balanceWithRecurringDeposit;
@@ -255,11 +255,8 @@ public class AccountController {
 
 	public Double getTotalBalanceRecurring(double principal, double interestRate, double compoundedNumOfTime,
 			double numOfMonths, double contribution) {
-		if (principal == 0.0) {
-			return 0.0;
-		}
 		if (numOfMonths == 0.0) {
-			return principal;
+			return principal - contribution;
 		}
 		return getTotalBalanceRecurring(principal * (1 + interestRate / compoundedNumOfTime) + contribution,
 				interestRate, compoundedNumOfTime, numOfMonths - 1, contribution);
