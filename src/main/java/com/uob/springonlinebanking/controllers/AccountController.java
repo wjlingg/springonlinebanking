@@ -210,7 +210,7 @@ public class AccountController {
 			if (diffMonths == 0) {
 				totalBalance = balance;
 			} else {
-				double balanceWithRecurringDeposit = (acct.getRecurringDeposit() * diffMonths);
+				double balanceWithRecurringDeposit = acct.getRecurringDeposit() * diffMonths;
 				totalBalance = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths,
 						acct.getRecurringDeposit());
 				earnedInt = totalBalance - balanceWithRecurringDeposit;
@@ -224,7 +224,7 @@ public class AccountController {
 		model.addAttribute("totalBalance", totalBalance);
 
 		if (!acct.getAccountType().equals("Savings")) {
-			// TODO: check if the user got savings account
+			// check if the user got savings account
 			Long userId = userDetails.getUserId();
 			List<Accounts> accountSavingList = accountRepo.findByAccountDetails2(userId, false, "Savings");
 			Map<Long, String> optionList = new HashMap<Long, String>();
