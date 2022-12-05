@@ -196,6 +196,8 @@ public class AccountController {
 		double balance = acct.getBalance();
 		double earnedInt = 0.0;
 		double totalBalance = 0.0;
+		double balanceWithRecurringDeposit = 0.0;
+		model.addAttribute("balance", balance);
 
 		switch (acct.getAccountType()) {
 		case "Savings":
@@ -210,15 +212,15 @@ public class AccountController {
 			if (diffMonths == 0) {
 				totalBalance = balance;
 			} else {
-				double balanceWithRecurringDeposit = balance + acct.getRecurringDeposit() * (diffMonths - 1);
+				balanceWithRecurringDeposit = balance + acct.getRecurringDeposit() * (diffMonths - 1);
 				totalBalance = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths,
 						acct.getRecurringDeposit());
 				earnedInt = totalBalance - balanceWithRecurringDeposit;
+				model.addAttribute("balance", balanceWithRecurringDeposit);
 			}
 			break;
 		}
 
-		model.addAttribute("balance", balance);
 		model.addAttribute("earnedInt", earnedInt);
 		model.addAttribute("totalBalance", totalBalance);
 
