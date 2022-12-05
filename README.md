@@ -58,10 +58,13 @@ Go to MySQL Workbench
 **For Customers / Basic Users :**
 
 1) **Use UOB bank services** :
-- This platform is for UOB to market their services and get customers to save/ invest their money.
+- This platform is for UOB to market their services and get customers to save / invest their money.
   <br>
 
 2) **Register new user** :
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/register.png)
+
 - New customers can create a new user account
 
 - On the UOB homepage (localhost://8080/), there is a "Click here to register" link.
@@ -71,6 +74,9 @@ Go to MySQL Workbench
 - On clicking the sign up button, the new user account is created and customer will be redirected to the homepage which leads to the login existing user (step 2).
 
 3) **Login existing user** :
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/login.png)
+
 - Existing customers can login with their existing user account
 
 - Existing users will key in their Username and Password on the Home page/ Index page (localhost://8080/)
@@ -79,6 +85,11 @@ Go to MySQL Workbench
    <br>
 
 4.1) View Account
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/viewaccount.png)
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/processviewaccount.png)
+
 - A drop down menu has been implemented for users to view the various accounts they have
 
 - When Account Id is selected, it gets the User's Account and Transaction Details from the database and displays it in a table
@@ -90,17 +101,28 @@ Go to MySQL Workbench
 - The current maturity date has been set to 1 year and interest rates are set at 5%, 10% and 15% for Savings, Fixed Deposit and Recurring Deposit respectively.
 
 4.1.1) Renew Deposit
-- On maturity, user can choose to renew their deposit by depositing more than, less than or equal to the total balance after accrued interest. 
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/renewdeposit.png)
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/processrenewdeposit.png)
+
+- On maturity, user can choose to renew their deposit by depositing more than, less than or equal to the total balance after accrued interest.
 - If chosen deposited amount is more than total balance, remaining amount required will be credited from user savings account.
 - If chosen deposited amount is less than total balance, excess amount will be deposited to user savings account.
 
 4.1.2) Withdraw balance and Delete Account
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/deleteaccount.png)
+
 - Before or after maturity, users can also choose to withdraw the total balance and close the account.
 - For fixed deposit and recurring deposit, total balance will be withdrawn to user savings account.
 - On completion of this action, the Deleted Account balance will be set to zero and set as dormant in the database. The Deleted Account can never be edited but can still be read for compliance.
   <br>
 
 4.2) Create Account
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/createaccount.png)
+
 - Users can create a new account with the Create Account button. In the page (http://localhost:8080/createaccount), they are able to see a list of the existing accounts they have and create a new account (Savings/ Fixed Deposit/ Recurring Deposit).
 - 1 user can have many accounts, there is currently no limit to the number of accounts each user can have.
 - Users need a minimum of $500 to create any account.
@@ -108,10 +130,17 @@ Go to MySQL Workbench
   <br>
 
 4.3) Make a transaction
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/transaction.png)
+
 - Withdraw or Deposit money into Savings Account only.
 - The withdrawal will not be successful if the account's balance after withdrawal is lower than $500.
 
 **For Admin Users :**
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/admin.png)
+
+![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/processadmin.png)
 
 1) Admin Users will login with the Username & Password: admin.
 
