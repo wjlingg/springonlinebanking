@@ -210,11 +210,10 @@ public class AccountController {
 			if (diffMonths == 0) {
 				totalBalance = balance;
 			} else {
-				double balanceWithRecurringDeposit = acct.getRecurringDeposit() * diffMonths;
+				double balanceWithRecurringDeposit = balance + acct.getRecurringDeposit() * (diffMonths - 1);
 				totalBalance = getTotalBalanceRecurring(balance, acctInterestRate, 12.0, diffMonths,
 						acct.getRecurringDeposit());
 				earnedInt = totalBalance - balanceWithRecurringDeposit;
-				balance = balanceWithRecurringDeposit;
 			}
 			break;
 		}
