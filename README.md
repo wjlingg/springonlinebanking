@@ -1,5 +1,7 @@
 # Springboot Online Banking Application
 
+>Note: This project is for educational purposes only. It is a project done by UOB employees to learn Spring Boot.
+
 ![Application Image](https://github.com/wjlingg/springonlinebanking/blob/main/src/main/resources/static/images/application.png)
 
 ## Introduction
