@@ -1,6 +1,10 @@
 package com.uob.springonlinebanking.controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +28,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.uob.springonlinebanking.models.Accounts;
+import com.uob.springonlinebanking.models.Transactions;
 import com.uob.springonlinebanking.models.Users;
+import com.uob.springonlinebanking.repositories.AccountRepository;
 import com.uob.springonlinebanking.repositories.RoleRepository;
+import com.uob.springonlinebanking.repositories.TransactionRepository;
 import com.uob.springonlinebanking.repositories.UserRepository;
+import com.uob.springonlinebanking.security.MyUserDetails;
 
 @Controller
 public class UserController {
@@ -34,6 +44,10 @@ public class UserController {
 	UserRepository userRepo;
 	@Autowired
 	RoleRepository roleRepo;
+	@Autowired
+	AccountRepository accountRepo;
+	@Autowired
+	TransactionRepository transactionRepo;
 
 	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -140,14 +154,14 @@ public class UserController {
 		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
 		if (flashMap == null) {
 			List<Users> userList = (List<Users>) userRepo.findAll();
-			model.addAttribute("userList", userList);	
+			model.addAttribute("userList", userList);
 		} else {
 			model.addAttribute("count", (Integer) flashMap.get("count"));
-			model.addAttribute("userList", (List<Users>) flashMap.get("searchedUserList"));	
+			model.addAttribute("userList", (List<Users>) flashMap.get("searchedUserList"));
 		}
 		return "viewUser";
 	}
-	
+
 	// ============================================= Search for user records by username
 	@PostMapping("/admin/process_search") // used in viewUser.html
 	public String showSearchedUserList(@RequestParam("searchString") String searchString, Users user, Model model,
@@ -158,6 +172,48 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("count", count);
 		redirectAttributes.addFlashAttribute("searchedUserList", searchedUserList);
 		return "redirect:/admin/viewuser";
+	}
 
+	// ============================================= View user details
+	@GetMapping("/admin/viewrecord/{id}") // used in viewUser.html
+	public String showRecord(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+
+		Users user = userRepo.getUserByUserId(id);
+		model.addAttribute("user", user); // populate addAccount.html with current user details
+		model.addAttribute("userId", user.getUserId());
+
+		List<Accounts> accountList = user.getAccountList();
+
+		model.addAttribute("accountList", accountList);
+		Integer count = accountList.size();
+		model.addAttribute("count", count);
+
+		List<Transactions> txnList = new ArrayList<>();
+		if (count != 0) {
+			for (Accounts account : accountList) {
+				Long accId = account.getAccountId();
+				txnList.addAll(transactionRepo.getTransactionByAccountId(accId));
+			}
+		}
+		Map<String, ?> flashMap = RequestContextUtils.getInputFlashMap(request);
+		if (flashMap != null) {
+			String option = (String)flashMap.get("option");
+			if (option.equals("Decreasing Transaction Amount")) { // descending order by transaction amount
+				txnList.sort((o1, o2) -> o1.getTransactionAmount() > o2.getTransactionAmount() ? -1 : 1);
+			} else if (option.equals("Increasing Transaction Amount")) { // ascending order by transaction amount
+				txnList.sort((o1, o2) -> o1.getTransactionAmount() < o2.getTransactionAmount() ? -1 : 1);
+			}
+		}
+		model.addAttribute("txnList", txnList);
+		return "adminViewAccount";
+	}
+
+	// ============================================= Sort user records
+	@PostMapping("/admin/process_sort/{userId}") // used in adminViewAccount.html
+	public String showSortedUserList(@PathVariable("userId") Long userId,
+			@RequestParam("sortOptions") String sortOption, Model model, RedirectAttributes redirectAttributes) {
+		System.out.println(sortOption);
+		redirectAttributes.addFlashAttribute("option", sortOption);
+		return "redirect:/admin/viewrecord/" + userId;
 	}
 }

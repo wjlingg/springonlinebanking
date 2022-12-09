@@ -10,10 +10,14 @@
 		<div
 			class="d-flex flex-column p-3 m-3 shadow-lg rounded-lg border border-dark">
 			<div class="align-self-end">
-				<form class="form-inline" th:action="@{/admin/process_search}" method="POST">
+				<form class="form-inline" th:action="@{/admin/process_search}"
+					method="POST">
 					<input class="form-control mr-sm-2" type="search"
-						placeholder="Search User" aria-label="Search User" name="searchString">
-					<button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+						placeholder="Search User" aria-label="Search User"
+						name="searchString">
+					<button class="btn btn-primary my-2 my-sm-0" type="submit">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
 				</form>
 			</div>
 			<div th:if="${count}" class="alert alert-success mt-3" role="alert">
@@ -46,6 +50,8 @@
 							<td th:text="${user.nomineeName}"></td>
 							<td>
 								<div class="btn-group" role="group">
+									<a class="btn btn-info"
+										th:href="@{/admin/viewrecord/{userId}(userId=${user.userId})}">View</a>
 									<a class="btn btn-primary"
 										th:href="@{/admin/editrecord/{userId}(userId=${user.userId})}">Edit</a>
 									<button type="button" class="btn btn-danger"
